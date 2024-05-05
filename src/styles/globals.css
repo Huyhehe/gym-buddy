@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #20409a;
+    --color-primary-dark: #10204d;
+    --color-pimary-base-text: #fff;
+  }
+}
+
+.body-map__muscle:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.body-map__model {
+  color: #000;
+}
