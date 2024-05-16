@@ -10,6 +10,10 @@
   }
 }
 
+.body-map__muscle {
+  color: #ebebeb;
+}
+
 .body-map__muscle:hover {
   cursor: pointer;
   color: red;

@@ -72,3 +72,54 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Exercise {
+    id                   String                 @id @default(cuid())
+    name                 String                 @unique
+    sets                 Int
+    reps                 Int
+    difficulty           String
+    mechanic             String                 @default("compound")
+    force                String?
+    ExerciseStep         ExerciseStep[]
+    ExerciseExample      ExerciseExample[]
+    ExerciseMuscleTarget ExerciseMuscleTarget[]
+    Workout              Workout?               @relation(fields: [workoutId], references: [id])
+    workoutId            String?
+}
+
+model ExerciseStep {
+    id          String   @id @default(cuid())
+    index       Int
+    description String
+    exercise    Exercise @relation(fields: [exerciseId], references: [id])
+    exerciseId  String
+}
+
+model ExerciseExample {
+    id         String   @id @default(cuid())
+    index      Int
+    mediaURL   String
+    gender     Boolean
+    exercise   Exercise @relation(fields: [exerciseId], references: [id])
+    exerciseId String
+}
+
+model ExerciseMuscleTarget {
+    id          String   @id @default(cuid())
+    name        String
+    side        String
+    affectLevel Int      @default(0)
+    exercise    Exercise @relation(fields: [exerciseId], references: [id])
+    exerciseId  String
+}
+
+model Workout {
+    id          String     @id @default(cuid())
+    title       String
+    level       Int
+    target      String
+    description String
+    thumbnail   String
+    exercises   Exercise[]
+}

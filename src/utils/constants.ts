@@ -2,7 +2,7 @@ import { HomeIcon } from "@/assets/icons/HomeIcon";
 import { RoutinesIcon } from "@/assets/icons/RoutinesIcon";
 import { ToolsIcon } from "@/assets/icons/ToolsIcon";
 import { WorkoutIcon } from "@/assets/icons/WorkoutIcon";
-import type { SidebarLinks } from "@/types";
+import type { SelectOption, SidebarLinks } from "@/types";
 
 export const sidebarLinks: SidebarLinks[] = [
   {
@@ -63,6 +63,10 @@ export const sidebarLinks: SidebarLinks[] = [
         href: "/users",
       },
       {
+        title: "Exercises",
+        href: "/exercises",
+      },
+      {
         title: "Workouts",
         href: "/workouts",
       },
@@ -73,3 +77,44 @@ export const sidebarLinks: SidebarLinks[] = [
     ],
   },
 ];
+
+export const difficultyOptions: SelectOption[] = [
+  { label: "Beginner", value: "beginner" },
+  { label: "Intermediate", value: "intermediate" },
+  { label: "Advanced", value: "advanced" },
+];
+
+export const mechanicOptions: SelectOption[] = [
+  { label: "Compound", value: "compound" },
+  { label: "Isolation", value: "isolation" },
+];
+
+export const FRONT_MUSCLE_TARGET = [
+  "abdominals",
+  "obliques",
+  "forearms",
+  "biceps",
+  "shoulders",
+  "traps",
+  "chest",
+  "quads",
+  "calves",
+] as const;
+
+export const BACK_MUSCLE_TARGET = [
+  "hamstrings",
+  "lowerback",
+  "glutes",
+  "lats",
+  "traps-middle",
+  "traps",
+  "rear-shoulders",
+  "calves",
+  "triceps",
+  "forearms",
+] as const;
+
+export const MUSCLE_TARGET = [
+  ...FRONT_MUSCLE_TARGET,
+  ...BACK_MUSCLE_TARGET,
+] as const;

@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 import { IconChevronDown, IconUserCog } from "@tabler/icons-react";
 import type { Session } from "next-auth";
 import Image from "next/image";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 interface Props {
   session?: Session | null;
@@ -18,8 +18,9 @@ interface Props {
 
 export const Sidebar = ({ session }: Props) => {
   const [opened, { toggle, open }] = useDisclosure();
+  const [accordionValue, setAccordionValue] = useState<string[]>([]);
+
   const pathname = usePathname();
-  console.log({ session });
 
   const sidebarLinks = useMemo(() => {
     const newLinks = links.map((link) => {
@@ -40,7 +41,7 @@ export const Sidebar = ({ session }: Props) => {
   return (
     <div
       aria-expanded={opened}
-      className="bg-primary group flex w-[90px] flex-col items-stretch gap-5 px-2 transition-all duration-300 ease-in-out aria-expanded:w-[280px]"
+      className="group sticky top-0 flex w-[90px] flex-col items-stretch gap-5 bg-primary px-2 transition-all duration-300 ease-in-out aria-expanded:w-[280px]"
     >
       <div className="flex w-full items-center justify-center group-aria-expanded:justify-between group-aria-expanded:px-5">
         <Text className="text-[0px] text-white group-aria-expanded:text-lg group-aria-expanded:transition-all group-aria-expanded:delay-100 group-aria-expanded:duration-300 group-aria-expanded:ease-in-out">
@@ -48,7 +49,12 @@ export const Sidebar = ({ session }: Props) => {
         </Text>
         <Burger
           opened={opened}
-          onClick={toggle}
+          onClick={() => {
+            toggle();
+            if (opened) {
+              setAccordionValue([]);
+            }
+          }}
           aria-label="Toggle navigation"
           color="white"
           className="my-3"
@@ -56,31 +62,34 @@ export const Sidebar = ({ session }: Props) => {
       </div>
 
       <div className="flex flex-col items-center gap-4">
-        {sidebarLinks.map((link) =>
-          !!link.subLinks?.length ? (
-            <div
-              key={link.href}
-              className="flex w-full flex-col items-center text-white"
-            >
-              <Accordion
-                chevron={
-                  opened ? <IconChevronDown className="text-white" /> : null
-                }
-                className="w-full"
-                value={opened ? link.href : null}
+        <Accordion
+          chevron={opened ? <IconChevronDown className="text-white" /> : null}
+          className="w-full"
+          multiple
+          value={accordionValue}
+          onChange={setAccordionValue}
+        >
+          {sidebarLinks.map((link) =>
+            !!link.subLinks?.length ? (
+              <div
+                key={link.href}
+                className="flex w-full flex-col items-center text-white"
               >
-                <Accordion.Item value={link.href} className="border-none">
+                <Accordion.Item
+                  value={link.href}
+                  className="w-full border-none"
+                >
                   <Accordion.Control
                     onClick={() => {
                       if (opened) return;
                       open();
                     }}
                     className={clsx(
-                      "hover:bg-primary-dark flex justify-center rounded-lg",
-                      {
-                        "[&_.mantine-Accordion-chevron]:hidden": !opened,
-                      },
+                      "flex w-full justify-center rounded-lg hover:bg-primary-dark",
                     )}
+                    classNames={{
+                      chevron: !opened ? "hidden" : "",
+                    }}
                   >
                     <div className="flex justify-center gap-2 text-white group-aria-expanded:justify-start">
                       {link.icon?.()}
@@ -104,7 +113,7 @@ export const Sidebar = ({ session }: Props) => {
                           pathname,
                           link.href + subLink.href,
                         )}
-                        className="hover:bg-primary-dark data-[active=true]:text-primary flex flex-col rounded-lg text-white transition-all data-[active=true]:bg-white"
+                        className="flex flex-col rounded-lg text-white transition-all hover:bg-primary-dark data-[active=true]:bg-white data-[active=true]:text-primary"
                       >
                         <Text size="sm" className="px-8 py-3">
                           {subLink.title}
@@ -113,34 +122,34 @@ export const Sidebar = ({ session }: Props) => {
                     ))}
                   </Accordion.Panel>
                 </Accordion.Item>
-              </Accordion>
-              {!opened && <Text size="xs">{link.title}</Text>}
-            </div>
-          ) : (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="flex w-full flex-col items-center text-white"
-            >
-              <div
-                data-active={compareString(pathname, link.href)}
-                className="hover:bg-primary-dark data-[active=true]:text-primary flex w-full justify-center gap-2 rounded-md p-3 transition-all group-aria-expanded:justify-start data-[active=true]:bg-white"
-              >
-                {link.icon?.()}
-                {opened && (
-                  <Text
-                    component="span"
-                    size="sm"
-                    className="flex items-center font-bold"
-                  >
-                    {link.title}
-                  </Text>
-                )}
+                {!opened && <Text size="xs">{link.title}</Text>}
               </div>
-              {!opened && <Text size="xs">{link.title}</Text>}
-            </Link>
-          ),
-        )}
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="flex w-full flex-col items-center text-white"
+              >
+                <div
+                  data-active={compareString(pathname, link.href)}
+                  className="flex w-full justify-center gap-2 rounded-md p-3 transition-all hover:bg-primary-dark group-aria-expanded:justify-start data-[active=true]:bg-white data-[active=true]:text-primary"
+                >
+                  {link.icon?.()}
+                  {opened && (
+                    <Text
+                      component="span"
+                      size="sm"
+                      className="flex items-center font-bold"
+                    >
+                      {link.title}
+                    </Text>
+                  )}
+                </div>
+                {!opened && <Text size="xs">{link.title}</Text>}
+              </Link>
+            ),
+          )}
+        </Accordion>
       </div>
       {!!session && (
         <Image

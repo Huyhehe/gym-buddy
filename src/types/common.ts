@@ -12,3 +12,8 @@ export type SidebarLinks = {
   adminOnly?: boolean;
   subLinks?: SidebarSubLinks[];
 };
+
+export type SelectOption = {
+  label: string;
+  value: string;
+};
