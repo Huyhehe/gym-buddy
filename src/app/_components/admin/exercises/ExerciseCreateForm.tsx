@@ -7,6 +7,7 @@ import {
   Center,
   Group,
   LoadingOverlay,
+  Modal,
   NumberInput,
   Select,
   Text,
@@ -40,6 +41,7 @@ import {
 } from "../../../admin/_schemas";
 import type { ExerciseReturnType } from "@/types";
 import { generateInitialExerciseFormValues } from "@/app/admin/_helpers";
+import { useRouter } from "next/navigation";
 
 const initialValues: TExerciseFormValues = {
   name: "",
@@ -83,8 +85,10 @@ type Props = {
 };
 
 export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
-  const [formSubmitting, { open, close }] = useDisclosure(false);
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  const { replace } = useRouter();
 
+  const [deleteConfirmOpened, { close, open }] = useDisclosure();
   const [mediaURLs, setMediaURLs] = useState<MediaExample>(
     !!exerciseFromData
       ? generateInitialExerciseFormValues(exerciseFromData).mediaURLs
@@ -101,31 +105,26 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
     validate: zodResolver(exerciseCreateFormSchema),
   });
 
-  const { mutate: createExerciseMutation } =
+  const { mutate: createExerciseMutation, isPending: createLoading } =
     api.admin.createExercise.useMutation({
       onSuccess: () => {
         form.reset();
         setMuscleTarget(initialMuscleTarget);
         setMediaURLs(initialValues.mediaURLs);
-        close();
-      },
-      onError: () => {
-        close();
       },
     });
 
-  const { mutate: updateExerciseMutation } =
-    api.admin.updateExercise.useMutation({
+  const { mutate: updateExerciseMutation, isPending: updateLoading } =
+    api.admin.updateExercise.useMutation({});
+
+  const { mutate: deleteExerciseMutation, isPending: deleteLoading } =
+    api.admin.deleteExercise.useMutation({
       onSuccess: () => {
-        close();
-      },
-      onError: () => {
-        close();
+        replace("/admin/exercises");
       },
     });
 
   const handleSubmit = (values: TExerciseFormValues) => {
-    open();
     const frontMuscleTargets: TExerciseFormValues["muscleTargets"]["front"] =
       [];
     for (const [key, value] of Object.entries(muscleTarget.front)) {
@@ -176,7 +175,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   return (
     <Box pos="relative">
       <LoadingOverlay
-        visible={formSubmitting}
+        visible={createLoading || updateLoading || deleteLoading}
         zIndex={1000}
         overlayProps={{ radius: "sm", blur: 2 }}
         loaderProps={{ color: "blue", type: "bars" }}
@@ -320,6 +319,21 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
         </div>
 
         <Group justify="flex-end" mt="md">
+          {/* <Button
+            className="bg-slate-500"
+            onClick={() => {
+              form.reset();
+              setMuscleTarget(initialMuscleTarget);
+              setMediaURLs(initialValues.mediaURLs);
+            }}
+          >
+            Reset
+          </Button> */}
+          {!!exerciseFromData && (
+            <Button className="bg-red-700" onClick={open}>
+              Delete
+            </Button>
+          )}
           <Button type="submit">
             {!!exerciseFromData ? "Save" : "Submit"}
           </Button>
@@ -360,6 +374,26 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
           }
         />
       </div>
+
+      <Modal opened={deleteConfirmOpened} onClose={close}>
+        <Text>Are you sure you want to delete this exercise?</Text>
+        <Group justify="flex-end" mt="md">
+          <Button onClick={close}>Cancel</Button>
+          <Button
+            className="bg-red-700"
+            onClick={() => {
+              if (!exerciseFromData?.id) {
+                return;
+              }
+
+              deleteExerciseMutation(exerciseFromData?.id);
+              close();
+            }}
+          >
+            Delete
+          </Button>
+        </Group>
+      </Modal>
     </Box>
   );
 };

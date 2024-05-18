@@ -1,22 +1,27 @@
 "use client";
 
-import type { ExerciseReturnType } from "@/types";
 import { ToggleBackMale } from "@/app/_components/MuscleSkeleton/ToggleBackMale";
 import { ToggleFrontMale } from "@/app/_components/MuscleSkeleton/ToggleFrontMale";
+import type { ExerciseReturnType } from "@/types";
 
+import { generateMuscleState } from "@/utils";
 import { Button, Card, Group, Overlay, Text } from "@mantine/core";
-import { LevelBadge } from "../../LevelBadge";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
-import { generateMuscleState } from "@/utils";
+import { LevelBadge } from "../../LevelBadge";
 
 type Props = {
   exercise: ExerciseReturnType;
+  initialSelected?: boolean;
   onSelect?: (exercise: ExerciseReturnType, selected: boolean) => void;
 };
 
-export const SelectableExerciseCard = ({ exercise, onSelect }: Props) => {
-  const [selected, { toggle }] = useDisclosure();
+export const SelectableExerciseCard = ({
+  initialSelected = false,
+  exercise,
+  onSelect,
+}: Props) => {
+  const [selected, { toggle }] = useDisclosure(initialSelected);
 
   return (
     <Card

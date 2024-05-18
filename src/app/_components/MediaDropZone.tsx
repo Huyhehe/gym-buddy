@@ -31,7 +31,7 @@ export const MediaDropZone = ({
   const previews = previewFiles.map((file, index) => {
     const isImage = file.includes("image");
     return (
-      <div className="relative aspect-square" key={index}>
+      <div className="relative aspect-square max-w-[300px]" key={index}>
         {isImage ? (
           <Image
             src={file}
