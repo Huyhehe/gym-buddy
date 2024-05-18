@@ -1,6 +1,9 @@
 "use client";
-import { generateColorByAffectLevel, type FRONT_MUSCLE_TARGET } from "@/utils";
-import clsx from "clsx";
+import {
+  cn,
+  generateColorByAffectLevel,
+  type FRONT_MUSCLE_TARGET,
+} from "@/utils";
 import { useEffect, useState } from "react";
 
 type FrontMuscleTarget = (typeof FRONT_MUSCLE_TARGET)[number];
@@ -56,7 +59,7 @@ export const ToggleFrontMale = ({
         xmlns="http://www.w3.org/2000/svg"
       >
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.abdominals),
           )}
@@ -74,7 +77,7 @@ export const ToggleFrontMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.obliques),
           )}
@@ -96,7 +99,7 @@ export const ToggleFrontMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.forearms),
           )}
@@ -118,7 +121,7 @@ export const ToggleFrontMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.biceps),
           )}
@@ -140,7 +143,7 @@ export const ToggleFrontMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.shoulders),
           )}
@@ -162,7 +165,7 @@ export const ToggleFrontMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.traps),
           )}
@@ -184,7 +187,7 @@ export const ToggleFrontMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.chest),
           )}
@@ -206,7 +209,7 @@ export const ToggleFrontMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.quads),
           )}
@@ -228,7 +231,7 @@ export const ToggleFrontMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.calves),
           )}

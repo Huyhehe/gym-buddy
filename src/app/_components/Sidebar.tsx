@@ -1,15 +1,13 @@
 "use client";
 
+import { cn, compareString, sidebarLinks as links } from "@/utils";
+import { Accordion, Avatar, Burger, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Accordion, Burger, Text } from "@mantine/core";
-import { compareString, sidebarLinks as links } from "@/utils";
-import clsx from "clsx";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { IconChevronDown, IconUserCog } from "@tabler/icons-react";
 import type { Session } from "next-auth";
-import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 
 interface Props {
@@ -84,7 +82,7 @@ export const Sidebar = ({ session }: Props) => {
                       if (opened) return;
                       open();
                     }}
-                    className={clsx(
+                    className={cn(
                       "flex w-full justify-center rounded-lg hover:bg-primary-dark",
                     )}
                     classNames={{
@@ -152,13 +150,14 @@ export const Sidebar = ({ session }: Props) => {
         </Accordion>
       </div>
       {!!session && (
-        <Image
-          src={session?.user?.image ?? ""}
-          alt="User profile"
-          width={50}
-          height={50}
-          className="rounded-full"
-        />
+        <div className="flex w-full justify-center">
+          <Avatar
+            src={session?.user?.image ?? null}
+            size="lg"
+            alt="User profile"
+            className="rounded-full"
+          />
+        </div>
       )}
     </div>
   );

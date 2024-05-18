@@ -19,15 +19,16 @@ const s3 = new S3Client({
   },
 });
 
-export async function getSignedURL() {
+export async function getSignedURL(fileType: string) {
   const session = await getServerAuthSession();
   if (!session) {
     return { error: "You must be logged in to access this resource" };
   }
+  const allowedFileType = fileType.includes("image") ? "images" : "videos";
 
   const putObjectCommand = new PutObjectCommand({
     Bucket: env.AWS_BUCKET_NAME,
-    Key: `uploads/${session.user.id}/${generateFileName()}`,
+    Key: `uploads/${session.user.id}/${allowedFileType}/${generateFileName()}`,
   });
 
   const signedURL = await getSignedUrl(s3, putObjectCommand, {

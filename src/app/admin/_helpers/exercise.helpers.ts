@@ -1,4 +1,4 @@
-import type { TFormValues as TExerciseFormValues } from "@/app/_components/admin/schemas";
+import type { TExerciseFormValues } from "@/app/admin/_schemas";
 import type { ExerciseReturnType } from "@/types";
 
 export const generateInitialExerciseFormValues = (

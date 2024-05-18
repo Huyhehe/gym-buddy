@@ -1,6 +1,9 @@
 "use client";
-import clsx from "clsx";
-import { generateColorByAffectLevel, type BACK_MUSCLE_TARGET } from "@/utils";
+import {
+  cn,
+  generateColorByAffectLevel,
+  type BACK_MUSCLE_TARGET,
+} from "@/utils";
 import { useEffect, useState } from "react";
 
 type BackMuscleTarget = (typeof BACK_MUSCLE_TARGET)[number];
@@ -21,13 +24,6 @@ export const initialState: ToggleState = {
   triceps: 0,
   forearms: 0,
 };
-
-// const letTailwindKnow = [
-//   "text-yellow-200",
-//   "text-orange-400",
-//   "text-red-600",
-//   "text-neutral-200",
-// ];
 
 const commonClasses = "cursor-pointer hover:opacity-50";
 
@@ -64,7 +60,7 @@ export const ToggleBackMale = ({
         xmlns="http://www.w3.org/2000/svg"
       >
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.hamstrings),
           )}
@@ -86,7 +82,7 @@ export const ToggleBackMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.lowerback),
           )}
@@ -104,7 +100,7 @@ export const ToggleBackMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.glutes),
           )}
@@ -126,7 +122,7 @@ export const ToggleBackMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.lats),
           )}
@@ -148,7 +144,7 @@ export const ToggleBackMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState["traps-middle"]),
           )}
@@ -167,7 +163,7 @@ export const ToggleBackMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.traps),
           )}
@@ -185,7 +181,7 @@ export const ToggleBackMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState["rear-shoulders"]),
           )}
@@ -208,7 +204,7 @@ export const ToggleBackMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.calves),
           )}
@@ -230,7 +226,7 @@ export const ToggleBackMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.triceps),
           )}
@@ -252,7 +248,7 @@ export const ToggleBackMale = ({
           ></path>
         </g>
         <g
-          className={clsx(
+          className={cn(
             commonClasses,
             generateColorByAffectLevel(toggleState.forearms),
           )}

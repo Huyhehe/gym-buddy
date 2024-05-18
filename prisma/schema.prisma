@@ -86,6 +86,7 @@ model Exercise {
     ExerciseMuscleTarget ExerciseMuscleTarget[]
     Workout              Workout?               @relation(fields: [workoutId], references: [id])
     workoutId            String?
+    WorkoutExerciseStep  WorkoutExerciseStep[]
 }
 
 model ExerciseStep {
@@ -115,11 +116,21 @@ model ExerciseMuscleTarget {
 }
 
 model Workout {
-    id          String     @id @default(cuid())
-    title       String
-    level       Int
-    target      String
-    description String
-    thumbnail   String
-    exercises   Exercise[]
+    id                  String                @id @default(cuid())
+    title               String
+    level               Int
+    target              String
+    description         String
+    thumbnail           String
+    exercises           Exercise[]
+    WorkoutExerciseStep WorkoutExerciseStep[]
+}
+
+model WorkoutExerciseStep {
+    id         String   @id @default(cuid())
+    index      Int
+    exercise   Exercise @relation(fields: [exerciseId], references: [id])
+    exerciseId String
+    workout    Workout  @relation(fields: [workoutId], references: [id])
+    workoutId  String
 }

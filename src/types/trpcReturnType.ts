@@ -10,3 +10,8 @@ export type ExerciseReturnType =
 
 export type ExerciseMuscleTargetReturnType =
   RouterOutput["exercise"]["getExercises"][number]["ExerciseMuscleTarget"][number];
+
+// WORKOUT route
+export type WorkoutReturnType = RouterOutput["workout"]["getWorkouts"][number];
+
+export type SingleWorkoutReturnType = RouterOutput["workout"]["getWorkoutByID"];

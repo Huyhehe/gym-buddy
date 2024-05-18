@@ -34,4 +34,4 @@ export const exerciseCreateFormSchema = z.object({
   }),
 });
 
-export type TFormValues = z.infer<typeof exerciseCreateFormSchema>;
+export type TExerciseFormValues = z.infer<typeof exerciseCreateFormSchema>;

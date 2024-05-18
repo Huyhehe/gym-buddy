@@ -79,6 +79,7 @@ export const sidebarLinks: SidebarLinks[] = [
 ];
 
 export const difficultyOptions: SelectOption[] = [
+  { label: "Novice", value: "novice" },
   { label: "Beginner", value: "beginner" },
   { label: "Intermediate", value: "intermediate" },
   { label: "Advanced", value: "advanced" },
@@ -87,6 +88,28 @@ export const difficultyOptions: SelectOption[] = [
 export const mechanicOptions: SelectOption[] = [
   { label: "Compound", value: "compound" },
   { label: "Isolation", value: "isolation" },
+];
+
+export const levelOptions: SelectOption[] = [
+  { label: "Novice", value: "1" },
+  { label: "Beginner", value: "2" },
+  { label: "Intermediate", value: "3" },
+  { label: "Advanced", value: "4" },
+];
+
+export const targetOptions: SelectOption[] = [
+  {
+    label: "Loose Weight",
+    value: "loose-weight",
+  },
+  {
+    label: "Gain Strength",
+    value: "gain-strength",
+  },
+  {
+    label: "Gain Muscle",
+    value: "gain-muscle",
+  },
 ];
 
 export const FRONT_MUSCLE_TARGET = [

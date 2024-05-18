@@ -1,5 +1,8 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { exerciseCreateFormSchema } from "@/app/_components/admin/schemas";
+import {
+  exerciseCreateFormSchema,
+  workoutCreateFormSchema,
+} from "@/app/admin/_schemas";
 import { z } from "zod";
 
 export const adminRouter = createTRPCRouter({
@@ -168,17 +171,51 @@ export const adminRouter = createTRPCRouter({
   getExerciseByID: protectedProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
-      const exercise = await ctx.db.exercise.findFirst({
-        where: {
-          id: input,
-        },
-        include: {
-          ExerciseExample: true,
-          ExerciseMuscleTarget: true,
-          ExerciseStep: true,
-        },
-      });
+      try {
+        const exercise = await ctx.db.exercise.findFirst({
+          where: {
+            id: input,
+          },
+          include: {
+            ExerciseExample: true,
+            ExerciseMuscleTarget: true,
+            ExerciseStep: true,
+          },
+        });
 
-      return exercise;
+        return exercise;
+      } catch (error) {
+        throw new Error((error as Error)?.message);
+      }
+    }),
+  createWorkout: protectedProcedure
+    .input(workoutCreateFormSchema)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const { title, description, exercises, thumbnail, level, target } =
+          input;
+
+        const workout = await ctx.db.workout.create({
+          data: {
+            title,
+            description,
+            thumbnail,
+            level: Number(level),
+            target,
+          },
+        });
+
+        const workoutExerciseSteps = exercises.map((exercise, index) => ({
+          workoutId: workout.id,
+          exerciseId: exercise,
+          index,
+        }));
+
+        await ctx.db.workoutExerciseStep.createMany({
+          data: workoutExerciseSteps,
+        });
+      } catch (error) {
+        throw new Error((error as Error)?.message);
+      }
     }),
 });

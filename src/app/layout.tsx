@@ -2,12 +2,14 @@ import "@/styles/globals.css";
 import { ColorSchemeScript } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/dropzone/styles.css";
+import "@mantine/notifications/styles.css";
 
 import { Inter } from "next/font/google";
 
+import MainLayout from "@/layouts/MainLayout";
 import { MantineProvider } from "@/providers/MantineProvider";
 import { TRPCReactProvider } from "@/trpc/react";
-import MainLayout from "@/layouts/MainLayout";
+import { Notifications } from "@mantine/notifications";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -40,6 +42,7 @@ export default function RootLayout({
           <TRPCReactProvider>
             <MainLayout>{children}</MainLayout>
           </TRPCReactProvider>
+          <Notifications />
         </MantineProvider>
       </body>
     </html>

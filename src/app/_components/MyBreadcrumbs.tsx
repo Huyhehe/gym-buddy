@@ -1,10 +1,10 @@
 "use client";
 
+import { cn } from "@/utils";
 import { Breadcrumbs, type BreadcrumbsProps } from "@mantine/core";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
-import clsx from "clsx";
 
 export type BreadcrumbsItem = {
   label: string;
@@ -50,7 +50,7 @@ export const MyBreadcrumbs = ({ ...props }: Props) => {
         <Link
           key={href}
           href={href}
-          className={clsx("text-blue-500", {
+          className={cn("text-blue-500", {
             "font-bold": href === path,
           })}
         >

@@ -34,11 +34,14 @@ import {
   initialState as initialFrontMuscleTarget,
   type ToggleState as FrontAffectLevel,
 } from "../../MuscleSkeleton/ToggleFrontMale";
-import { type TFormValues, exerciseCreateFormSchema } from "../schemas";
+import {
+  type TExerciseFormValues,
+  exerciseCreateFormSchema,
+} from "../../../admin/_schemas";
 import type { ExerciseReturnType } from "@/types";
 import { generateInitialExerciseFormValues } from "@/app/admin/_helpers";
 
-const initialValues: TFormValues = {
+const initialValues: TExerciseFormValues = {
   name: "",
   sets: 1,
   reps: 6,
@@ -90,7 +93,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   const [muscleTarget, setMuscleTarget] =
     useState<MuscleTarget>(initialMuscleTarget);
 
-  const form = useForm<TFormValues>({
+  const form = useForm<TExerciseFormValues>({
     mode: "uncontrolled",
     initialValues: exerciseFromData
       ? generateInitialExerciseFormValues(exerciseFromData)
@@ -121,9 +124,10 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
       },
     });
 
-  const handleSubmit = (values: TFormValues) => {
+  const handleSubmit = (values: TExerciseFormValues) => {
     open();
-    const frontMuscleTargets: TFormValues["muscleTargets"]["front"] = [];
+    const frontMuscleTargets: TExerciseFormValues["muscleTargets"]["front"] =
+      [];
     for (const [key, value] of Object.entries(muscleTarget.front)) {
       if (!!value) {
         frontMuscleTargets.push({
@@ -132,7 +136,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
         });
       }
     }
-    const backMuscleTargets: TFormValues["muscleTargets"]["back"] = [];
+    const backMuscleTargets: TExerciseFormValues["muscleTargets"]["back"] = [];
     for (const [key, value] of Object.entries(muscleTarget.back)) {
       if (!!value) {
         backMuscleTargets.push({
@@ -142,7 +146,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
       }
     }
 
-    const inputValues: TFormValues = {
+    const inputValues: TExerciseFormValues = {
       ...values,
       mediaURLs,
       muscleTargets: {
