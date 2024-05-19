@@ -79,3 +79,28 @@ export const generateMuscleState = (
     back,
   };
 };
+
+type CalculateCaloriesNeededPerDayArgs = {
+  age: number;
+  height: number;
+  weight: number;
+  workoutFrequency: number;
+  workoutTarget: number;
+  gender: boolean;
+};
+export const calculateCaloriesNeededPerDay = ({
+  age,
+  height,
+  weight,
+  workoutFrequency,
+  workoutTarget,
+  gender,
+}: CalculateCaloriesNeededPerDayArgs) => {
+  const brmStandard = gender
+    ? 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age
+    : 447.593 + 9.247 * weight + 3.098 * height - 4.33 * age;
+
+  const caloriesNeededPerDay = brmStandard * workoutFrequency + workoutTarget;
+
+  return caloriesNeededPerDay < 1200 ? 1200 : caloriesNeededPerDay;
+};

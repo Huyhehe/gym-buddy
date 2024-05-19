@@ -1,7 +1,7 @@
 "use client";
 
 import { cn, compareString, sidebarLinks as links } from "@/utils";
-import { Accordion, Avatar, Burger, Text } from "@mantine/core";
+import { Accordion, Burger, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
 import { IconChevronDown, IconUserCog } from "@tabler/icons-react";
@@ -149,16 +149,6 @@ export const Sidebar = ({ session }: Props) => {
           )}
         </Accordion>
       </div>
-      {!!session && (
-        <div className="flex w-full justify-center">
-          <Avatar
-            src={session?.user?.image ?? null}
-            size="lg"
-            alt="User profile"
-            className="rounded-full"
-          />
-        </div>
-      )}
     </div>
   );
 };

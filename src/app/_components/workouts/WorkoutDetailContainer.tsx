@@ -73,7 +73,7 @@ export const WorkoutDetailContainer = ({ workout }: Props) => {
             <Grid>
               {currentExerciseStep?.exercise?.ExerciseExample?.map(
                 (example) =>
-                  true && (
+                  example.gender && (
                     <Grid.Col span={6} key={example?.id}>
                       <video
                         src={example?.mediaURL ?? ""}

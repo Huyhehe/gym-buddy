@@ -141,3 +141,29 @@ export const MUSCLE_TARGET = [
   ...FRONT_MUSCLE_TARGET,
   ...BACK_MUSCLE_TARGET,
 ] as const;
+
+export const BMR_STANDARD = {
+  male: 88.362,
+  female: 447.593,
+};
+
+export const BMR_RATE = [1.2, 1.375, 1.55, 1.725, 1.9];
+
+export const workoutFrequencyOptions: SelectOption[] = [
+  { label: "Little to no exercise", value: "1.2" },
+  { label: "Light exercise (1-3 days per week)", value: "1.375" },
+  { label: "Moderate exercise (3-5 days per week)", value: "1.55" },
+  { label: "Heavy exercise (6-7 days per week)", value: "1.725" },
+  {
+    label: "Very heavy exercise (twice per day, extra heavy workouts)",
+    value: "1.9",
+  },
+];
+
+export const workoutTargetOptions: SelectOption[] = [
+  { label: "Loose 1kg per week", value: "-500" },
+  { label: "Loose 0.5 per week", value: "-250" },
+  { label: "Stay the same weight", value: "0" },
+  { label: "Gain 0.5 per week", value: "250" },
+  { label: "Gain 1kg per week", value: "500" },
+];
