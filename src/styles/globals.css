@@ -10,6 +10,12 @@
   }
 }
 
+@layer components {
+  .radio-label {
+    @apply text-sm font-semibold text-gray-400;
+  }
+}
+
 .body-map__muscle {
   color: #ebebeb;
 }

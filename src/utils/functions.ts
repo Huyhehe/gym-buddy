@@ -104,3 +104,37 @@ export const calculateCaloriesNeededPerDay = ({
 
   return caloriesNeededPerDay < 1200 ? 1200 : caloriesNeededPerDay;
 };
+
+type CalculateMacrosArgs = {
+  nutrientString: string;
+  calories: number;
+  mealPerDay: number;
+};
+export const calculateMacros = ({
+  nutrientString,
+  calories,
+  mealPerDay,
+}: CalculateMacrosArgs) => {
+  const [carb, protein, fat] = nutrientString.split("/").map(Number);
+  const carbPerDay = (calories * (Number(carb) / 100)) / 4;
+  const proteinPerDay = (calories * (Number(protein) / 100)) / 4;
+  const fatPerDay = (calories * (Number(fat) / 100)) / 9;
+
+  return {
+    carb: {
+      percent: carb,
+      perDay: carbPerDay?.toFixed(0),
+      perMeal: (carbPerDay / mealPerDay)?.toFixed(0),
+    },
+    protein: {
+      percent: protein,
+      perDay: proteinPerDay?.toFixed(0),
+      perMeal: (proteinPerDay / mealPerDay)?.toFixed(0),
+    },
+    fat: {
+      percent: fat,
+      perDay: fatPerDay?.toFixed(0),
+      perMeal: (fatPerDay / mealPerDay)?.toFixed(0),
+    },
+  };
+};

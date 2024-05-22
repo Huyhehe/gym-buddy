@@ -17,3 +17,7 @@ export type SelectOption = {
   label: string;
   value: string;
 };
+
+export type LocalStorageType = {
+  caloriesNeed?: number;
+};

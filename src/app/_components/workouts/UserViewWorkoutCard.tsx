@@ -1,17 +1,20 @@
 "use client";
 
+import { api } from "@/trpc/react";
 import type { WorkoutReturnType } from "@/types";
 import { cn, generateColorDifficultyLevel, generateLevelText } from "@/utils";
 import { Badge, Card, Group, Image, Text } from "@mantine/core";
 import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
+import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type Props = {
   workout: WorkoutReturnType;
 };
 export const UserViewWorkoutCard = ({ workout }: Props) => {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(!!workout.isBookmarked);
+  const { mutate: bookMarkWorkout } = api.workout.bookMarkWorkout.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { push } = useRouter();
@@ -19,6 +22,13 @@ export const UserViewWorkoutCard = ({ workout }: Props) => {
   const handleViewWorkoutDetail = () => {
     push(`/workouts/${workout.id}`);
   };
+
+  const handleBookmarkClick = useCallback(
+    debounce((isBookmarked: boolean) => {
+      bookMarkWorkout({ workoutId: workout.id, isBookmarked });
+    }, 500),
+    [],
+  );
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder className="h-full">
@@ -37,7 +47,8 @@ export const UserViewWorkoutCard = ({ workout }: Props) => {
             className="cursor-pointer text-white transition-all hover:scale-125"
             onClick={(e) => {
               e.stopPropagation();
-              setIsBookmarked(!isBookmarked);
+              setIsBookmarked(false);
+              handleBookmarkClick(false);
             }}
           />
         ) : (
@@ -45,7 +56,8 @@ export const UserViewWorkoutCard = ({ workout }: Props) => {
             className="cursor-pointer text-white transition-all hover:scale-125"
             onClick={(e) => {
               e.stopPropagation();
-              setIsBookmarked(!isBookmarked);
+              setIsBookmarked(true);
+              handleBookmarkClick(true);
             }}
           />
         )}

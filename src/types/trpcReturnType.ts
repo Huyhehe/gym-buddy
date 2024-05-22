@@ -12,7 +12,10 @@ export type ExerciseMuscleTargetReturnType =
   RouterOutput["exercise"]["getExercises"][number]["ExerciseMuscleTarget"][number];
 
 // WORKOUT route
-export type WorkoutReturnType = RouterOutput["workout"]["getWorkouts"][number];
+export type WorkoutReturnType =
+  RouterOutput["workout"]["getWorkouts"][number] & {
+    isBookmarked?: boolean;
+  };
 
 export type SingleWorkoutReturnType = RouterOutput["workout"]["getWorkoutByID"];
 

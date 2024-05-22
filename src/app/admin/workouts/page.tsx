@@ -2,7 +2,9 @@ import { WorkoutCardContainer } from "@/app/_components/admin/workouts/WorkoutCa
 import { api } from "@/trpc/server";
 
 const WorkoutsPage = async () => {
-  const workouts = await api.workout.getWorkouts();
+  const workouts = await api.workout.getWorkouts({
+    isAdminQuery: true,
+  });
 
   return (
     <div className="box-content space-y-4 p-5">

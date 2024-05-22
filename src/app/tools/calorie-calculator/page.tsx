@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  BMR_STANDARD,
   calculateCaloriesNeededPerDay,
   workoutFrequencyOptions,
   workoutTargetOptions,
@@ -9,22 +8,42 @@ import {
 import CircularSlider from "@fseehawer/react-circular-slider";
 import { Group, Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useState } from "react";
+import { debounce } from "lodash";
+import { useCallback, useEffect } from "react";
+import { useCalorieStorage } from "../_hooks/useCalorieStorage";
 
 const initialValues = {
   age: 18,
   weight: 50,
   height: 150,
   workoutFrequency: workoutFrequencyOptions[0]?.value,
-  workoutTarget: workoutTargetOptions[1]?.value,
+  workoutTarget: workoutTargetOptions[2]?.value,
 };
 
 const CalorieCalculatorPage = () => {
+  const { setCaloriesNeed } = useCalorieStorage();
   const form = useForm({
     initialValues,
   });
 
-  console.log({ values: form.values });
+  const updateCaloriesNeed = useCallback(
+    debounce((caloriesNeed: number) => {
+      setCaloriesNeed(caloriesNeed);
+    }, 200),
+    [],
+  );
+
+  useEffect(() => {
+    const caloriesNeed = calculateCaloriesNeededPerDay({
+      age: form.values.age,
+      height: form.values.height,
+      weight: form.values.weight,
+      workoutFrequency: Number(form.values.workoutFrequency),
+      workoutTarget: Number(form.values.workoutTarget),
+      gender: true,
+    }).toFixed();
+    updateCaloriesNeed(Number(caloriesNeed));
+  }, [form.values]);
 
   return (
     <div className="p-28">
