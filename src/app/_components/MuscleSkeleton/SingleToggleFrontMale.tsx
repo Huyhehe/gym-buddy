@@ -9,34 +9,34 @@ import { useEffect, useState } from "react";
 type FrontMuscleTarget = (typeof FRONT_MUSCLE_TARGET)[number];
 
 export type ToggleState = {
-  [key in FrontMuscleTarget]: number;
+  [key in FrontMuscleTarget]: boolean;
 };
 
 export const initialState: ToggleState = {
-  abdominals: 0,
-  obliques: 0,
-  forearms: 0,
-  biceps: 0,
-  shoulders: 0,
-  traps: 0,
-  chest: 0,
-  quads: 0,
-  calves: 0,
+  abdominals: false,
+  obliques: false,
+  forearms: false,
+  biceps: false,
+  shoulders: false,
+  traps: false,
+  chest: false,
+  quads: false,
+  calves: false,
 };
 
 const commonClasses = "cursor-pointer hover:opacity-50";
 
-interface ToggleFrontMaleProps {
+interface SingleToggleFrontMaleProps {
   onReturnValue?: (value: ToggleState) => void;
   viewMode?: boolean;
   initialDataForViewMode?: Partial<ToggleState>;
 }
 
-export const ToggleFrontMale = ({
+export const SingleToggleFrontMale = ({
   onReturnValue,
   viewMode = false,
   initialDataForViewMode,
-}: ToggleFrontMaleProps) => {
+}: SingleToggleFrontMaleProps) => {
   const [toggleState, setToggleState] = useState<ToggleState>(
     !!initialDataForViewMode
       ? { ...initialState, ...initialDataForViewMode }
@@ -61,12 +61,12 @@ export const ToggleFrontMale = ({
         <g
           className={cn(
             commonClasses,
-            generateColorByAffectLevel(toggleState.abdominals),
+            generateColorByAffectLevel(toggleState.abdominals ? 3 : 0),
           )}
           onClick={() =>
             setToggleState((prev) => ({
               ...prev,
-              abdominals: prev.abdominals === 3 ? 0 : prev.abdominals + 1,
+              abdominals: !prev.abdominals,
             }))
           }
           id="abdominals"
@@ -79,12 +79,12 @@ export const ToggleFrontMale = ({
         <g
           className={cn(
             commonClasses,
-            generateColorByAffectLevel(toggleState.obliques),
+            generateColorByAffectLevel(toggleState.obliques ? 3 : 0),
           )}
           onClick={() =>
             setToggleState((prev) => ({
               ...prev,
-              obliques: prev.obliques === 3 ? 0 : prev.obliques + 1,
+              obliques: !prev.obliques,
             }))
           }
           id="obliques"
@@ -101,12 +101,12 @@ export const ToggleFrontMale = ({
         <g
           className={cn(
             commonClasses,
-            generateColorByAffectLevel(toggleState.forearms),
+            generateColorByAffectLevel(toggleState.forearms ? 3 : 0),
           )}
           onClick={() =>
             setToggleState((prev) => ({
               ...prev,
-              forearms: prev.forearms === 3 ? 0 : prev.forearms + 1,
+              forearms: !prev.forearms,
             }))
           }
           id="forearms"
@@ -123,12 +123,12 @@ export const ToggleFrontMale = ({
         <g
           className={cn(
             commonClasses,
-            generateColorByAffectLevel(toggleState.biceps),
+            generateColorByAffectLevel(toggleState.biceps ? 3 : 0),
           )}
           onClick={() =>
             setToggleState((prev) => ({
               ...prev,
-              biceps: prev.biceps === 3 ? 0 : prev.biceps + 1,
+              biceps: !prev.biceps,
             }))
           }
           id="biceps"
@@ -145,12 +145,12 @@ export const ToggleFrontMale = ({
         <g
           className={cn(
             commonClasses,
-            generateColorByAffectLevel(toggleState.shoulders),
+            generateColorByAffectLevel(toggleState.shoulders ? 3 : 0),
           )}
           onClick={() =>
             setToggleState((prev) => ({
               ...prev,
-              shoulders: prev.shoulders === 3 ? 0 : prev.shoulders + 1,
+              shoulders: !prev.shoulders,
             }))
           }
           id="shoulders"
@@ -167,12 +167,12 @@ export const ToggleFrontMale = ({
         <g
           className={cn(
             commonClasses,
-            generateColorByAffectLevel(toggleState.traps),
+            generateColorByAffectLevel(toggleState.traps ? 3 : 0),
           )}
           onClick={() =>
             setToggleState((prev) => ({
               ...prev,
-              traps: prev.traps === 3 ? 0 : prev.traps + 1,
+              traps: !prev.traps,
             }))
           }
           id="traps"
@@ -189,12 +189,12 @@ export const ToggleFrontMale = ({
         <g
           className={cn(
             commonClasses,
-            generateColorByAffectLevel(toggleState.chest),
+            generateColorByAffectLevel(toggleState.chest ? 3 : 0),
           )}
           onClick={() =>
             setToggleState((prev) => ({
               ...prev,
-              chest: prev.chest === 3 ? 0 : prev.chest + 1,
+              chest: !prev.chest,
             }))
           }
           id="chest"
@@ -211,12 +211,12 @@ export const ToggleFrontMale = ({
         <g
           className={cn(
             commonClasses,
-            generateColorByAffectLevel(toggleState.quads),
+            generateColorByAffectLevel(toggleState.quads ? 3 : 0),
           )}
           onClick={() =>
             setToggleState((prev) => ({
               ...prev,
-              quads: prev.quads === 3 ? 0 : prev.quads + 1,
+              quads: !prev.quads,
             }))
           }
           id="quads"
@@ -233,12 +233,12 @@ export const ToggleFrontMale = ({
         <g
           className={cn(
             commonClasses,
-            generateColorByAffectLevel(toggleState.calves),
+            generateColorByAffectLevel(toggleState.calves ? 3 : 0),
           )}
           onClick={() =>
             setToggleState((prev) => ({
               ...prev,
-              calves: prev.calves === 3 ? 0 : prev.calves + 1,
+              calves: !prev.calves,
             }))
           }
           id="calves"

@@ -5,7 +5,16 @@ import { ToggleFrontMale } from "@/app/_components/MuscleSkeleton/ToggleFrontMal
 import type { ExerciseReturnType } from "@/types";
 
 import { generateMuscleState } from "@/utils";
-import { Box, Button, Card, Divider, Group, Modal, Text } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Card,
+  Divider,
+  Group,
+  Modal,
+  Text,
+  Tooltip,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { LevelBadge } from "../../LevelBadge";
 import { MuscleAffectLevelContainer } from "../../MuscleAffectLevelContainer";
@@ -43,8 +52,18 @@ export const ExerciseCard = ({ exercise }: Props) => {
             />
           </div>
         </Card.Section>
-        <Group justify="space-between" mt="md" mb="xs">
-          <Text fw={500}>{exercise.name}</Text>
+        <Group
+          justify="space-between"
+          align="center"
+          mt="md"
+          mb="xs"
+          className="flex-nowrap"
+        >
+          <Tooltip label={exercise.name}>
+            <Text fw={500} className="line-clamp-1 shrink">
+              {exercise.name}
+            </Text>
+          </Tooltip>
           <LevelBadge level={exercise.difficulty} />
         </Group>
 

@@ -7,6 +7,9 @@ import { GoalButtonGroup } from "./_components/GoalButtonGroup";
 import { WorkoutBuilderFormProvider, useWorkoutBuilderForm } from "./_context";
 import { FitnessLevelButtonGroup } from "./_components/FitnessLevelButtonGroup";
 
+import { MuscleTarget } from "./_components/MuscleTarget";
+import { type TWorkoutBuilderFormValues } from "./_schemas";
+
 const WorkoutBuilderPage = () => {
   const form = useWorkoutBuilderForm({
     initialValues: {
@@ -15,16 +18,21 @@ const WorkoutBuilderPage = () => {
       age: 18,
       goal: "lose",
       currentLevel: 0,
-      muscleTarget: [],
+      muscleTarget: {
+        front: [],
+        back: [],
+      },
       currentStep: 0,
     },
   });
 
-  console.log({ values: form.values });
+  const handleSubmit = (values: TWorkoutBuilderFormValues) => {
+    console.log({ values });
+  };
 
   return (
     <WorkoutBuilderFormProvider form={form}>
-      <form>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stepper
           active={form.values.currentStep}
           onStepClick={(step) => form.setFieldValue("currentStep", step)}
@@ -41,6 +49,9 @@ const WorkoutBuilderPage = () => {
           </Stepper.Step>
           <Stepper.Step label="Current level" allowStepSelect>
             <FitnessLevelButtonGroup />
+          </Stepper.Step>
+          <Stepper.Step label="Muscle target" allowStepSelect>
+            <MuscleTarget />
           </Stepper.Step>
 
           <Stepper.Completed>

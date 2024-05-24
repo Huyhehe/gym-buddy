@@ -17,7 +17,7 @@ const getBadgeColor = (level: string) => {
 
 export const LevelBadge = ({ level }: Props) => {
   return (
-    <Badge color={getBadgeColor(level)} className="capitalize">
+    <Badge color={getBadgeColor(level)} className="shrink-0 capitalize">
       {level}
     </Badge>
   );
