@@ -8,6 +8,7 @@ export const exerciseCreateFormSchema = z.object({
   difficulty: z.string().min(1),
   mechanic: z.string().min(1),
   force: z.string().optional(),
+  equipment: z.string(),
   steps: z.array(
     z.object({
       value: z.string(),

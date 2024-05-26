@@ -1,7 +1,7 @@
 import type { ExerciseMuscleTargetReturnType } from "@/types";
 import groupBy from "lodash/groupBy";
 
-import { type ClassValue, clsx } from "clsx";
+import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -51,6 +51,30 @@ export const generateColorDifficultyLevel = (
     default:
       return bg ? "bg-neutral-200" : "text-neutral-200";
   }
+};
+
+export const combineMuscleAffection = (
+  muscleTargets: ExerciseMuscleTargetReturnType[],
+) => {
+  const finalMuscleTargets: ExerciseMuscleTargetReturnType[] = [];
+  const muscleTargetsGroupObject = groupBy(muscleTargets, "name");
+
+  for (const [, value] of Object.entries(muscleTargetsGroupObject)) {
+    const muscleTarget = value.reduce((acc, obj) => {
+      return {
+        ...acc,
+        affectLevel: acc.affectLevel + obj.affectLevel,
+      };
+    });
+
+    if (muscleTarget.affectLevel > 3) {
+      muscleTarget.affectLevel = 3;
+    }
+
+    finalMuscleTargets.push(muscleTarget);
+  }
+
+  return finalMuscleTargets;
 };
 
 export const generateMuscleState = (

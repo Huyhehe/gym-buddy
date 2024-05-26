@@ -9,16 +9,20 @@ type TFitnessLevel = {
 
 const fitnessLevels: TFitnessLevel[] = [
   {
-    label: "Beginner",
-    value: 0,
-  },
-  {
-    label: "Intermediate",
+    label: "Novice",
     value: 1,
   },
   {
-    label: "Advanced",
+    label: "Beginner",
     value: 2,
+  },
+  {
+    label: "Intermediate",
+    value: 3,
+  },
+  {
+    label: "Advanced",
+    value: 4,
   },
 ];
 export const FitnessLevelButtonGroup = () => {
@@ -26,7 +30,7 @@ export const FitnessLevelButtonGroup = () => {
   return (
     <>
       <h1 className="text-3xl font-bold uppercase text-primary">
-        {"YOUR FITNESS LEVEL?"}
+        {"how familiar with gym you are?"}
       </h1>
       <Stack className="box-content gap-4 px-[20%]">
         {fitnessLevels.map((fitnessLevel) => (

@@ -9,6 +9,7 @@ export const generateInitialExerciseFormValues = (
     ExerciseMuscleTarget,
     ExerciseStep,
     force,
+    difficulty,
     ...rest
   } = exercise;
   const steps: TExerciseFormValues["steps"] = ExerciseStep?.map((step) => ({
@@ -16,21 +17,21 @@ export const generateInitialExerciseFormValues = (
     value: step.description,
   }));
   const mediaURLs: TExerciseFormValues["mediaURLs"] = {
-    male: ExerciseExample.filter((example) => example.gender).map(
+    male: ExerciseExample?.filter((example) => example.gender).map(
       (example) => example.mediaURL,
     ),
-    female: ExerciseExample.filter((example) => !example.gender).map(
+    female: ExerciseExample?.filter((example) => !example.gender).map(
       (example) => example.mediaURL,
     ),
   };
   const muscleTargets: TExerciseFormValues["muscleTargets"] = {
-    front: ExerciseMuscleTarget.filter((target) => target.side === "front").map(
-      (target) => ({
-        name: target.name,
-        level: target.affectLevel,
-      }),
-    ),
-    back: ExerciseMuscleTarget.filter((target) => target.side === "back").map(
+    front: ExerciseMuscleTarget?.filter(
+      (target) => target.side === "front",
+    ).map((target) => ({
+      name: target.name,
+      level: target.affectLevel,
+    })),
+    back: ExerciseMuscleTarget?.filter((target) => target.side === "back").map(
       (target) => ({
         name: target.name,
         level: target.affectLevel,
@@ -41,8 +42,10 @@ export const generateInitialExerciseFormValues = (
   return {
     ...rest,
     ...(force ? { force } : null),
+    difficulty: difficulty.toString(),
     steps,
     mediaURLs,
     muscleTargets,
+    equipment: exercise.equipment,
   };
 };

@@ -4,7 +4,7 @@ import { ToggleBackMale } from "@/app/_components/MuscleSkeleton/ToggleBackMale"
 import { ToggleFrontMale } from "@/app/_components/MuscleSkeleton/ToggleFrontMale";
 import type { ExerciseReturnType } from "@/types";
 
-import { generateMuscleState } from "@/utils";
+import { generateLevelText, generateMuscleState } from "@/utils";
 import {
   Box,
   Button,
@@ -72,7 +72,7 @@ export const ExerciseCard = ({ exercise }: Props) => {
             {exercise.mechanic}
           </Text>
           <Text size="sm" c="dimmed" className="capitalize">
-            {exercise.difficulty}
+            {generateLevelText(exercise.difficulty)}
           </Text>
           <Text size="sm" c="dimmed" className="capitalize">
             {exercise.force}

@@ -1,11 +1,10 @@
 import { z } from "zod";
 
 export const workoutBuilderSchema = z.object({
-  name: z.string(),
   gender: z.boolean(),
   age: z.number().min(13).max(100),
   goal: z.enum(["lose", "muscle", "strength"]),
-  currentLevel: z.number().int().min(0).max(3),
+  currentLevel: z.number().int().min(1).max(4),
   muscleTarget: z.object({
     front: z.array(z.string()),
     back: z.array(z.string()),

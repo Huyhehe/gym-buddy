@@ -26,7 +26,7 @@ export default async function MainLayout({
       <div className="relative min-h-svh bg-primary">
         <Sidebar session={session} />
       </div>
-      <div className="grow bg-slate-200">
+      <div className="grow bg-[#e7ecef]">
         <Topbar session={session} />
         <div>{children}</div>
       </div>

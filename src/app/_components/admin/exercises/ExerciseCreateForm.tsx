@@ -1,10 +1,11 @@
 "use client";
-import { difficultyOptions, mechanicOptions } from "@/utils";
+import { cn, levelOptions, mechanicOptions } from "@/utils";
 import {
   ActionIcon,
   Box,
   Button,
   Center,
+  Grid,
   Group,
   LoadingOverlay,
   Modal,
@@ -13,17 +14,31 @@ import {
   Text,
   TextInput,
   Textarea,
+  type SelectProps,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { IconAsterisk, IconGripVertical, IconPlus } from "@tabler/icons-react";
+import {
+  IconAsterisk,
+  IconCheck,
+  IconGripVertical,
+  IconPlus,
+} from "@tabler/icons-react";
 
 import { randomId, useDisclosure } from "@mantine/hooks";
 import { zodResolver } from "mantine-form-zod-resolver";
 import { useState } from "react";
 
+import { generateInitialExerciseFormValues } from "@/app/admin/_helpers";
+import { Icon } from "@/assets/icons/Icon";
 import { api } from "@/trpc/react";
+import type { ExerciseReturnType } from "@/types";
+import { useRouter } from "next/navigation";
+import {
+  exerciseCreateFormSchema,
+  type TExerciseFormValues,
+} from "../../../admin/_schemas";
 import { MediaDropZone } from "../../MediaDropZone";
 import {
   ToggleBackMale,
@@ -35,21 +50,15 @@ import {
   initialState as initialFrontMuscleTarget,
   type ToggleState as FrontAffectLevel,
 } from "../../MuscleSkeleton/ToggleFrontMale";
-import {
-  type TExerciseFormValues,
-  exerciseCreateFormSchema,
-} from "../../../admin/_schemas";
-import type { ExerciseReturnType } from "@/types";
-import { generateInitialExerciseFormValues } from "@/app/admin/_helpers";
-import { useRouter } from "next/navigation";
 
 const initialValues: TExerciseFormValues = {
   name: "",
   sets: 1,
   reps: 6,
-  difficulty: "beginner",
+  difficulty: "1",
   mechanic: "compound",
   force: "",
+  equipment: "0",
   steps: [
     {
       value: "Step 1",
@@ -87,6 +96,8 @@ type Props = {
 export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { replace } = useRouter();
+
+  const { data: equipments } = api.client.getEquipments.useQuery();
 
   const [deleteConfirmOpened, { close, open }] = useDisclosure();
   const [mediaURLs, setMediaURLs] = useState<MediaExample>(
@@ -172,6 +183,29 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
     }));
   };
 
+  const equipmentOptions: SelectProps["renderOption"] = ({
+    option,
+    checked,
+  }) => {
+    const equipment = equipments?.find((e) => e.id === option.value);
+    return (
+      <Group flex="1" gap="xs">
+        <Icon
+          html={equipment?.icon ?? ""}
+          className={cn("flex items-center text-primary", {
+            "mx-2.5 h-3 w-3": equipment?.name === "Bodyweight",
+            "mx-1 h-6 w-6": ["Kettlebells", "Plate", "Vitruvian"].includes(
+              equipment?.name ?? "",
+            ),
+            "[&_svg]:h-8 [&_svg]:w-8": equipment?.name === "Cardio",
+          })}
+        />
+        {option.label}
+        {checked && <IconCheck style={{ marginInlineStart: "auto" }} />}
+      </Group>
+    );
+  };
+
   return (
     <Box pos="relative">
       <LoadingOverlay
@@ -181,56 +215,86 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
         loaderProps={{ color: "blue", type: "bars" }}
       />
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <TextInput
-          withAsterisk
-          label="Exercise name"
-          placeholder="Incline Dumbbell Bench Press"
-          key={form.key("name")}
-          {...form.getInputProps("name")}
-        />
+        <Grid>
+          <Grid.Col>
+            <TextInput
+              withAsterisk
+              label="Exercise name"
+              placeholder="Incline Dumbbell Bench Press"
+              key={form.key("name")}
+              {...form.getInputProps("name")}
+            />
+          </Grid.Col>
 
-        <NumberInput
-          withAsterisk
-          label="Sets"
-          key={form.key("sets")}
-          {...form.getInputProps("sets")}
-          min={1}
-          max={7}
-          decimalScale={0}
-        />
+          <Grid.Col span={6}>
+            <NumberInput
+              withAsterisk
+              label="Sets"
+              key={form.key("sets")}
+              {...form.getInputProps("sets")}
+              min={1}
+              max={7}
+              decimalScale={0}
+            />
+          </Grid.Col>
 
-        <NumberInput
-          withAsterisk
-          label="Reps"
-          key={form.key("reps")}
-          {...form.getInputProps("reps")}
-          min={3}
-          max={100}
-          decimalScale={0}
-        />
+          <Grid.Col span={6}>
+            <NumberInput
+              withAsterisk
+              label="Reps"
+              key={form.key("reps")}
+              {...form.getInputProps("reps")}
+              min={3}
+              max={100}
+              decimalScale={0}
+            />
+          </Grid.Col>
 
-        <Select
-          withAsterisk
-          label="Difficulty"
-          data={difficultyOptions}
-          key={form.key("difficulty")}
-          {...form.getInputProps("difficulty")}
-        />
+          <Grid.Col span={4}>
+            <Select
+              withAsterisk
+              label="Difficulty"
+              data={levelOptions}
+              key={form.key("difficulty")}
+              {...form.getInputProps("difficulty")}
+            />
+          </Grid.Col>
 
-        <Select
-          withAsterisk
-          label="Mechanic"
-          data={mechanicOptions}
-          key={form.key("mechanic")}
-          {...form.getInputProps("mechanic")}
-        />
+          <Grid.Col span={4}>
+            <Select
+              withAsterisk
+              label="Mechanic"
+              data={mechanicOptions}
+              key={form.key("mechanic")}
+              {...form.getInputProps("mechanic")}
+            />
+          </Grid.Col>
 
-        <TextInput
-          label="Force"
-          placeholder="Push, Pull, Hold, etc."
-          key={form.key("force")}
-          {...form.getInputProps("force")}
-        />
+          <Grid.Col span={4}>
+            {!!equipments && (
+              <Select
+                label="Equipment"
+                withAsterisk
+                data={equipments?.map((equipment) => ({
+                  label: equipment.name,
+                  value: equipment.id,
+                }))}
+                renderOption={equipmentOptions}
+                key={form.key("equipment")}
+                {...form.getInputProps("equipment")}
+              />
+            )}
+          </Grid.Col>
+
+          <Grid.Col>
+            <TextInput
+              label="Force"
+              placeholder="Push, Pull, Hold, etc."
+              key={form.key("force")}
+              {...form.getInputProps("force")}
+            />
+          </Grid.Col>
+        </Grid>
 
         <div>
           <Text
@@ -252,7 +316,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
             <Droppable droppableId="dnd-list" direction="vertical">
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {form.getValues().steps.map((item, index) => (
+                  {form.getValues().steps?.map((item, index) => (
                     <Draggable
                       key={item.key}
                       index={index}

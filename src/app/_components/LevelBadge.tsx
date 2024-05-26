@@ -1,16 +1,17 @@
+import { generateLevelText } from "@/utils";
 import { Badge } from "@mantine/core";
 
 type Props = {
-  level: string;
+  level: number;
 };
 
-const getBadgeColor = (level: string) => {
+const getBadgeColor = (level: number) => {
   switch (level) {
-    case "beginner":
+    case 1:
       return "green";
-    case "intermediate":
+    case 2:
       return "orange";
-    case "advanced":
+    case 3:
       return "pink";
   }
 };
@@ -18,7 +19,7 @@ const getBadgeColor = (level: string) => {
 export const LevelBadge = ({ level }: Props) => {
   return (
     <Badge color={getBadgeColor(level)} className="shrink-0 capitalize">
-      {level}
+      {generateLevelText(level)}
     </Badge>
   );
 };

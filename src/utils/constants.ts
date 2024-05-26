@@ -78,13 +78,6 @@ export const sidebarLinks: SidebarLinks[] = [
   },
 ];
 
-export const difficultyOptions: SelectOption[] = [
-  { label: "Novice", value: "novice" },
-  { label: "Beginner", value: "beginner" },
-  { label: "Intermediate", value: "intermediate" },
-  { label: "Advanced", value: "advanced" },
-];
-
 export const mechanicOptions: SelectOption[] = [
   { label: "Compound", value: "compound" },
   { label: "Isolation", value: "isolation" },
