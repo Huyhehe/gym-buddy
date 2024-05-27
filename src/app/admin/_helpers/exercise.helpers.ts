@@ -46,6 +46,6 @@ export const generateInitialExerciseFormValues = (
     steps,
     mediaURLs,
     muscleTargets,
-    equipment: exercise.equipment,
+    equipmentId: exercise.equipmentId,
   };
 };

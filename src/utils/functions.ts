@@ -162,3 +162,16 @@ export const calculateMacros = ({
     },
   };
 };
+
+export const getGoalLabel = (goal: string) => {
+  switch (goal) {
+    case "lose-weight":
+      return "Lose Weight";
+    case "gain-strength":
+      return "Gain Strength";
+    case "gain-muscle":
+      return "Gain Muscle";
+    default:
+      return "All";
+  }
+};

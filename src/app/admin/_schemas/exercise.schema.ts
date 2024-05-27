@@ -5,10 +5,12 @@ export const exerciseCreateFormSchema = z.object({
   name: z.string().min(2, { message: "Name should have at least 2 letters" }),
   sets: z.number().int().min(1, { message: "At least 1 set is required" }),
   reps: z.number().int().min(3, { message: "At least 3 reps are required" }),
+  repsUnit: z.string(),
   difficulty: z.string().min(1),
   mechanic: z.string().min(1),
+  goal: z.string().min(1),
   force: z.string().optional(),
-  equipment: z.string(),
+  equipmentId: z.string(),
   steps: z.array(
     z.object({
       value: z.string(),

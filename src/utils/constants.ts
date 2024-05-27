@@ -78,6 +78,11 @@ export const sidebarLinks: SidebarLinks[] = [
   },
 ];
 
+export const repsUnitOptions: SelectOption[] = [
+  { label: "Rep(s)", value: "rep" },
+  { label: "Second(s)", value: "second" },
+  { label: "Minute(s)", value: "minute" },
+];
 export const mechanicOptions: SelectOption[] = [
   { label: "Compound", value: "compound" },
   { label: "Isolation", value: "isolation" },
@@ -92,8 +97,8 @@ export const levelOptions: SelectOption[] = [
 
 export const targetOptions: SelectOption[] = [
   {
-    label: "Loose Weight",
-    value: "loose-weight",
+    label: "Lose Weight",
+    value: "lose-weight",
   },
   {
     label: "Gain Strength",

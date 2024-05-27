@@ -35,7 +35,7 @@ const WorkoutBuilderPage = () => {
     initialValues: {
       gender: true,
       age: 18,
-      goal: "lose",
+      goal: "lose-weight",
       currentLevel: 0,
       muscleTarget: {
         front: [],
@@ -45,6 +45,8 @@ const WorkoutBuilderPage = () => {
     },
     validate: zodResolver(workoutBuilderSchema),
   });
+
+  console.log(workoutBuilderForm.values);
 
   const handleWorkoutBuilderFormSubmit = (
     values: TWorkoutBuilderFormValues,

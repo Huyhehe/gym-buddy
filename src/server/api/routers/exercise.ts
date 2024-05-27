@@ -11,7 +11,7 @@ export const exerciseRouter = createTRPCRouter({
           filterObject: z
             .object({
               muscleTarget: z.string().optional(),
-              equipment: z.string().optional(),
+              equipmentId: z.string().optional(),
             })
             .optional(),
         })
@@ -21,8 +21,8 @@ export const exerciseRouter = createTRPCRouter({
       const {
         search = "",
         filterObject = {
-          muscleTarget: "",
-          equipment: "",
+          muscleTarget: undefined,
+          equipmentId: undefined,
         },
       } = input;
       const exercises = await ctx.db.exercise.findMany({
@@ -31,16 +31,20 @@ export const exerciseRouter = createTRPCRouter({
             contains: search,
             mode: "insensitive",
           },
-          ExerciseMuscleTarget: {
-            some: {
-              name: {
-                contains: filterObject.muscleTarget,
-                mode: "insensitive",
-              },
-            },
-          },
-          equipment: {
-            contains: filterObject.equipment,
+          ...(!!filterObject.muscleTarget
+            ? {
+                ExerciseMuscleTarget: {
+                  some: {
+                    name: {
+                      contains: filterObject.muscleTarget,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              }
+            : {}),
+          equipmentId: {
+            contains: filterObject.equipmentId,
             mode: "insensitive",
           },
         },
@@ -48,6 +52,7 @@ export const exerciseRouter = createTRPCRouter({
           ExerciseExample: true,
           ExerciseMuscleTarget: true,
           ExerciseStep: true,
+          Equipment: true,
         },
       });
 

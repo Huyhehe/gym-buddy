@@ -14,9 +14,11 @@ export const adminRouter = createTRPCRouter({
         name,
         sets,
         reps,
+        repsUnit,
         difficulty,
         mechanic,
-        equipment,
+        equipmentId,
+        goal,
         force,
         steps,
         mediaURLs,
@@ -28,10 +30,12 @@ export const adminRouter = createTRPCRouter({
             name,
             sets,
             reps,
+            repsUnit,
             difficulty: Number(difficulty),
             mechanic,
-            equipment,
+            equipmentId,
             force,
+            goal,
           },
         });
 
@@ -50,7 +54,7 @@ export const adminRouter = createTRPCRouter({
           mediaURL: url,
           gender: true,
         }));
-        const femaleMedia = mediaURLs.male.map((url, index) => ({
+        const femaleMedia = mediaURLs.female.map((url, index) => ({
           exerciseId: exercise.id,
           index,
           mediaURL: url,
@@ -90,7 +94,7 @@ export const adminRouter = createTRPCRouter({
         reps,
         difficulty,
         mechanic,
-        equipment,
+        equipmentId,
         force,
         steps,
         mediaURLs,
@@ -108,7 +112,7 @@ export const adminRouter = createTRPCRouter({
             reps,
             difficulty: Number(difficulty),
             mechanic,
-            equipment,
+            equipmentId,
             force,
           },
         });
@@ -134,7 +138,7 @@ export const adminRouter = createTRPCRouter({
           mediaURL: url,
           gender: true,
         }));
-        const femaleMedia = mediaURLs.male.map((url, index) => ({
+        const femaleMedia = mediaURLs.female.map((url, index) => ({
           exerciseId: id,
           index,
           mediaURL: url,

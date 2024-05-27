@@ -79,9 +79,12 @@ model Exercise {
     name                 String                 @unique
     sets                 Int
     reps                 Int
+    repsUnit             String
     difficulty           Int
     mechanic             String                 @default("compound")
-    equipment            String
+    equipmentId          String
+    Equipment            Equipment              @relation(fields: [equipmentId], references: [id])
+    goal                 String
     force                String?
     ExerciseStep         ExerciseStep[]
     ExerciseExample      ExerciseExample[]
@@ -118,10 +121,11 @@ model ExerciseMuscleTarget {
 }
 
 model Equipment {
-    id          String @id @default(cuid())
+    id          String     @id @default(cuid())
     name        String
     description String
     icon        String
+    Exercise    Exercise[]
 }
 
 model Workout {

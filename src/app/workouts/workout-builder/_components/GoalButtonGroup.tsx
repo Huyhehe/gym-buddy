@@ -2,25 +2,7 @@
 import { Button, Stack } from "@mantine/core";
 import { useWorkoutBuilderFormContext } from "../_context";
 
-type TGoal = {
-  label: string;
-  value: "lose" | "strength" | "muscle";
-};
-
-const goals: TGoal[] = [
-  {
-    label: "Lose Weight",
-    value: "lose",
-  },
-  {
-    label: "Gain Strength",
-    value: "strength",
-  },
-  {
-    label: "Gain Muscle",
-    value: "muscle",
-  },
-];
+import { targetOptions as goalOptions } from "@/utils";
 
 export const GoalButtonGroup = () => {
   const { values, setFieldValue } = useWorkoutBuilderFormContext();
@@ -30,7 +12,7 @@ export const GoalButtonGroup = () => {
         {"YOUR FITNESS GOAL?"}
       </h1>
       <Stack className="box-content gap-4 px-[20%]">
-        {goals.map((goal) => (
+        {goalOptions.map((goal) => (
           <Button
             key={goal.value}
             aria-checked={values.goal === goal.value}

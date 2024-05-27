@@ -14,7 +14,7 @@ const ExercisePage = async ({
   const exercises = await api.exercise.getExercises({
     filterObject: {
       muscleTarget: searchParams.muscle,
-      equipment: searchParams.equipment,
+      equipmentId: searchParams.equipment,
     },
   });
 

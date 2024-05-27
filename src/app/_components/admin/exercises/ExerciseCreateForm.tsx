@@ -1,5 +1,11 @@
 "use client";
-import { cn, levelOptions, mechanicOptions } from "@/utils";
+import {
+  cn,
+  levelOptions,
+  mechanicOptions,
+  targetOptions as goalOptions,
+  repsUnitOptions,
+} from "@/utils";
 import {
   ActionIcon,
   Box,
@@ -24,6 +30,7 @@ import {
   IconCheck,
   IconGripVertical,
   IconPlus,
+  IconTrash,
 } from "@tabler/icons-react";
 
 import { randomId, useDisclosure } from "@mantine/hooks";
@@ -55,10 +62,12 @@ const initialValues: TExerciseFormValues = {
   name: "",
   sets: 1,
   reps: 6,
+  repsUnit: "rep",
   difficulty: "1",
   mechanic: "compound",
+  goal: "lose-weight",
   force: "",
-  equipment: "0",
+  equipmentId: "0",
   steps: [
     {
       value: "Step 1",
@@ -97,7 +106,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { replace } = useRouter();
 
-  const { data: equipments } = api.client.getEquipments.useQuery();
+  const { data: equipments } = api.client.getEquipments.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
 
   const [deleteConfirmOpened, { close, open }] = useDisclosure();
   const [mediaURLs, setMediaURLs] = useState<MediaExample>(
@@ -226,7 +237,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
             />
           </Grid.Col>
 
-          <Grid.Col span={6}>
+          <Grid.Col span={3}>
             <NumberInput
               withAsterisk
               label="Sets"
@@ -238,7 +249,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
             />
           </Grid.Col>
 
-          <Grid.Col span={6}>
+          <Grid.Col span={3}>
             <NumberInput
               withAsterisk
               label="Reps"
@@ -250,13 +261,33 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
             />
           </Grid.Col>
 
-          <Grid.Col span={4}>
+          <Grid.Col span={3}>
+            <Select
+              withAsterisk
+              label="Unit"
+              data={repsUnitOptions}
+              key={form.key("repsUnit")}
+              {...form.getInputProps("repsUnit")}
+            />
+          </Grid.Col>
+
+          <Grid.Col span={3}>
             <Select
               withAsterisk
               label="Difficulty"
               data={levelOptions}
               key={form.key("difficulty")}
               {...form.getInputProps("difficulty")}
+            />
+          </Grid.Col>
+
+          <Grid.Col span={4}>
+            <Select
+              withAsterisk
+              label="Goal"
+              data={goalOptions}
+              key={form.key("goal")}
+              {...form.getInputProps("goal")}
             />
           </Grid.Col>
 
@@ -280,8 +311,8 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
                   value: equipment.id,
                 }))}
                 renderOption={equipmentOptions}
-                key={form.key("equipment")}
-                {...form.getInputProps("equipment")}
+                key={form.key("equipmentId")}
+                {...form.getInputProps("equipmentId")}
               />
             )}
           </Grid.Col>
@@ -328,14 +359,22 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
                           mt="xs"
                           {...draggableProvided.draggableProps}
                         >
+                          <Center {...draggableProvided.dragHandleProps}>
+                            <IconGripVertical size="1.2rem" />
+                          </Center>
                           <Textarea
                             className="grow"
                             placeholder="Push the bar up..."
                             key={form.key(`steps.${index}.value`)}
                             {...form.getInputProps(`steps.${index}.value`)}
                           />
-                          <Center {...draggableProvided.dragHandleProps}>
-                            <IconGripVertical size="1.2rem" />
+                          <Center>
+                            <IconTrash
+                              className="cursor-pointer hover:text-red-500"
+                              onClick={() => {
+                                form.removeListItem("steps", index);
+                              }}
+                            />
                           </Center>
                         </Group>
                       )}

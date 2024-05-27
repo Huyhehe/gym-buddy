@@ -24,13 +24,14 @@ export const clientRouter = createTRPCRouter({
             difficulty: {
               lte: currentLevel,
             },
+            goal: goal,
           },
         },
         take: 3 * (muscleTarget.front.length + muscleTarget.back.length),
         include: {
           ExerciseExample: true,
           ExerciseMuscleTarget: true,
-          _count: true,
+          Equipment: true,
         },
       });
 
