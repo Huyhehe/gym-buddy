@@ -19,6 +19,9 @@ export type WorkoutReturnType =
 
 export type SingleWorkoutReturnType = RouterOutput["workout"]["getWorkoutByID"];
 
+export type UserWorkoutReturnType =
+  RouterOutput["workout"]["getUserWorkouts"][number];
+
 // ADMIN route
 export type AdminSingleWorkoutReturnType =
   RouterOutput["admin"]["getWorkoutByID"];

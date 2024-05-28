@@ -51,7 +51,7 @@ export const GeneratedExerciseCard = ({ exercise, ...props }: Props) => {
           {exercise.Equipment?.name}
         </Group>
       </Stack>
-      <Group wrap="nowrap" className="ml-auto h-fit w-1/4">
+      <Group wrap="nowrap" className="ml-auto h-fit w-1/4 max-w-[200px]">
         <ToggleFrontMale
           viewMode
           initialDataForViewMode={

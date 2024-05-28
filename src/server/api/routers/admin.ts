@@ -248,6 +248,7 @@ export const adminRouter = createTRPCRouter({
             thumbnail,
             level: Number(level),
             target,
+            isAdminCreated: true,
           },
         });
 

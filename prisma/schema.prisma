@@ -135,6 +135,7 @@ model Workout {
     target              String
     description         String
     thumbnail           String
+    isAdminCreated      Boolean               @default(false)
     exercises           Exercise[]
     WorkoutExerciseStep WorkoutExerciseStep[]
     UserWorkout         UserWorkout[]

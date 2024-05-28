@@ -5,6 +5,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
+import { workoutCreateFormSchema } from "@/app/admin/_schemas";
 
 export const workoutRouter = createTRPCRouter({
   getWorkouts: publicProcedure
@@ -24,6 +25,7 @@ export const workoutRouter = createTRPCRouter({
             contains: search,
             mode: "insensitive",
           },
+          isAdminCreated: true,
         },
         include: {
           WorkoutExerciseStep: {
@@ -169,5 +171,79 @@ export const workoutRouter = createTRPCRouter({
           },
         },
       });
+    }),
+  saveGeneratedWorkout: protectedProcedure
+    .input(workoutCreateFormSchema)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const { title, description, exercises, thumbnail, level, target } =
+          input;
+
+        const workout = await ctx.db.workout.create({
+          data: {
+            title,
+            description,
+            thumbnail,
+            level: Number(level),
+            target,
+          },
+        });
+
+        const workoutExerciseSteps = exercises.map((exercise, index) => ({
+          workoutId: workout.id,
+          exerciseId: exercise,
+          index,
+        }));
+
+        await ctx.db.workoutExerciseStep.createMany({
+          data: workoutExerciseSteps,
+        });
+
+        await ctx.db.userWorkout.create({
+          data: {
+            userId: ctx.session?.user?.id,
+            workoutId: workout.id,
+          },
+        });
+      } catch (error) {
+        throw new Error((error as Error)?.message);
+      }
+    }),
+  getUserWorkouts: protectedProcedure
+    .input(z.string().optional())
+    .query(async ({ ctx }) => {
+      const user = await ctx.db.user.findFirst({
+        where: {
+          id: ctx.session?.user?.id,
+        },
+      });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const userWorkouts = await ctx.db.userWorkout.findMany({
+        where: {
+          userId: user.id,
+        },
+        include: {
+          workout: {
+            include: {
+              WorkoutExerciseStep: {
+                include: {
+                  exercise: {
+                    include: {
+                      ExerciseMuscleTarget: true,
+                      Equipment: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return userWorkouts;
     }),
 });

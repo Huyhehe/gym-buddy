@@ -14,6 +14,10 @@
   .radio-label {
     @apply text-sm font-semibold text-gray-400;
   }
+
+  .my-workout-card-header {
+    @apply bg-gradient-to-r from-[#5a68fd] to-[#5feeff];
+  }
 }
 
 .body-map__muscle {
