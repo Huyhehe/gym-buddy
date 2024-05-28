@@ -40,7 +40,7 @@ import { useState } from "react";
 import { generateInitialExerciseFormValues } from "@/app/admin/_helpers";
 import { Icon } from "@/assets/icons/Icon";
 import { api } from "@/trpc/react";
-import type { ExerciseReturnType } from "@/types";
+import type { ExerciseReturnType, SingleExerciseReturnType } from "@/types";
 import { useRouter } from "next/navigation";
 import {
   exerciseCreateFormSchema,
@@ -99,7 +99,7 @@ const initialMuscleTarget: MuscleTarget = {
 };
 
 type Props = {
-  exerciseFromData?: ExerciseReturnType;
+  exerciseFromData?: SingleExerciseReturnType;
 };
 
 export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {

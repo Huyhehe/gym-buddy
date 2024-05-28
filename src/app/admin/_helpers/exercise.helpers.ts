@@ -1,8 +1,8 @@
 import type { TExerciseFormValues } from "@/app/admin/_schemas";
-import type { ExerciseReturnType } from "@/types";
+import type { SingleExerciseReturnType } from "@/types";
 
 export const generateInitialExerciseFormValues = (
-  exercise: ExerciseReturnType,
+  exercise: SingleExerciseReturnType,
 ): TExerciseFormValues => {
   const {
     ExerciseExample,
@@ -11,7 +11,7 @@ export const generateInitialExerciseFormValues = (
     force,
     difficulty,
     ...rest
-  } = exercise;
+  } = exercise!;
   const steps: TExerciseFormValues["steps"] = ExerciseStep?.map((step) => ({
     key: step.id,
     value: step.description,
@@ -46,6 +46,6 @@ export const generateInitialExerciseFormValues = (
     steps,
     mediaURLs,
     muscleTargets,
-    equipmentId: exercise.equipmentId,
+    equipmentId: exercise!.equipmentId,
   };
 };

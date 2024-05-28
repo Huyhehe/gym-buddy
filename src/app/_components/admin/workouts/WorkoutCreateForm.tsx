@@ -1,9 +1,12 @@
 "use client";
 
+import { WorkoutFormProvider, useWorkoutForm } from "@/app/admin/_context";
 import {
-  type TWorkoutFormValues,
   workoutCreateFormSchema,
+  type TWorkoutFormValues,
 } from "@/app/admin/_schemas";
+import { api } from "@/trpc/react";
+import type { AdminSingleWorkoutReturnType } from "@/types";
 import { levelOptions, targetOptions } from "@/utils";
 import {
   Box,
@@ -17,15 +20,12 @@ import {
   Textarea,
 } from "@mantine/core";
 import { zodResolver } from "@mantine/form";
-import { MediaDropZone } from "../../MediaDropZone";
-import { api } from "@/trpc/react";
-import { ExerciseSelectBoard } from "../exercises/ExerciseSelectBoard";
+import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import Link from "next/link";
-import type { AdminSingleWorkoutReturnType } from "@/types";
-import { WorkoutFormProvider, useWorkoutForm } from "@/app/admin/_context";
 import { useRouter } from "next/navigation";
-import { useDisclosure } from "@mantine/hooks";
+import { MediaDropZone } from "../../MediaDropZone";
+import { ExerciseSelectBoard } from "../exercises/ExerciseSelectBoard";
 
 const initialValues: TWorkoutFormValues = {
   title: "",

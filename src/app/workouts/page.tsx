@@ -5,7 +5,7 @@ const UserViewWorkoutsPage = async () => {
   const workouts = await api.workout.getWorkouts();
 
   return (
-    <div>
+    <div className="p-6">
       <UserViewWorkoutCardContainer workouts={workouts} />
     </div>
   );

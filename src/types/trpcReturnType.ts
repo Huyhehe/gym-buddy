@@ -8,6 +8,8 @@ type RouterInput = inferRouterInputs<AppRouter>;
 export type ExerciseReturnType =
   RouterOutput["exercise"]["getExercises"][number];
 
+export type SingleExerciseReturnType = RouterOutput["admin"]["getExerciseByID"];
+
 export type ExerciseMuscleTargetReturnType =
   RouterOutput["exercise"]["getExercises"][number]["ExerciseMuscleTarget"][number];
 

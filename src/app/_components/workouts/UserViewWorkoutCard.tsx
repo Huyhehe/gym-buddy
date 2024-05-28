@@ -3,16 +3,20 @@
 import { api } from "@/trpc/react";
 import type { WorkoutReturnType } from "@/types";
 import { cn, generateColorDifficultyLevel, generateLevelText } from "@/utils";
-import { Badge, Card, Group, Image, Text } from "@mantine/core";
+import { Badge, Card, Group, Image, Text, type CardProps } from "@mantine/core";
 import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 
-type Props = {
+type Props = CardProps & {
   workout: WorkoutReturnType;
 };
-export const UserViewWorkoutCard = ({ workout }: Props) => {
+export const UserViewWorkoutCard = ({
+  workout,
+  className = "h-full",
+  ...props
+}: Props) => {
   const [isBookmarked, setIsBookmarked] = useState(!!workout.isBookmarked);
   const { mutate: bookMarkWorkout } = api.workout.bookMarkWorkout.useMutation();
 
@@ -31,7 +35,14 @@ export const UserViewWorkoutCard = ({ workout }: Props) => {
   );
 
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder className="h-full">
+    <Card
+      shadow="sm"
+      padding="lg"
+      radius="md"
+      withBorder
+      className={className}
+      {...props}
+    >
       <Card.Section
         className={cn(
           "flex cursor-pointer items-center p-4",
@@ -94,7 +105,7 @@ export const UserViewWorkoutCard = ({ workout }: Props) => {
           src={workout.thumbnail}
           alt={workout.title}
           fit="cover"
-          h={200}
+          className="h-full"
         />
       </Card.Section>
 

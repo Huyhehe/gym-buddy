@@ -1,10 +1,14 @@
 "use client";
 
 import { cn, compareString, sidebarLinks as links } from "@/utils";
-import { Accordion, Burger, Text } from "@mantine/core";
+import { Accordion, Burger, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
-import { IconChevronDown, IconUserCog } from "@tabler/icons-react";
+import {
+  IconBrandArc,
+  IconChevronDown,
+  IconUserCog,
+} from "@tabler/icons-react";
 import type { Session } from "next-auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -42,9 +46,15 @@ export const Sidebar = ({ session }: Props) => {
       className="group sticky top-0 flex w-[90px] flex-col items-stretch gap-5 bg-primary px-2 transition-all duration-300 ease-in-out aria-expanded:w-[280px]"
     >
       <div className="flex w-full items-center justify-center group-aria-expanded:justify-between group-aria-expanded:px-5">
+        <IconBrandArc
+          color="white"
+          className="w-0 group-aria-expanded:w-8 group-aria-expanded:transition-all group-aria-expanded:delay-100 group-aria-expanded:duration-300 group-aria-expanded:ease-in-out"
+        />
+
         <Text className="text-[0px] text-white group-aria-expanded:text-lg group-aria-expanded:transition-all group-aria-expanded:delay-100 group-aria-expanded:duration-300 group-aria-expanded:ease-in-out">
-          Gym buddy
+          Gym Buddy
         </Text>
+
         <Burger
           opened={opened}
           onClick={() => {
@@ -55,7 +65,7 @@ export const Sidebar = ({ session }: Props) => {
           }}
           aria-label="Toggle navigation"
           color="white"
-          className="my-3"
+          className="my-3 group-aria-expanded:ml-auto"
         />
       </div>
 

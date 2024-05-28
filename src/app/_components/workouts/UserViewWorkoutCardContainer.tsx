@@ -1,8 +1,6 @@
 "use client";
 
 import type { WorkoutReturnType } from "@/types";
-import { Button, Grid } from "@mantine/core";
-import { IconPlus } from "@tabler/icons-react";
 import { UserViewWorkoutCard } from "./UserViewWorkoutCard";
 
 type Props = {
@@ -11,14 +9,14 @@ type Props = {
 
 export const UserViewWorkoutCardContainer = ({ workouts }: Props) => {
   return (
-    <div className="space-y-2">
-      <Grid>
-        {workouts.map((workout) => (
-          <Grid.Col key={workout.id} span={{ base: 12, md: 6, lg: 6, xl: 3 }}>
-            <UserViewWorkoutCard workout={workout} />
-          </Grid.Col>
-        ))}
-      </Grid>
+    <div className="grid grid-cols-12 gap-2 @container">
+      {workouts.map((workout) => (
+        <UserViewWorkoutCard
+          key={workout.id}
+          workout={workout}
+          className="col-span-12 h-full @4xl:col-span-6 @6xl:col-span-4 @[110rem]:col-span-3"
+        />
+      ))}
     </div>
   );
 };

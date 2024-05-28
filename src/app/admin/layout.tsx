@@ -7,7 +7,7 @@ const AdminLayout = async ({ children }: PropsWithChildren<object>) => {
     return <div>You do not have permission to access this page!</div>;
   }
 
-  return <div className="p-6">{children}</div>;
+  return <div>{children}</div>;
 };
 
 export default AdminLayout;

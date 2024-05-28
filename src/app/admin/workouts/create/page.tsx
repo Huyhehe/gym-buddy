@@ -2,7 +2,7 @@ import { WorkoutCreateForm } from "@/app/_components/admin/workouts/WorkoutCreat
 
 const CreateWorkoutPage = () => {
   return (
-    <div>
+    <div className="p-6">
       <WorkoutCreateForm />
     </div>
   );

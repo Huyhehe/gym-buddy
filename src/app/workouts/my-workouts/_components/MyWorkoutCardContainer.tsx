@@ -1,32 +1,26 @@
 "use client";
 
 import type { UserWorkoutReturnType } from "@/types";
-import { Grid, Group } from "@mantine/core";
 import { MyWorkoutCard } from "./MyWorkoutCard";
 
 type Props = {
   userWorkouts: UserWorkoutReturnType[];
+  refetch: () => void;
 };
 
-export const MyWorkoutCardContainer = ({ userWorkouts }: Props) => {
+export const MyWorkoutCardContainer = ({ userWorkouts, refetch }: Props) => {
   console.log({ userWorkouts });
   return (
-    <Grid>
+    <div className="@container grid grid-cols-12 gap-4">
       {userWorkouts.map((userWorkout) => {
         return (
-          <Grid.Col
+          <MyWorkoutCard
             key={userWorkout.id}
-            span={{
-              base: 12,
-              md: 6,
-              lg: 4,
-              xl: 3,
-            }}
-          >
-            <MyWorkoutCard userWorkout={userWorkout} />
-          </Grid.Col>
+            userWorkout={userWorkout}
+            refetch={refetch}
+          />
         );
       })}
-    </Grid>
+    </div>
   );
 };

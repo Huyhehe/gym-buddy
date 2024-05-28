@@ -45,7 +45,7 @@ export const MyBreadcrumbs = ({ ...props }: Props) => {
   const path = usePathname();
   const items = useMemo(() => transformPathToArray(path), [path]);
   return (
-    <Breadcrumbs {...props}>
+    <Breadcrumbs className="p-2" {...props}>
       {items.map(({ href, label }) => (
         <Link
           key={href}

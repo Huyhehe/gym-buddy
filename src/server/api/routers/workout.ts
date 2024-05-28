@@ -246,4 +246,48 @@ export const workoutRouter = createTRPCRouter({
 
       return userWorkouts;
     }),
+  removeMyWorkout: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findFirst({
+        where: {
+          id: ctx.session?.user?.id,
+        },
+      });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      const userWorkout = await ctx.db.userWorkout.findFirst({
+        where: {
+          id: input,
+        },
+        include: {
+          workout: {
+            select: {
+              isAdminCreated: true,
+            },
+          },
+        },
+      });
+
+      if (!userWorkout) {
+        throw new Error("User workout not found");
+      }
+
+      await ctx.db.userWorkout.delete({
+        where: {
+          id: input,
+        },
+      });
+
+      if (!userWorkout.workout.isAdminCreated) {
+        await ctx.db.workout.delete({
+          where: {
+            id: userWorkout.workoutId,
+          },
+        });
+      }
+    }),
 });
