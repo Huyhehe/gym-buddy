@@ -1,9 +1,9 @@
 "use client";
 import {
   cn,
+  targetOptions as goalOptions,
   levelOptions,
   mechanicOptions,
-  targetOptions as goalOptions,
   repsUnitOptions,
 } from "@/utils";
 import {
@@ -13,7 +13,6 @@ import {
   Center,
   Grid,
   Group,
-  LoadingOverlay,
   Modal,
   NumberInput,
   Select,
@@ -35,12 +34,14 @@ import {
 
 import { randomId, useDisclosure } from "@mantine/hooks";
 import { zodResolver } from "mantine-form-zod-resolver";
-import { useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import { generateInitialExerciseFormValues } from "@/app/admin/_helpers";
+import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 import { Icon } from "@/assets/icons/Icon";
 import { api } from "@/trpc/react";
-import type { ExerciseReturnType, SingleExerciseReturnType } from "@/types";
+import type { SingleExerciseReturnType } from "@/types";
+import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
 import {
   exerciseCreateFormSchema,
@@ -68,6 +69,7 @@ const initialValues: TExerciseFormValues = {
   goal: "lose-weight",
   force: "",
   equipmentId: "0",
+  caloriesBurned: 100,
   steps: [
     {
       value: "Step 1",
@@ -102,13 +104,23 @@ type Props = {
   exerciseFromData?: SingleExerciseReturnType;
 };
 
+const handleNotification = (isSuccess = false, message: ReactNode) => {
+  notifications.show({
+    title: isSuccess ? "Success" : "Error",
+    message,
+    color: isSuccess ? "green" : "red",
+  });
+};
+
 export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { replace } = useRouter();
+  const { setIsBackdropOpen } = useGlobalContext();
 
-  const { data: equipments } = api.client.getEquipments.useQuery(undefined, {
-    refetchOnWindowFocus: false,
-  });
+  const { data: equipments, isLoading: equipmentsCallLoading } =
+    api.client.getEquipments.useQuery(undefined, {
+      refetchOnWindowFocus: false,
+    });
 
   const [deleteConfirmOpened, { close, open }] = useDisclosure();
   const [mediaURLs, setMediaURLs] = useState<MediaExample>(
@@ -130,19 +142,35 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   const { mutate: createExerciseMutation, isPending: createLoading } =
     api.admin.createExercise.useMutation({
       onSuccess: () => {
+        handleNotification(true, "Exercise created successfully");
         form.reset();
         setMuscleTarget(initialMuscleTarget);
         setMediaURLs(initialValues.mediaURLs);
       },
+      onError: (error) => {
+        handleNotification(false, error.message);
+      },
     });
 
   const { mutate: updateExerciseMutation, isPending: updateLoading } =
-    api.admin.updateExercise.useMutation({});
+    api.admin.updateExercise.useMutation({
+      onSuccess: () => {
+        replace("/admin/exercises");
+        handleNotification(true, "Exercise updated successfully");
+      },
+      onError: (error) => {
+        handleNotification(false, error.message);
+      },
+    });
 
   const { mutate: deleteExerciseMutation, isPending: deleteLoading } =
     api.admin.deleteExercise.useMutation({
       onSuccess: () => {
+        handleNotification(true, "Exercise deleted successfully");
         replace("/admin/exercises");
+      },
+      onError: (error) => {
+        handleNotification(false, error.message);
       },
     });
 
@@ -175,6 +203,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
         back: backMuscleTargets,
       },
     };
+
     !!exerciseFromData
       ? updateExerciseMutation(inputValues)
       : createExerciseMutation(inputValues);
@@ -217,14 +246,15 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
     );
   };
 
+  useEffect(() => {
+    setIsBackdropOpen(
+      createLoading || updateLoading || deleteLoading || equipmentsCallLoading,
+    );
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createLoading, updateLoading, deleteLoading, equipmentsCallLoading]);
+
   return (
-    <Box pos="relative">
-      <LoadingOverlay
-        visible={createLoading || updateLoading || deleteLoading}
-        zIndex={1000}
-        overlayProps={{ radius: "sm", blur: 2 }}
-        loaderProps={{ color: "blue", type: "bars" }}
-      />
+    <Box>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Grid>
           <Grid.Col>
@@ -272,6 +302,18 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
           </Grid.Col>
 
           <Grid.Col span={3}>
+            <NumberInput
+              withAsterisk
+              label="Calories Burned"
+              key={form.key("caloriesBurned")}
+              {...form.getInputProps("caloriesBurned")}
+              min={100}
+              max={1000}
+              decimalScale={0}
+            />
+          </Grid.Col>
+
+          <Grid.Col span={3}>
             <Select
               withAsterisk
               label="Difficulty"
@@ -281,7 +323,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
             />
           </Grid.Col>
 
-          <Grid.Col span={4}>
+          <Grid.Col span={3}>
             <Select
               withAsterisk
               label="Goal"
@@ -291,7 +333,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
             />
           </Grid.Col>
 
-          <Grid.Col span={4}>
+          <Grid.Col span={3}>
             <Select
               withAsterisk
               label="Mechanic"
@@ -301,7 +343,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
             />
           </Grid.Col>
 
-          <Grid.Col span={4}>
+          <Grid.Col span={3}>
             {!!equipments && (
               <Select
                 label="Equipment"

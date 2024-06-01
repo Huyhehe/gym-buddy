@@ -11,6 +11,7 @@ export const exerciseCreateFormSchema = z.object({
   goal: z.string().min(1),
   force: z.string().optional(),
   equipmentId: z.string(),
+  caloriesBurned: z.number().int().min(100),
   steps: z.array(
     z.object({
       value: z.string(),

@@ -105,7 +105,7 @@ export const UserViewWorkoutCard = ({
           src={workout.thumbnail}
           alt={workout.title}
           fit="cover"
-          className="h-full"
+          className="w-full"
         />
       </Card.Section>
 

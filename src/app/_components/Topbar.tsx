@@ -4,6 +4,7 @@ import { Avatar, Menu, rem } from "@mantine/core";
 import { IconLogout, IconUser } from "@tabler/icons-react";
 import { type Session } from "next-auth";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 interface Props {
   session?: Session | null;
@@ -25,7 +26,7 @@ export const Topbar = ({ session }: Props) => {
                   className="rounded-full"
                 />
                 <span className="pointer-events-none">
-                  Hi, <strong>{session?.user?.name}</strong>
+                  Chào, <strong>{session?.user?.name}</strong>
                 </span>
               </div>
             </Menu.Target>
@@ -36,6 +37,8 @@ export const Topbar = ({ session }: Props) => {
                 leftSection={
                   <IconUser style={{ width: rem(14), height: rem(14) }} />
                 }
+                component={Link}
+                href="/profile"
               >
                 Profile
               </Menu.Item>
@@ -44,7 +47,11 @@ export const Topbar = ({ session }: Props) => {
                 leftSection={
                   <IconLogout style={{ width: rem(14), height: rem(14) }} />
                 }
-                onClick={() => signOut()}
+                onClick={() =>
+                  signOut({
+                    callbackUrl: "/",
+                  })
+                }
               >
                 Logout
               </Menu.Item>

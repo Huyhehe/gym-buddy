@@ -6,16 +6,15 @@ const levels = [
   { level: 3, text: "Primary" },
   { level: 2, text: "Secondary" },
   { level: 1, text: "Tertiary" },
-  { level: 0, text: "No effect" },
 ];
 
 export const MuscleAffectLevelContainer = () => {
   return (
-    <Box display="flex" py={16} className="gap-2">
+    <Box display="grid" py={16} className="grid-cols-12 gap-2">
       {levels.map((level) => (
         <div
           key={level.level}
-          className="flex items-center gap-2 rounded-md border px-2"
+          className="col-span-4 flex flex-nowrap items-center gap-2 rounded-md border px-2"
         >
           <div
             className={cn(

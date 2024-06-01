@@ -9,9 +9,8 @@ type Props = {
 };
 
 export const MyWorkoutCardContainer = ({ userWorkouts, refetch }: Props) => {
-  console.log({ userWorkouts });
   return (
-    <div className="@container grid grid-cols-12 gap-4">
+    <div className="grid grid-cols-12 gap-4 @container">
       {userWorkouts.map((userWorkout) => {
         return (
           <MyWorkoutCard

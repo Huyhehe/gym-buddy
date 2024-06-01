@@ -20,6 +20,7 @@ import { useMemo } from "react";
 import NetBg from "@/assets/images/net-bg.jpg";
 import { api } from "@/trpc/react";
 import { notifications } from "@mantine/notifications";
+import Link from "next/link";
 
 type Props = {
   userWorkout: UserWorkoutReturnType;
@@ -138,7 +139,7 @@ export const MyWorkoutCard = ({ userWorkout, refetch }: Props) => {
         <Group justify="space-between" className="relative p-2">
           <div className="absolute top-0 w-full rotate-180 border-b-4 border-white shadow-md" />
           <p className="text-sm">Equipment</p>
-          <Group className="">
+          <Group>
             {equipments.map((equipment) => {
               return (
                 <Icon
@@ -182,19 +183,16 @@ export const MyWorkoutCard = ({ userWorkout, refetch }: Props) => {
                   className="p-4"
                 >
                   <Icon
-                    html={equipment?.icon ?? ""}
-                    className={cn(
-                      "flex items-center transition-all duration-300",
-                      {
-                        "mx-2.5 h-4 w-4": equipment?.name === "Bodyweight",
-                        "mx-1 h-6 w-6": [
-                          "Kettlebells",
-                          "Plate",
-                          "Vitruvian",
-                        ].includes(equipment?.name ?? ""),
-                        "[&_svg]:h-8 [&_svg]:w-8": equipment?.name === "Cardio",
-                      },
-                    )}
+                    html={equipment?.icon}
+                    className={cn("flex items-center", {
+                      "mx-2.5 h-4 w-4": equipment?.name === "Bodyweight",
+                      "mx-1 h-6 w-6": [
+                        "Kettlebells",
+                        "Plate",
+                        "Vitruvian",
+                      ].includes(equipment?.name),
+                      "[&_svg]:h-8 [&_svg]:w-8": equipment?.name === "Cardio",
+                    })}
                   />
                   <span className="text-sm">{equipment.name}</span>
                 </Group>
@@ -202,9 +200,12 @@ export const MyWorkoutCard = ({ userWorkout, refetch }: Props) => {
             })}
           </Group>
         </Collapse>
+        <Link
+          href={`/workouts/my-workouts/training/${userWorkout.id}`}
+        >{`Let's train!`}</Link>
 
         {/* Absolute items */}
-        <div className="absolute -start-20 -top-4 z-[8] flex h-60 w-[110px] rotate-45 border-4 border-white bg-white  drop-shadow-lg duration-300"></div>
+        <div className="absolute -start-20 -top-4 z-[8] flex h-60 w-[110px] rotate-45 border-4 border-white bg-white  drop-shadow-lg duration-300" />
         {userWorkout.workout.isAdminCreated ? (
           <IconBrandArc
             stroke={2}
@@ -231,11 +232,12 @@ export const MyWorkoutCard = ({ userWorkout, refetch }: Props) => {
       >
         <Modal.Header className="flex-col justify-center pt-0">
           <IconXboxX stroke={2} size={102} color="red" />
-          <h2 className="text-2xl font-bold">Are you sure?</h2>
+          <h2 className="text-2xl font-bold">Bạn chắc chưa?</h2>
         </Modal.Header>
         <Modal.Body className="text-center font-medium">
-          <p>Do you really want to delete this workout?</p>
-          <p>This process cannot be undone.</p>
+          <p>Bạn có thật sự muốn xóa chương trình tập này không?</p>
+          <p>Những kết quả tập luyện liên quan có thể bị xóa đi</p>
+          <p>Quá trình này không thể hoàn tác</p>
         </Modal.Body>
 
         <Group justify="center" mt="md">

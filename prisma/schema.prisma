@@ -14,18 +14,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
-
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
@@ -54,16 +42,21 @@ model Session {
 }
 
 model User {
-    id            String        @id @default(cuid())
+    id            String          @id @default(cuid())
     name          String?
-    email         String?       @unique
+    email         String?         @unique
     emailVerified DateTime?
     image         String?
-    isAdmin       Boolean       @default(false)
+    isAdmin       Boolean         @default(false)
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
     UserWorkout   UserWorkout[]
+    trainingGoal  String?
+    caloriesNeed  Int?
+    height        Float?
+    weight        Float?
+    age           Int?
+    WorkoutRecord WorkoutRecord[]
 }
 
 model VerificationToken {
@@ -92,6 +85,7 @@ model Exercise {
     Workout              Workout?               @relation(fields: [workoutId], references: [id])
     workoutId            String?
     WorkoutExerciseStep  WorkoutExerciseStep[]
+    caloriesBurned       Int                    @default(0)
 }
 
 model ExerciseStep {
@@ -151,12 +145,23 @@ model WorkoutExerciseStep {
 }
 
 model UserWorkout {
-    id        String   @id @default(cuid())
-    user      User     @relation(fields: [userId], references: [id])
-    userId    String
-    workout   Workout  @relation(fields: [workoutId], references: [id])
-    workoutId String
-    completed Boolean  @default(false)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id            String          @id @default(cuid())
+    user          User            @relation(fields: [userId], references: [id])
+    userId        String
+    workout       Workout         @relation(fields: [workoutId], references: [id])
+    workoutId     String
+    completed     Boolean         @default(false)
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+    trainingTimes Int             @default(0)
+    WorkoutRecord WorkoutRecord[]
+}
+
+model WorkoutRecord {
+    id            String      @id @default(cuid())
+    user          User        @relation(fields: [userId], references: [id])
+    userId        String
+    userWorkout   UserWorkout @relation(fields: [userWorkoutId], references: [id])
+    userWorkoutId String
+    createdAt     DateTime    @default(now())
 }

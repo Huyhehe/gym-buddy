@@ -91,6 +91,7 @@ export const workoutRouter = createTRPCRouter({
                   ExerciseMuscleTarget: true,
                   ExerciseExample: true,
                   ExerciseStep: true,
+                  Equipment: true,
                 },
               },
             },
@@ -245,6 +246,38 @@ export const workoutRouter = createTRPCRouter({
       });
 
       return userWorkouts;
+    }),
+  getUserWorkoutByID: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      try {
+        const userWorkout = await ctx.db.userWorkout.findFirst({
+          where: {
+            id: input,
+          },
+          include: {
+            workout: {
+              include: {
+                WorkoutExerciseStep: {
+                  include: {
+                    exercise: {
+                      include: {
+                        ExerciseMuscleTarget: true,
+                        ExerciseExample: true,
+                        ExerciseStep: true,
+                        Equipment: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+        return userWorkout;
+      } catch (error) {
+        throw new Error((error as Error)?.message);
+      }
     }),
   removeMyWorkout: protectedProcedure
     .input(z.string())

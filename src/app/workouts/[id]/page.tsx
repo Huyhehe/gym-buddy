@@ -8,7 +8,11 @@ const UserViewWorkoutDetailPage = async ({
 }) => {
   const workout = await api.workout.getWorkoutByID(params.id);
 
-  return <div>{!!workout && <WorkoutDetailContainer workout={workout} />}</div>;
+  return (
+    <div className="p-6">
+      {!!workout && <WorkoutDetailContainer workout={workout} />}
+    </div>
+  );
 };
 
 export default UserViewWorkoutDetailPage;

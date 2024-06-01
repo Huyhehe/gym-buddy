@@ -46,16 +46,11 @@ const WorkoutBuilderPage = () => {
     validate: zodResolver(workoutBuilderSchema),
   });
 
-  console.log(workoutBuilderForm.values);
-
   const handleWorkoutBuilderFormSubmit = (
     values: TWorkoutBuilderFormValues,
   ) => {
-    console.log({ values });
     generateWorkout(values);
   };
-
-  console.log({ data });
 
   const handleRetry = () => {
     workoutBuilderForm.reset();

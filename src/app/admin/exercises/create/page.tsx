@@ -2,7 +2,7 @@ import { ExerciseCreateForm } from "@/app/_components/admin/exercises/ExerciseCr
 
 const ExerciseCreatePage = () => {
   return (
-    <div>
+    <div className="p-6">
       <ExerciseCreateForm />
     </div>
   );

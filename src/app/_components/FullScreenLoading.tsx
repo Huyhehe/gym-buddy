@@ -1,16 +1,21 @@
 "use client";
 
-import { Box, LoadingOverlay } from "@mantine/core";
+import { LoadingOverlay } from "@mantine/core";
+import { IconBrandArc } from "@tabler/icons-react";
 
 export const FullScreenLoading = () => {
   return (
-    <Box className="min-h-[100svh] min-w-full" pos={"relative"}>
-      <LoadingOverlay
-        visible={true}
-        zIndex={1000}
-        overlayProps={{ radius: "sm", blur: 2 }}
-        loaderProps={{ color: "blue", type: "bars" }}
-      />
-    </Box>
+    <LoadingOverlay
+      visible={true}
+      color="#fff"
+      overlayProps={{
+        backgroundOpacity: 0.5,
+        zIndex: 1000,
+        blur: 10,
+      }}
+      loaderProps={{
+        children: <IconBrandArc size={64} className="text-primary" />,
+      }}
+    />
   );
 };

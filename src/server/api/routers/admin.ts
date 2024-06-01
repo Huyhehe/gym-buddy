@@ -20,6 +20,7 @@ export const adminRouter = createTRPCRouter({
         equipmentId,
         goal,
         force,
+        caloriesBurned,
         steps,
         mediaURLs,
         muscleTargets,
@@ -36,6 +37,7 @@ export const adminRouter = createTRPCRouter({
             equipmentId,
             force,
             goal,
+            caloriesBurned,
           },
         });
 
@@ -96,6 +98,7 @@ export const adminRouter = createTRPCRouter({
         mechanic,
         equipmentId,
         force,
+        caloriesBurned,
         steps,
         mediaURLs,
         muscleTargets,
@@ -114,6 +117,7 @@ export const adminRouter = createTRPCRouter({
             mechanic,
             equipmentId,
             force,
+            caloriesBurned,
           },
         });
 
@@ -363,5 +367,36 @@ export const adminRouter = createTRPCRouter({
       } catch (error) {
         throw new Error((error as Error)?.message);
       }
+    }),
+  getAllUsers: protectedProcedure.query(async ({ ctx }) => {
+    const users = await ctx.db.user.findMany({
+      include: {
+        sessions: true,
+      },
+    });
+
+    return users;
+    return users.filter((user) => user.id !== ctx.session.user.id);
+  }),
+  getPagingUsers: protectedProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).nullish(),
+        skip: z.number().nullish(),
+        cursor: z.number().nullish(), // <-- "cursor" needs to exist, but can be any type
+        direction: z.enum(["forward", "backward"]), // optional, useful for bi-directional query
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { cursor, skip, limit } = input;
+
+      const users = await ctx.db.user.findMany({
+        take: limit ?? 10,
+        skip: skip ?? 0,
+        orderBy: {
+          id: input.direction === "forward" ? "asc" : "desc",
+        },
+      });
+      return users;
     }),
 });

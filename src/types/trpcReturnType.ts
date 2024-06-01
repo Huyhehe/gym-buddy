@@ -34,3 +34,9 @@ export type EquipmentReturnType =
 
 export type GeneratedWorkoutReturnType =
   RouterOutput["client"]["generateWorkout"];
+
+// USER route
+export type UserReturnType = RouterOutput["user"]["getUser"];
+
+export type UserWorkoutRecordReturnType =
+  RouterOutput["user"]["getMyWorkoutRecords"][number];

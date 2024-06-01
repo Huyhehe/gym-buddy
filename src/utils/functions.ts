@@ -1,4 +1,7 @@
-import type { ExerciseMuscleTargetReturnType } from "@/types";
+import type {
+  ExerciseMuscleTargetReturnType,
+  UserWorkoutRecordReturnType,
+} from "@/types";
 import groupBy from "lodash/groupBy";
 
 import { clsx, type ClassValue } from "clsx";
@@ -174,4 +177,36 @@ export const getGoalLabel = (goal: string) => {
     default:
       return "All";
   }
+};
+
+export const caloriesBurnedChartDataPreWork = (
+  workoutRecords: UserWorkoutRecordReturnType[],
+) => {
+  const data = workoutRecords.map((record) => {
+    const date = new Date(record.createdAt).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+    const totalCaloriesBurned =
+      record.userWorkout.workout.WorkoutExerciseStep.reduce((acc, step) => {
+        return acc + step.exercise.caloriesBurned;
+      }, 0);
+
+    return {
+      date,
+      totalCaloriesBurned,
+    };
+  });
+
+  const groupedData = groupBy(data, "date");
+  const finalData = Object.entries(groupedData).map(([key, value]) => {
+    return {
+      date: key,
+      totalCaloriesBurned: value.reduce((acc, obj) => {
+        return acc + obj.totalCaloriesBurned;
+      }, 0),
+    };
+  });
+
+  return finalData;
 };

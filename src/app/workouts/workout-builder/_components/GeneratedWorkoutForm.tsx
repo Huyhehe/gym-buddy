@@ -105,20 +105,17 @@ export const GeneratedWorkoutForm = ({
     [form.values.exercises, exercises],
   );
 
-  console.log({
-    values: form.values,
-    exercises,
-    // workoutBuilderFormValues,
-  });
-
   const handleSubmit = (values: TWorkoutFormValues) => {
     saveGeneratedWorkout(values);
   };
 
   return (
-    <div>
+    <div className="@container">
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Stack align="center" className="mx-auto w-2/3 items-stretch">
+        <Stack
+          align="center"
+          className="mx-auto w-full items-stretch @4xl:w-11/12 @5xl:w-2/3"
+        >
           <Group
             className="rounded-md border bg-white px-20 py-6 shadow-md"
             justify="center"
