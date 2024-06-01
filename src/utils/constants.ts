@@ -6,25 +6,25 @@ import type { SelectOption, SidebarLinks } from "@/types";
 
 export const sidebarLinks: SidebarLinks[] = [
   {
-    title: "Home",
+    title: "Trang chủ",
     href: "/",
     icon: HomeIcon,
   },
   {
-    title: "Workouts",
+    title: "Chương trình tập",
     href: "/workouts",
     icon: WorkoutIcon,
     subLinks: [
       {
-        title: "Workouts",
+        title: "Những chương trình tập",
         href: "",
       },
       {
-        title: "My Workouts",
+        title: "Chương trình tập của tôi",
         href: "/my-workouts",
       },
       {
-        title: "Workout Builder",
+        title: "Tự xây dựng chương trình tập",
         href: "/workout-builder",
       },
     ],
@@ -54,20 +54,20 @@ export const sidebarLinks: SidebarLinks[] = [
     ],
   },
   {
-    title: "Admin",
+    title: "Quản lý",
     href: "/admin",
     adminOnly: true,
     subLinks: [
       {
-        title: "Users",
+        title: "Quản lý người dùng",
         href: "/users",
       },
       {
-        title: "Exercises",
+        title: "Quản lý bài tập",
         href: "/exercises",
       },
       {
-        title: "Workouts",
+        title: "Quản lý chương trình tập",
         href: "/workouts",
       },
       {

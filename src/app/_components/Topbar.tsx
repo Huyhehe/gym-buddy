@@ -1,16 +1,20 @@
 "use client";
 
-import { Avatar, Menu, rem } from "@mantine/core";
+import { Avatar, Button, Menu, rem } from "@mantine/core";
 import { IconLogout, IconUser } from "@tabler/icons-react";
 import { type Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { LoginModal } from "./LoginModal";
+import { useDisclosure } from "@mantine/hooks";
 
 interface Props {
   session?: Session | null;
 }
 
 export const Topbar = ({ session }: Props) => {
+  const [loginModalOpened, { close: loginModalClose, open: loginModalOpen }] =
+    useDisclosure();
   return (
     <div className="flex items-center bg-white px-5 py-1">
       <div></div>
@@ -59,11 +63,17 @@ export const Topbar = ({ session }: Props) => {
           </Menu>
         </div>
       ) : (
-        <div>
-          <a href="/api/auth/signin" className="text-blue-500">
-            Sign in
-          </a>
-        </div>
+        <>
+          <Button
+            color="var(--color-primary)"
+            variant="outline"
+            className="ml-auto rounded-lg border-2"
+            onClick={loginModalOpen}
+          >
+            Sign In
+          </Button>
+          <LoginModal isOpen={loginModalOpened} onClose={loginModalClose} />
+        </>
       )}
     </div>
   );

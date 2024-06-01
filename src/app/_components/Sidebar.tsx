@@ -1,7 +1,7 @@
 "use client";
 
 import { cn, compareString, sidebarLinks as links } from "@/utils";
-import { Accordion, Burger, Group, Text } from "@mantine/core";
+import { Accordion, Burger, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
 import {
@@ -130,7 +130,11 @@ export const Sidebar = ({ session }: Props) => {
                     ))}
                   </Accordion.Panel>
                 </Accordion.Item>
-                {!opened && <Text size="xs">{link.title}</Text>}
+                {!opened && (
+                  <Text size="xs" ta="center">
+                    {link.title}
+                  </Text>
+                )}
               </div>
             ) : (
               <Link
