@@ -6,6 +6,7 @@ import groupBy from "lodash/groupBy";
 
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { GOAL_LABEL, LEVEL_LABEL } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,13 +19,26 @@ export const compareString = (a: string, b: string) => {
 export const generateLevelText = (level: number) => {
   switch (level) {
     case 1:
-      return "Beginner";
+      return LEVEL_LABEL.novice;
     case 2:
-      return "Intermediate";
+      return LEVEL_LABEL.beginner;
     case 3:
-      return "Advanced";
+      return LEVEL_LABEL.intermediate;
     default:
-      return "All";
+      return LEVEL_LABEL.advanced;
+  }
+};
+
+export const generateRepUnitText = (unit: string) => {
+  switch (unit) {
+    case "rep":
+      return "lần";
+    case "second":
+      return "giây";
+    case "minute":
+      return "phút";
+    default:
+      return "";
   }
 };
 
@@ -58,6 +72,7 @@ export const generateColorDifficultyLevel = (
 
 export const combineMuscleAffection = (
   muscleTargets: ExerciseMuscleTargetReturnType[],
+  isUnlimited = false,
 ) => {
   const finalMuscleTargets: ExerciseMuscleTargetReturnType[] = [];
   const muscleTargetsGroupObject = groupBy(muscleTargets, "name");
@@ -70,7 +85,7 @@ export const combineMuscleAffection = (
       };
     });
 
-    if (muscleTarget.affectLevel > 3) {
+    if (muscleTarget.affectLevel > 3 && !isUnlimited) {
       muscleTarget.affectLevel = 3;
     }
 
@@ -105,6 +120,74 @@ export const generateMuscleState = (
     front,
     back,
   };
+};
+
+type GenerateMuscleTargetForChartArgs = {
+  muscleObject: Record<string, number>;
+  isFront?: boolean;
+};
+type GenerateMuscleTargetForChartReturnValue = {
+  muscle: string;
+  value: number;
+}[];
+
+export const generateMuscleTargetForChart = ({
+  muscleObject,
+  isFront = false,
+}: GenerateMuscleTargetForChartArgs): GenerateMuscleTargetForChartReturnValue => {
+  const initialFrontMaleState = {
+    abdominals: 0,
+    obliques: 0,
+    forearms: 0,
+    biceps: 0,
+    shoulders: 0,
+    traps: 0,
+    chest: 0,
+    quads: 0,
+    calves: 0,
+  };
+  const initialBackMaleState = {
+    hamstrings: 0,
+    lowerback: 0,
+    glutes: 0,
+    lats: 0,
+    "traps-middle": 0,
+    traps: 0,
+    "rear-shoulders": 0,
+    calves: 0,
+    triceps: 0,
+    forearms: 0,
+  };
+
+  const returnMuscleObject = [];
+
+  if (isFront) {
+    const frontMuscleObject = {
+      ...initialFrontMaleState,
+      ...muscleObject,
+    };
+    for (const [key, value] of Object.entries(frontMuscleObject)) {
+      returnMuscleObject.push({
+        muscle: key,
+        value,
+      });
+    }
+
+    return returnMuscleObject;
+  }
+
+  const backMuscleObject = {
+    ...initialBackMaleState,
+    ...muscleObject,
+  };
+  for (const [key, value] of Object.entries(backMuscleObject)) {
+    returnMuscleObject.push({
+      muscle: key,
+      value,
+    });
+  }
+
+  return returnMuscleObject;
 };
 
 type CalculateCaloriesNeededPerDayArgs = {
@@ -169,13 +252,13 @@ export const calculateMacros = ({
 export const getGoalLabel = (goal: string) => {
   switch (goal) {
     case "lose-weight":
-      return "Lose Weight";
+      return GOAL_LABEL.loseWeight;
     case "gain-strength":
-      return "Gain Strength";
+      return GOAL_LABEL.gainStrength;
     case "gain-muscle":
-      return "Gain Muscle";
+      return GOAL_LABEL.gainMuscle;
     default:
-      return "All";
+      return "Tất cả";
   }
 };
 
@@ -183,7 +266,7 @@ export const caloriesBurnedChartDataPreWork = (
   workoutRecords: UserWorkoutRecordReturnType[],
 ) => {
   const data = workoutRecords.map((record) => {
-    const date = new Date(record.createdAt).toLocaleDateString("en-US", {
+    const date = new Date(record.createdAt).toLocaleDateString("vi-VN", {
       month: "short",
       day: "numeric",
     });

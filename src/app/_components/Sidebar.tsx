@@ -45,7 +45,7 @@ export const Sidebar = ({ session }: Props) => {
       aria-expanded={opened}
       className="group sticky top-0 flex w-[90px] flex-col items-stretch gap-5 bg-primary px-2 transition-all duration-300 ease-in-out aria-expanded:w-[280px]"
     >
-      <div className="flex w-full items-center justify-center group-aria-expanded:justify-between group-aria-expanded:px-5">
+      <div className="flex w-full items-center justify-center group-aria-expanded:justify-between group-aria-expanded:px-2.5">
         <IconBrandArc
           color="white"
           className="w-0 group-aria-expanded:w-8 group-aria-expanded:transition-all group-aria-expanded:delay-100 group-aria-expanded:duration-300 group-aria-expanded:ease-in-out"

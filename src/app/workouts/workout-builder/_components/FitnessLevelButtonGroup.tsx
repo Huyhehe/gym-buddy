@@ -9,19 +9,19 @@ type TFitnessLevel = {
 
 const fitnessLevels: TFitnessLevel[] = [
   {
-    label: "Novice",
+    label: "Chưa tập bao giờ",
     value: 1,
   },
   {
-    label: "Beginner",
+    label: "Mới tập gần đây",
     value: 2,
   },
   {
-    label: "Intermediate",
+    label: "Đã tập khá lâu",
     value: 3,
   },
   {
-    label: "Advanced",
+    label: "Nhiều kinh nghiệm tập luyện",
     value: 4,
   },
 ];
@@ -30,7 +30,7 @@ export const FitnessLevelButtonGroup = () => {
   return (
     <>
       <h1 className="text-3xl font-bold uppercase text-primary">
-        {"how familiar with gym you are?"}
+        {"việc tập gym đối với bạn như thế nào?"}
       </h1>
       <Stack className="box-content gap-4 px-[20%]">
         {fitnessLevels.map((fitnessLevel) => (

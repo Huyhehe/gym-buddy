@@ -9,7 +9,7 @@ export const GoalButtonGroup = () => {
   return (
     <>
       <h1 className="text-3xl font-bold uppercase text-primary">
-        {"YOUR FITNESS GOAL?"}
+        {"mục tiêu tập luyện của bạn là gì?"}
       </h1>
       <Stack className="box-content gap-4 px-[20%]">
         {goalOptions.map((goal) => (

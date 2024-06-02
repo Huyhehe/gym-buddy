@@ -1,18 +1,64 @@
+import { subDays } from "date-fns";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 
 export const userRouter = createTRPCRouter({
   getUser: protectedProcedure.query(async ({ ctx }) => {
+    const thirtyDaysAgo = subDays(new Date(), 30);
+
     const user = await ctx.db.user.findFirst({
       where: {
         id: ctx.session?.user?.id,
+      },
+      include: {
+        WorkoutRecord: {
+          where: {
+            createdAt: {
+              gte: thirtyDaysAgo,
+            },
+          },
+          include: {
+            userWorkout: {
+              include: {
+                workout: {
+                  include: {
+                    WorkoutExerciseStep: {
+                      include: {
+                        exercise: {
+                          include: {
+                            ExerciseMuscleTarget: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
     if (!user) {
       throw new Error("User not found");
     }
 
-    return user;
+    const { WorkoutRecord, ...restUser } = user;
+
+    const trainedExercises = WorkoutRecord.map((workoutRecord) => {
+      return workoutRecord.userWorkout.workout.WorkoutExerciseStep;
+    }).flat();
+
+    const muscleTargets = trainedExercises
+      .map((trainedExercise) => trainedExercise.exercise.ExerciseMuscleTarget)
+      .flat();
+
+    const returnedUser = {
+      ...restUser,
+      muscleTargets,
+    };
+
+    return returnedUser;
   }),
   saveWorkoutRecord: protectedProcedure
     .input(z.string())

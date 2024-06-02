@@ -135,7 +135,7 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
         <form className="space-y-2" onSubmit={form.onSubmit(handleSubmit)}>
           <TextInput
             withAsterisk
-            label="Workout name"
+            label="Tên chương trình tập"
             placeholder="The 1st Dumbbell Workout"
             key={form.key("title")}
             {...form.getInputProps("title")}
@@ -143,7 +143,7 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
 
           <Select
             withAsterisk
-            label="Level"
+            label="Độ khó"
             data={levelOptions}
             key={form.key("level")}
             {...form.getInputProps("level")}
@@ -151,7 +151,7 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
 
           <Select
             withAsterisk
-            label="Target"
+            label="Mục tiêu"
             data={targetOptions}
             key={form.key("target")}
             {...form.getInputProps("target")}
@@ -159,7 +159,7 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
 
           <Textarea
             className="grow"
-            label="Description"
+            label="Mô tả"
             placeholder="This workout is designed to..."
             key={form.key("description")}
             {...form.getInputProps("description")}
@@ -176,7 +176,7 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
               }
               form.setFieldValue("thumbnail", thumbnail[0] ?? "");
             }}
-            title="Drop thumbnail media here"
+            title="Kéo thả ảnh bìa vào đây"
           />
 
           {!!exercises && (

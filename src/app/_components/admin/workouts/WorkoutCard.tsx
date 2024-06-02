@@ -1,7 +1,12 @@
 "use client";
 
 import type { WorkoutReturnType } from "@/types";
-import { cn, generateColorDifficultyLevel, generateLevelText } from "@/utils";
+import {
+  cn,
+  generateColorDifficultyLevel,
+  generateLevelText,
+  getGoalLabel,
+} from "@/utils";
 import { Badge, Button, Card, Group, Image, Text } from "@mantine/core";
 
 type Props = {
@@ -38,7 +43,7 @@ export const WorkoutCard = ({ workout }: Props) => {
               generateColorDifficultyLevel(workout.level, true),
             )}
           >
-            {workout.target}
+            {getGoalLabel(workout.target)}
           </Badge>
         </Group>
         <Image
@@ -50,9 +55,6 @@ export const WorkoutCard = ({ workout }: Props) => {
       </Card.Section>
 
       <Group gap={16}>
-        <Text size="sm" c="dimmed" className="capitalize">
-          {workout.target}
-        </Text>
         <Text size="sm" c="dimmed" className="mb-2 line-clamp-4 w-full">
           {workout.description || "No description"}
         </Text>
@@ -66,7 +68,7 @@ export const WorkoutCard = ({ workout }: Props) => {
         component="a"
         href={`/admin/workouts/edit/${workout.id}`}
       >
-        Edit Workout
+        Chỉnh sửa
       </Button>
     </Card>
   );

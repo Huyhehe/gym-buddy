@@ -2,7 +2,12 @@ import { ToggleBackMale } from "@/app/_components/MuscleSkeleton/ToggleBackMale"
 import { ToggleFrontMale } from "@/app/_components/MuscleSkeleton/ToggleFrontMale";
 import { Icon } from "@/assets/icons/Icon";
 import type { GeneratedWorkoutReturnType } from "@/types";
-import { cn, generateLevelText, generateMuscleState } from "@/utils";
+import {
+  cn,
+  generateLevelText,
+  generateMuscleState,
+  generateRepUnitText,
+} from "@/utils";
 import { Center, Group, Stack, type GroupProps } from "@mantine/core";
 import { IconArrowsSort } from "@tabler/icons-react";
 
@@ -33,9 +38,9 @@ export const GeneratedExerciseCard = ({ exercise, ...props }: Props) => {
         <h2 className="text-xl font-semibold text-gray-600">
           {generateLevelText(exercise.difficulty)}
         </h2>
-        <h2 className="text-xl font-semibold capitalize">
+        <h2 className="text-xl font-semibold">
           {exercise.sets} x {exercise.reps}{" "}
-          {`${exercise.repsUnit}${exercise.reps > 1 ? "s" : ""}`}
+          {generateRepUnitText(exercise.repsUnit)}
         </h2>
         <Group align="center" className="text-lg font-semibold text-gray-400">
           <Icon

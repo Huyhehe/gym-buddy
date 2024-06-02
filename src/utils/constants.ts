@@ -35,21 +35,17 @@ export const sidebarLinks: SidebarLinks[] = [
     icon: RoutinesIcon,
   },
   {
-    title: "Tools",
+    title: "Công cụ",
     href: "/tools",
     icon: ToolsIcon,
     subLinks: [
       {
-        title: "Calorie Calculator",
+        title: "Máy tính Calorie",
         href: "/calorie-calculator",
       },
       {
-        title: "Macro Calculator",
+        title: "Máy tính Macro",
         href: "/macro-calculator",
-      },
-      {
-        title: "One Rep Max Calculator",
-        href: "/one-rep-max-calculator",
       },
     ],
   },
@@ -70,42 +66,56 @@ export const sidebarLinks: SidebarLinks[] = [
         title: "Quản lý chương trình tập",
         href: "/workouts",
       },
-      {
-        title: "Routines",
-        href: "/routines",
-      },
     ],
   },
 ];
 
+export const LEVEL_LABEL = {
+  novice: "Rất dễ",
+  beginner: "Dễ",
+  intermediate: "Trung bình",
+  advanced: "Khó",
+};
+
+export const GENDER_LABEL = {
+  male: "Nam",
+  female: "Nữ",
+};
+
+export const GOAL_LABEL = {
+  loseWeight: "Giảm cân",
+  gainStrength: "Tăng sức mạnh",
+  gainMuscle: "Tăng cơ bắp",
+};
+
 export const repsUnitOptions: SelectOption[] = [
-  { label: "Rep(s)", value: "rep" },
-  { label: "Second(s)", value: "second" },
-  { label: "Minute(s)", value: "minute" },
+  { label: "Số lần", value: "rep" },
+  { label: "Số giây", value: "second" },
+  { label: "Số phút", value: "minute" },
 ];
 export const mechanicOptions: SelectOption[] = [
-  { label: "Compound", value: "compound" },
-  { label: "Isolation", value: "isolation" },
+  { label: "Đa khớp", value: "compound" },
+  { label: "Cô lập", value: "isolation" },
 ];
 
 export const levelOptions: SelectOption[] = [
-  { label: "Novice", value: "1" },
-  { label: "Beginner", value: "2" },
-  { label: "Intermediate", value: "3" },
-  { label: "Advanced", value: "4" },
+  { label: LEVEL_LABEL.novice, value: "1" },
+  { label: LEVEL_LABEL.beginner, value: "2" },
+  { label: LEVEL_LABEL.intermediate, value: "3" },
+  { label: LEVEL_LABEL.advanced, value: "4" },
 ];
 
 export const targetOptions: SelectOption[] = [
   {
-    label: "Lose Weight",
+    label: GOAL_LABEL.loseWeight,
     value: "lose-weight",
   },
   {
-    label: "Gain Strength",
+    label: GOAL_LABEL.gainStrength,
     value: "gain-strength",
   },
   {
-    label: "Gain Muscle",
+    label: GOAL_LABEL.gainMuscle,
     value: "gain-muscle",
   },
 ];

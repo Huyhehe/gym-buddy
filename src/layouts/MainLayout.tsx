@@ -25,16 +25,16 @@ export default async function MainLayout({
 }: PropsWithChildren<object>) {
   const session = await getServerAuthSession();
   return (
-    <div className="flex min-h-svh">
-      <div className="relative min-h-svh bg-primary">
-        <Sidebar session={session} />
-      </div>
-      <div className="grow bg-[#e7ecef]">
-        <Topbar session={session} />
-        <GlobalContextProvider>
+    <GlobalContextProvider>
+      <div className="flex min-h-svh">
+        <div className="relative min-h-svh bg-primary">
+          <Sidebar session={session} />
+        </div>
+        <div className="grow bg-[#e7ecef]">
+          <Topbar session={session} />
           <FunctionalLayout>{children}</FunctionalLayout>
-        </GlobalContextProvider>
+        </div>
       </div>
-    </div>
+    </GlobalContextProvider>
   );
 }

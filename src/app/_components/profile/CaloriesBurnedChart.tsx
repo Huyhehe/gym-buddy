@@ -65,7 +65,7 @@ export const CaloriesBurnedChart = () => {
             {
               name: "totalCaloriesBurned",
               color: "blue.6",
-              label: "Calories burned",
+              label: "Calories đã đốt cháy",
             },
           ]}
         />

@@ -32,6 +32,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useRef } from "react";
 import type { TWorkoutBuilderFormValues } from "../_schemas";
 import { GeneratedExerciseCard } from "./GeneratedExerciseCard";
+import { useGlobalContext } from "../_context/global-context";
 
 type Props = {
   exercises: GeneratedWorkoutReturnType;
@@ -62,6 +63,7 @@ export const GeneratedWorkoutForm = ({
   exercises,
   workoutBuilderFormValues,
 }: Props) => {
+  const { loginModalOpen } = useGlobalContext();
   const [isEditingName, { open, close }] = useDisclosure();
   const router = useRouter();
 
@@ -69,15 +71,28 @@ export const GeneratedWorkoutForm = ({
     api.workout.saveGeneratedWorkout.useMutation({
       onError: (error) => {
         notifications.show({
-          title: "Error",
-          message: error.message,
+          title: "Lỗi",
+          message: (
+            <div>
+              <span>{error.message}</span>
+              <div>
+                <span
+                  className="mr-1 cursor-pointer text-primary underline"
+                  onClick={loginModalOpen}
+                >
+                  Đăng nhập
+                </span>
+                <span>để lưu chương trình tập này</span>
+              </div>
+            </div>
+          ),
           color: "red",
         });
       },
       onSuccess: () => {
         notifications.show({
           title: "Success",
-          message: <>Saved workout successfully!</>,
+          message: "Đã lưu chương trình tập thành công!",
           color: "green",
         });
         router.push("/workouts/my-workouts");
@@ -185,24 +200,24 @@ export const GeneratedWorkoutForm = ({
                 }
               />
             </Group>
-            <span className="text-gray-400">Fatigue Gradient</span>
+            <span className="text-gray-400">Độ mỏi của cơ</span>
             <div className="h-1 w-2/3 rounded-full bg-gradient-to-r from-white from-5% via-yellow-200 via-45% to-red-600" />
           </Stack>
           <Group className="justify-evenly rounded-lg bg-white p-4 shadow-md">
             <InfoCard
-              title="Level"
+              title="Độ khó"
               subtitle={generateLevelText(
                 workoutBuilderFormValues.currentLevel,
               )}
               icon={<IconBolt size={52} className="text-primary" />}
             />
             <InfoCard
-              title="Exercises"
+              title="Số bài tập"
               subtitle={exercises.length.toString()}
               icon={<IconStack size={52} className="text-primary" />}
             />
             <InfoCard
-              title="Goal"
+              title="Mục tiêu"
               subtitle={getGoalLabel(workoutBuilderFormValues.goal)}
               icon={<IconAward size={52} className="text-primary" />}
             />
@@ -250,7 +265,7 @@ export const GeneratedWorkoutForm = ({
             type="submit"
             className="box-content w-1/2 self-center bg-primary p-4 text-2xl"
           >
-            Save Workout!
+            Lưu chương trình này!
           </Button>
         </Stack>
       </form>

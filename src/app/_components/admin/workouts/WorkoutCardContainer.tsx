@@ -17,7 +17,8 @@ export const WorkoutCardContainer = ({ workouts }: Props) => {
         href="/admin/workouts/create"
         className="bg-primary"
       >
-        Create Workout <IconPlus size={16} stroke={2} className="ml-1" />
+        Tạo mới chương trình tập{" "}
+        <IconPlus size={16} stroke={2} className="ml-1" />
       </Button>
 
       <Grid>

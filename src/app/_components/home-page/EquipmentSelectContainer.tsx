@@ -23,6 +23,7 @@ export const EquipmentSelectContainer = ({
       onChange={(e) => {
         onChange?.(e);
       }}
+      className="py-5"
     >
       <Grid className="gap-2">
         {equipments?.map((equipment) => (

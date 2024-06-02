@@ -6,15 +6,16 @@ import { type Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { LoginModal } from "./LoginModal";
-import { useDisclosure } from "@mantine/hooks";
+import { useGlobalContext } from "../workouts/workout-builder/_context/global-context";
 
 interface Props {
   session?: Session | null;
 }
 
 export const Topbar = ({ session }: Props) => {
-  const [loginModalOpened, { close: loginModalClose, open: loginModalOpen }] =
-    useDisclosure();
+  const { loginModalOpened, loginModalOpen, loginModalClose } =
+    useGlobalContext();
+
   return (
     <div className="flex items-center bg-white px-5 py-1">
       <div></div>
@@ -44,7 +45,7 @@ export const Topbar = ({ session }: Props) => {
                 component={Link}
                 href="/profile"
               >
-                Profile
+                Hồ sơ cá nhân
               </Menu.Item>
               <Menu.Item
                 color="red"
@@ -57,7 +58,7 @@ export const Topbar = ({ session }: Props) => {
                   })
                 }
               >
-                Logout
+                Đăng xuất
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>

@@ -8,10 +8,12 @@ type Props = {
 const getBadgeColor = (level: number) => {
   switch (level) {
     case 1:
-      return "green";
+      return "blue";
     case 2:
-      return "orange";
+      return "green";
     case 3:
+      return "orange";
+    case 4:
       return "pink";
   }
 };

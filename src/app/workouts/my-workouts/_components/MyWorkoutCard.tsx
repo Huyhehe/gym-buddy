@@ -121,7 +121,7 @@ export const MyWorkoutCard = ({ userWorkout, refetch }: Props) => {
             />
           </Group>
           <Stack className="z-10 w-1/2" gap={0} align="center">
-            <span className="text-gray-400">Fatigue Gradient</span>
+            <span className="text-gray-400">Độ mỏi của cơ</span>
             <div className="h-1 w-full rounded-full bg-gradient-to-r from-white from-5% via-yellow-200 via-45% to-red-600" />
           </Stack>
           <div
@@ -138,7 +138,7 @@ export const MyWorkoutCard = ({ userWorkout, refetch }: Props) => {
         </Stack>
         <Group justify="space-between" className="relative p-2">
           <div className="absolute top-0 w-full rotate-180 border-b-4 border-white shadow-md" />
-          <p className="text-sm">Equipment</p>
+          <p className="text-sm">Công cụ</p>
           <Group>
             {equipments.map((equipment) => {
               return (
@@ -202,7 +202,8 @@ export const MyWorkoutCard = ({ userWorkout, refetch }: Props) => {
         </Collapse>
         <Link
           href={`/workouts/my-workouts/training/${userWorkout.id}`}
-        >{`Let's train!`}</Link>
+          className="p-2 font-bold text-primary underline"
+        >{`Tập luyện!`}</Link>
 
         {/* Absolute items */}
         <div className="absolute -start-20 -top-4 z-[8] flex h-60 w-[110px] rotate-45 border-4 border-white bg-white  drop-shadow-lg duration-300" />
@@ -242,7 +243,7 @@ export const MyWorkoutCard = ({ userWorkout, refetch }: Props) => {
 
         <Group justify="center" mt="md">
           <Button onClick={deleteConfirmClose} disabled={isPending}>
-            Cancel
+            Hủy
           </Button>
           <Button
             className="bg-red-700"
@@ -255,7 +256,7 @@ export const MyWorkoutCard = ({ userWorkout, refetch }: Props) => {
               removeMyWorkout(userWorkout?.id);
             }}
           >
-            Delete
+            Xóa
             {!!isPending && <Loader color="white" size={14} className="ml-2" />}
           </Button>
         </Group>

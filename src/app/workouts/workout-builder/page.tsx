@@ -63,50 +63,55 @@ const WorkoutBuilderPage = () => {
 
   return (
     <WorkoutBuilderFormProvider form={workoutBuilderForm}>
-      {!data && (
-        <form
-          onSubmit={workoutBuilderForm.onSubmit(handleWorkoutBuilderFormSubmit)}
-        >
-          <Stepper
-            active={workoutBuilderForm.values.currentStep}
-            onStepClick={(step) =>
-              workoutBuilderForm.setFieldValue("currentStep", step)
-            }
-            color="var(--color-primary)"
+      <div className="p-6">
+        {!data && (
+          <form
+            onSubmit={workoutBuilderForm.onSubmit(
+              handleWorkoutBuilderFormSubmit,
+            )}
           >
-            <Stepper.Step label="Gender" allowStepSelect>
-              <GenderButtonGroup />
-            </Stepper.Step>
-            <Stepper.Step label="Birth" allowStepSelect>
-              <AgeSelector />
-            </Stepper.Step>
-            <Stepper.Step label="Your goal" allowStepSelect>
-              <GoalButtonGroup />
-            </Stepper.Step>
-            <Stepper.Step label="Current level" allowStepSelect>
-              <FitnessLevelButtonGroup />
-            </Stepper.Step>
-            <Stepper.Step label="Muscle target" allowStepSelect>
-              <MuscleTarget />
-            </Stepper.Step>
+            <Stepper
+              active={workoutBuilderForm.values.currentStep}
+              onStepClick={(step) =>
+                workoutBuilderForm.setFieldValue("currentStep", step)
+              }
+              color="var(--color-primary)"
+            >
+              <Stepper.Step label="Giới tính" allowStepSelect>
+                <GenderButtonGroup />
+              </Stepper.Step>
+              <Stepper.Step label="Tuổi tác" allowStepSelect>
+                <AgeSelector />
+              </Stepper.Step>
+              <Stepper.Step label="Mục tiêu" allowStepSelect>
+                <GoalButtonGroup />
+              </Stepper.Step>
+              <Stepper.Step label="Cấp độ" allowStepSelect>
+                <FitnessLevelButtonGroup />
+              </Stepper.Step>
+              <Stepper.Step label="Nhóm cơ" allowStepSelect>
+                <MuscleTarget />
+              </Stepper.Step>
 
-            <Stepper.Completed>
-              <CompleteStepPage generate={handleGenerate} />
-            </Stepper.Completed>
-          </Stepper>
-        </form>
-      )}
-      {!!data?.length && (
-        <GeneratedWorkoutForm
-          exercises={data}
-          workoutBuilderFormValues={workoutBuilderForm.values}
-        />
-      )}
-      {!!data && !data.length && (
-        <div>
-          no data, wanna try again? <Button onClick={handleRetry}>reset</Button>
-        </div>
-      )}
+              <Stepper.Completed>
+                <CompleteStepPage generate={handleGenerate} />
+              </Stepper.Completed>
+            </Stepper>
+          </form>
+        )}
+        {!!data?.length && (
+          <GeneratedWorkoutForm
+            exercises={data}
+            workoutBuilderFormValues={workoutBuilderForm.values}
+          />
+        )}
+        {!!data && !data.length && (
+          <div>
+            no data, wanna try again?{" "}
+            <Button onClick={handleRetry}>reset</Button>
+          </div>
+        )}
+      </div>
     </WorkoutBuilderFormProvider>
   );
 };

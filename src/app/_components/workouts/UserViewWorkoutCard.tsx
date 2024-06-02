@@ -2,7 +2,12 @@
 
 import { api } from "@/trpc/react";
 import type { WorkoutReturnType } from "@/types";
-import { cn, generateColorDifficultyLevel, generateLevelText } from "@/utils";
+import {
+  cn,
+  generateColorDifficultyLevel,
+  generateLevelText,
+  getGoalLabel,
+} from "@/utils";
 import { Badge, Card, Group, Image, Text, type CardProps } from "@mantine/core";
 import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 import { debounce } from "lodash";
@@ -98,7 +103,7 @@ export const UserViewWorkoutCard = ({
               generateColorDifficultyLevel(workout.level, true),
             )}
           >
-            {workout.target}
+            {getGoalLabel(workout.target)}
           </Badge>
         </Group>
         <Image
@@ -110,9 +115,6 @@ export const UserViewWorkoutCard = ({
       </Card.Section>
 
       <Group gap={16}>
-        <Text size="sm" c="dimmed" className="capitalize">
-          {workout.target}
-        </Text>
         <Text size="sm" c="dimmed" className="mb-2 line-clamp-4 w-full">
           {workout.description || "No description"}
         </Text>

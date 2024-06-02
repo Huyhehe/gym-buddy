@@ -17,7 +17,7 @@ export const MuscleTarget = () => {
   return (
     <>
       <h1 className="text-3xl font-bold uppercase text-primary">
-        {"WHAT DO YOU WANT TO WORKOUT?"}
+        {"bạn muốn tập nhóm cơ nào?"}
       </h1>
       <Stack align="center">
         <Select className="self-start" />
@@ -74,7 +74,7 @@ export const MuscleTarget = () => {
           type="submit"
           onClick={() => setFieldValue("currentStep", values.currentStep + 1)}
         >
-          Generate Workout
+          Tạo chương trình tập
         </Button>
       </Stack>
     </>

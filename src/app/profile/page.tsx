@@ -1,7 +1,16 @@
 import { api } from "@/trpc/server";
+import {
+  combineMuscleAffection,
+  generateMuscleState,
+  generateMuscleTargetForChart,
+} from "@/utils";
+import { Stack } from "@mantine/core";
+import { ToggleBackMale } from "../_components/MuscleSkeleton/ToggleBackMale";
+import { ToggleFrontMale } from "../_components/MuscleSkeleton/ToggleFrontMale";
+import { CaloriesBurnedChart } from "../_components/profile/CaloriesBurnedChart";
+import { MuscleFocusRadarChart } from "../_components/profile/MuscleFocusRadarChart";
 import { ProfileHeader } from "../_components/profile/ProfileHeader";
 import { ProfileInfoForm } from "../_components/profile/ProfileInfoForm";
-import { CaloriesBurnedChart } from "../_components/profile/CaloriesBurnedChart";
 
 const ProfilePage = async () => {
   const userInfo = await api.user.getUser();
@@ -18,7 +27,47 @@ const ProfilePage = async () => {
           <ProfileInfoForm userInfo={userInfo} />
           <CaloriesBurnedChart />
         </div>
-        <div className="basis-1/3">a</div>
+        <Stack gap={0} className="h-fit w-1/3 rounded-xl bg-white p-4">
+          <div className="grid grid-cols-2">
+            <div className="col-span-1 flex">
+              <ToggleFrontMale
+                viewMode
+                initialDataForViewMode={
+                  generateMuscleState(
+                    combineMuscleAffection(userInfo.muscleTargets),
+                  ).front
+                }
+              />
+            </div>
+            <div className="col-span-1 flex">
+              <ToggleBackMale
+                viewMode
+                initialDataForViewMode={
+                  generateMuscleState(
+                    combineMuscleAffection(userInfo.muscleTargets),
+                  ).back
+                }
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-2">
+            <MuscleFocusRadarChart
+              data={generateMuscleTargetForChart({
+                muscleObject: generateMuscleState(
+                  combineMuscleAffection(userInfo.muscleTargets, true),
+                ).front,
+                isFront: true,
+              })}
+            />
+            <MuscleFocusRadarChart
+              data={generateMuscleTargetForChart({
+                muscleObject: generateMuscleState(
+                  combineMuscleAffection(userInfo.muscleTargets, true),
+                ).back,
+              })}
+            />
+          </div>
+        </Stack>
       </div>
     </div>
   );

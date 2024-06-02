@@ -3,21 +3,22 @@
 import { cn } from "@/utils";
 import { Group, Switch, rem } from "@mantine/core";
 import { IconGenderFemme, IconGenderMale } from "@tabler/icons-react";
-import { useState } from "react";
+
+import { useGlobalContext } from "../workouts/workout-builder/_context/global-context";
 
 export const GenderToggler = () => {
-  const [isFemale, setIsFemale] = useState(false);
+  const { isMale, toggleGender } = useGlobalContext();
   return (
     <Group align="center">
       <span>Male</span>
       <Switch
-        checked={isFemale}
-        onChange={(e) => setIsFemale(e.target.checked)}
+        checked={!isMale}
+        onChange={toggleGender}
         size="md"
         color="pink"
         classNames={{
-          track: cn("border-2 border-white bg-primary", {
-            "bg-pink": isFemale,
+          track: cn("border-2 border-white bg-primary cursor-pointer", {
+            "bg-pink": !isMale,
           }),
         }}
         offLabel={

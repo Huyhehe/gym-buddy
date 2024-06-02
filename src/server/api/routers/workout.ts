@@ -177,6 +177,9 @@ export const workoutRouter = createTRPCRouter({
     .input(workoutCreateFormSchema)
     .mutation(async ({ ctx, input }) => {
       try {
+        if (!ctx.session.user.id) {
+          throw new Error("User not found!");
+        }
         const { title, description, exercises, thumbnail, level, target } =
           input;
 

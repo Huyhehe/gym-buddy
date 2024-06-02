@@ -9,11 +9,11 @@ export const AgeSelector = () => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold uppercase text-primary">Age</h1>
+      <h1 className="text-3xl font-bold uppercase text-primary">Tuổi tác</h1>
       <div className="justify-center px-[20%]">
         <div className="space-y-6 border bg-white p-10 shadow-md">
           <Group>
-            <h1 className="text-3xl font-bold">Age</h1>
+            <h1 className="text-3xl font-bold">Tuổi</h1>
             <NumberInput
               min={13}
               max={100}
@@ -36,14 +36,14 @@ export const AgeSelector = () => {
             className="box-content px-8 py-1 text-xl"
             onClick={() => setFieldValue("currentStep", values.currentStep - 1)}
           >
-            Back
+            Quay lại
           </Button>
           <Button
             color="var(--color-primary)"
             className="box-content px-8 py-1 text-xl"
             onClick={() => setFieldValue("currentStep", values.currentStep + 1)}
           >
-            Next
+            Tiếp theo
           </Button>
         </Group>
       </div>

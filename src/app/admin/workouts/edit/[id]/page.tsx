@@ -4,7 +4,9 @@ import { api } from "@/trpc/server";
 const WorkoutEditPage = async ({ params }: { params: { id: string } }) => {
   const workout = await api.admin.getWorkoutByID(params.id);
   return (
-    <div>{!!workout && <WorkoutCreateForm workoutFromData={workout} />}</div>
+    <div className="p-6">
+      {!!workout && <WorkoutCreateForm workoutFromData={workout} />}
+    </div>
   );
 };
 

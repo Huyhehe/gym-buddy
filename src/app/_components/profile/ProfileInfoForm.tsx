@@ -20,13 +20,13 @@ export const ProfileInfoForm = ({ userInfo }: Props) => {
   });
   return (
     <div className="rounded-xl bg-white p-8">
-      <h1 className="mb-8 text-2xl font-bold">Profile Setting</h1>
+      <h1 className="mb-8 text-2xl font-bold">Hồ sơ thông tin</h1>
       <form>
         <div className="grid grid-cols-12 gap-4 gap-y-8">
           <NumberInput
             label={
               <Text size="md" fw="bold">
-                Age
+                Tuổi
               </Text>
             }
             className="col-span-6"
@@ -41,7 +41,7 @@ export const ProfileInfoForm = ({ userInfo }: Props) => {
           <NumberInput
             label={
               <Text size="md" fw="bold">
-                Calories Need
+                Calories cần thiết
               </Text>
             }
             className="col-span-6"
@@ -56,7 +56,7 @@ export const ProfileInfoForm = ({ userInfo }: Props) => {
           <NumberInput
             label={
               <Text size="md" fw="bold">
-                Weight
+                Cân nặng
               </Text>
             }
             className="col-span-6"
@@ -71,7 +71,7 @@ export const ProfileInfoForm = ({ userInfo }: Props) => {
           <NumberInput
             label={
               <Text size="md" fw="bold">
-                Height
+                Chiều cao
               </Text>
             }
             className="col-span-6"

@@ -1,13 +1,14 @@
 "use client";
 import { Button, Stack } from "@mantine/core";
 import { useWorkoutBuilderFormContext } from "../_context";
+import { GENDER_LABEL } from "@/utils";
 
 export const GenderButtonGroup = () => {
   const { values, setFieldValue } = useWorkoutBuilderFormContext();
   return (
     <>
       <h1 className="text-3xl font-bold uppercase text-primary">
-        {"Let's get started"}
+        {"giới tính của bạn là gì?"}
       </h1>
       <Stack className="box-content gap-4 px-[20%]">
         <Button
@@ -19,7 +20,7 @@ export const GenderButtonGroup = () => {
             setFieldValue("currentStep", values.currentStep + 1);
           }}
         >
-          Male
+          {GENDER_LABEL.male}
         </Button>
         <Button
           aria-checked={!values.gender}
@@ -30,7 +31,7 @@ export const GenderButtonGroup = () => {
             setFieldValue("currentStep", values.currentStep + 1);
           }}
         >
-          Female
+          {GENDER_LABEL.female}
         </Button>
       </Stack>
     </>
