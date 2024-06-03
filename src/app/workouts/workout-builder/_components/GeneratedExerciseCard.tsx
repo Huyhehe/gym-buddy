@@ -10,12 +10,22 @@ import {
 } from "@/utils";
 import { Center, Group, Stack, type GroupProps } from "@mantine/core";
 import { IconArrowsSort } from "@tabler/icons-react";
+import { useMemo } from "react";
 
 type Props = GroupProps & {
   exercise: GeneratedWorkoutReturnType[number];
+  female?: boolean;
 };
 
-export const GeneratedExerciseCard = ({ exercise, ...props }: Props) => {
+export const GeneratedExerciseCard = ({
+  exercise,
+  female = false,
+  ...props
+}: Props) => {
+  const media = useMemo(() => {
+    return exercise.ExerciseExample.find((ex) => ex.gender === !female);
+  }, [exercise.ExerciseExample, female]);
+
   return (
     <Group
       className="w-full items-stretch rounded-lg bg-gray-50 p-2 shadow-md"
@@ -26,7 +36,7 @@ export const GeneratedExerciseCard = ({ exercise, ...props }: Props) => {
         <IconArrowsSort className="text-gray-300" />
       </Center>
       <video
-        src={exercise.ExerciseExample[0]?.mediaURL}
+        src={media?.mediaURL}
         width={300}
         className="rounded-lg"
         autoPlay
@@ -62,12 +72,14 @@ export const GeneratedExerciseCard = ({ exercise, ...props }: Props) => {
           initialDataForViewMode={
             generateMuscleState(exercise.ExerciseMuscleTarget ?? []).front
           }
+          female={female}
         />
         <ToggleBackMale
           viewMode
           initialDataForViewMode={
             generateMuscleState(exercise.ExerciseMuscleTarget ?? []).back
           }
+          female={female}
         />
       </Group>
     </Group>

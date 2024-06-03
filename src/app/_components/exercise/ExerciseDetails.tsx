@@ -1,13 +1,20 @@
 "use client";
 
+import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 import type { ExerciseReturnType } from "@/types";
 import { Grid, Group, Stack } from "@mantine/core";
+import { useMemo } from "react";
 
 type Props = {
   exercise: ExerciseReturnType;
 };
 
 export const ExerciseDetails = ({ exercise }: Props) => {
+  const { isMale } = useGlobalContext();
+  const medias = useMemo(() => {
+    return exercise.ExerciseExample.filter((ex) => ex.gender === isMale);
+  }, [exercise.ExerciseExample, isMale]);
+
   return (
     <Stack gap={2} className="mb-8 rounded-lg bg-white">
       <Stack gap={0} className="overflow-hidden rounded-t-lg">
@@ -15,20 +22,17 @@ export const ExerciseDetails = ({ exercise }: Props) => {
           {exercise?.name}
         </h1>
         <Grid>
-          {exercise?.ExerciseExample?.map(
-            (example) =>
-              example.gender && (
-                <Grid.Col span={6} key={example?.id}>
-                  <video
-                    src={example?.mediaURL ?? ""}
-                    className="w-full rounded-b-lg object-cover"
-                    autoPlay
-                    loop
-                    muted
-                  />
-                </Grid.Col>
-              ),
-          )}
+          {medias.map((example) => (
+            <Grid.Col span={6} key={example?.id}>
+              <video
+                src={example?.mediaURL ?? ""}
+                className="w-full rounded-b-lg object-cover"
+                autoPlay
+                loop
+                muted
+              />
+            </Grid.Col>
+          ))}
         </Grid>
       </Stack>
 

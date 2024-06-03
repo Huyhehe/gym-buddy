@@ -11,7 +11,11 @@ import {
 import { Button, Group, Select, Stack } from "@mantine/core";
 import { useWorkoutBuilderFormContext } from "../_context";
 
-export const MuscleTarget = () => {
+type Props = {
+  female?: boolean;
+};
+
+export const MuscleTarget = ({ female = false }: Props) => {
   const { values, setFieldValue } = useWorkoutBuilderFormContext();
 
   return (
@@ -43,6 +47,7 @@ export const MuscleTarget = () => {
 
               setFieldValue("muscleTarget.front", muscleTargets);
             }}
+            female={female}
           />
 
           <SingleToggleBackMale
@@ -66,6 +71,7 @@ export const MuscleTarget = () => {
 
               setFieldValue("muscleTarget.back", muscleTargets);
             }}
+            female={female}
           />
         </Group>
         <Button

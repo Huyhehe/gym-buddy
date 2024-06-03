@@ -1,6 +1,7 @@
 import { subDays } from "date-fns";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
+import { profileFormSchema } from "@/app/profile/_schemas";
 
 export const userRouter = createTRPCRouter({
   getUser: protectedProcedure.query(async ({ ctx }) => {
@@ -98,4 +99,22 @@ export const userRouter = createTRPCRouter({
       },
     });
   }),
+  updatePersonalInfo: protectedProcedure
+    .input(profileFormSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { age, caloriesNeed, height, weight } = input;
+      const currentUserId = ctx.session.user.id;
+
+      await ctx.db.user.update({
+        where: {
+          id: currentUserId,
+        },
+        data: {
+          age,
+          caloriesNeed,
+          height,
+          weight,
+        },
+      });
+    }),
 });

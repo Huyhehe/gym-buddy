@@ -1,7 +1,7 @@
 "use client";
 
-import { Avatar, Button, Menu, rem } from "@mantine/core";
-import { IconLogout, IconUser } from "@tabler/icons-react";
+import { Avatar, Button, Menu, Text, rem } from "@mantine/core";
+import { IconBrandArc, IconLogout, IconUser } from "@tabler/icons-react";
 import { type Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -18,7 +18,13 @@ export const Topbar = ({ session }: Props) => {
 
   return (
     <div className="flex items-center bg-white px-5 py-1">
-      <div></div>
+      <div className="flex items-center">
+        <IconBrandArc color="var(--color-primary)" className="w-8" />
+
+        <Text className="text-lg font-bold uppercase text-primary">
+          Gym Buddy
+        </Text>
+      </div>
       {!!session ? (
         <div className="ml-auto">
           <Menu shadow="md" width={200}>

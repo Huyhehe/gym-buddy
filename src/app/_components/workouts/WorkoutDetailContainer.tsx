@@ -232,7 +232,11 @@ export const WorkoutDetailContainer = ({
           </Card>
           {isTraining && (
             <>
-              <Button disabled={progress !== 100} onClick={openFinishModal}>
+              <Button
+                disabled={progress !== 100}
+                onClick={openFinishModal}
+                color="var(--color-primary)"
+              >
                 Finish
               </Button>
               <Modal

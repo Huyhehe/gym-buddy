@@ -3,7 +3,6 @@
 import { useDisclosure } from "@mantine/hooks";
 import type { Dispatch, PropsWithChildren, SetStateAction } from "react";
 import { createContext, useContext, useState } from "react";
-import { boolean } from "zod";
 
 type TGlobalContext = {
   isBackdropOpen: boolean;

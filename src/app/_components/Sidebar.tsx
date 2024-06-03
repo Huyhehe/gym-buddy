@@ -51,7 +51,7 @@ export const Sidebar = ({ session }: Props) => {
           className="w-0 group-aria-expanded:w-8 group-aria-expanded:transition-all group-aria-expanded:delay-100 group-aria-expanded:duration-300 group-aria-expanded:ease-in-out"
         />
 
-        <Text className="text-[0px] text-white group-aria-expanded:text-lg group-aria-expanded:transition-all group-aria-expanded:delay-100 group-aria-expanded:duration-300 group-aria-expanded:ease-in-out">
+        <Text className="text-[0px] font-bold uppercase text-white group-aria-expanded:text-lg group-aria-expanded:transition-all group-aria-expanded:delay-100 group-aria-expanded:duration-300 group-aria-expanded:ease-in-out">
           Gym Buddy
         </Text>
 

@@ -90,7 +90,7 @@ const WorkoutBuilderPage = () => {
                 <FitnessLevelButtonGroup />
               </Stepper.Step>
               <Stepper.Step label="Nhóm cơ" allowStepSelect>
-                <MuscleTarget />
+                <MuscleTarget female={!workoutBuilderForm.values.gender} />
               </Stepper.Step>
 
               <Stepper.Completed>

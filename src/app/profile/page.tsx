@@ -24,10 +24,13 @@ const ProfilePage = async () => {
             name={userInfo.name ?? ""}
             email={userInfo.email ?? ""}
           />
-          <ProfileInfoForm userInfo={userInfo} />
+          <ProfileInfoForm burh={userInfo} />
           <CaloriesBurnedChart />
         </div>
         <Stack gap={0} className="h-fit w-1/3 rounded-xl bg-white p-4">
+          <span className="mb-2 text-sm font-semibold text-gray-500">
+            Các nhóm cơ bạn đã tập trong 30 ngày gần nhất
+          </span>
           <div className="grid grid-cols-2">
             <div className="col-span-1 flex">
               <ToggleFrontMale
