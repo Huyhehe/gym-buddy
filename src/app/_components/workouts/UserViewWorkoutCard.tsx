@@ -7,8 +7,18 @@ import {
   generateColorDifficultyLevel,
   generateLevelText,
   getGoalLabel,
+  showNoti,
 } from "@/utils";
-import { Badge, Card, Group, Image, Text, type CardProps } from "@mantine/core";
+import {
+  Badge,
+  Card,
+  Group,
+  Image,
+  Text,
+  Tooltip,
+  type CardProps,
+} from "@mantine/core";
+
 import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
@@ -16,14 +26,30 @@ import { useCallback, useState } from "react";
 
 type Props = CardProps & {
   workout: WorkoutReturnType;
+  refetchWorkout: () => void;
 };
 export const UserViewWorkoutCard = ({
   workout,
   className = "h-full",
+  refetchWorkout,
   ...props
 }: Props) => {
-  const [isBookmarked, setIsBookmarked] = useState(!!workout.isBookmarked);
-  const { mutate: bookMarkWorkout } = api.workout.bookMarkWorkout.useMutation();
+  const [isBookmarked, setIsBookmarked] = useState(
+    workout.isBookmarked ?? false,
+  );
+  const { mutate: bookMarkWorkout } = api.workout.bookMarkWorkout.useMutation({
+    onSuccess: () => {
+      showNoti({ message: "Lưu chương trình tập thành công" });
+      refetchWorkout();
+    },
+    onError: () => {
+      showNoti({
+        status: "error",
+        message: "Lưu chương trình tập không thành công",
+      });
+      setIsBookmarked(false);
+    },
+  });
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { push } = useRouter();
@@ -32,12 +58,12 @@ export const UserViewWorkoutCard = ({
     push(`/workouts/${workout.id}`);
   };
 
-  const handleBookmarkClick = useCallback(
-    debounce((isBookmarked: boolean) => {
-      bookMarkWorkout({ workoutId: workout.id, isBookmarked });
-    }, 500),
-    [],
-  );
+  const handleBookmarkClick = (isBookmarked: boolean) => {
+    bookMarkWorkout({
+      workoutId: workout.id,
+      isBookmarked,
+    });
+  };
 
   return (
     <Card
@@ -59,14 +85,11 @@ export const UserViewWorkoutCard = ({
           {workout.title}
         </Text>
         {isBookmarked ? (
-          <IconBookmarkFilled
-            className="cursor-pointer text-white transition-all hover:scale-125"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsBookmarked(false);
-              handleBookmarkClick(false);
-            }}
-          />
+          <Tooltip
+            label={`Để hủy lưu, vui lòng xóa chương trình trong "Chương trình tập của tôi"`}
+          >
+            <IconBookmarkFilled className="text-white" />
+          </Tooltip>
         ) : (
           <IconBookmark
             className="cursor-pointer text-white transition-all hover:scale-125"

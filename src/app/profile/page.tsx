@@ -24,7 +24,7 @@ const ProfilePage = async () => {
             name={userInfo.name ?? ""}
             email={userInfo.email ?? ""}
           />
-          <ProfileInfoForm burh={userInfo} />
+          <ProfileInfoForm userInfo={userInfo} />
           <CaloriesBurnedChart />
         </div>
         <Stack gap={0} className="h-fit w-1/3 rounded-xl bg-white p-4">

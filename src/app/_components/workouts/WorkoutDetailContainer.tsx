@@ -25,6 +25,8 @@ import Image from "next/image";
 import { api } from "@/trpc/react";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
+import { GenderToggler } from "../GenderToggler";
+import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 
 type WorkoutExerciseStep =
   | NonNullable<
@@ -48,6 +50,8 @@ export const WorkoutDetailContainer = ({
     finishModalOpened,
     { open: openFinishModal, close: closeFinishModal },
   ] = useDisclosure(false);
+
+  const { isMale } = useGlobalContext();
 
   const router = useRouter();
   const { mutate: saveWorkoutRecord, isPending: saveWorkoutRecordLoading } =
@@ -121,7 +125,7 @@ export const WorkoutDetailContainer = ({
             <Grid>
               {currentExerciseStep?.exercise?.ExerciseExample?.map(
                 (example) =>
-                  example.gender && (
+                  example.gender === isMale && (
                     <Grid.Col span={6} key={example?.id}>
                       <video
                         src={example?.mediaURL ?? ""}
@@ -155,7 +159,7 @@ export const WorkoutDetailContainer = ({
         <Stack className="w-[24rem] shrink-0">
           <Card className="w-full rounded-lg bg-white">
             <Card.Section className="bg-primary p-4 text-white">
-              abc
+              <GenderToggler />
             </Card.Section>
             <div
               className="flex w-full justify-center py-4"
@@ -168,6 +172,7 @@ export const WorkoutDetailContainer = ({
                     currentExerciseStep?.exercise.ExerciseMuscleTarget ?? [],
                   ).front
                 }
+                female={!isMale}
               />
               <ToggleBackMale
                 viewMode
@@ -176,6 +181,7 @@ export const WorkoutDetailContainer = ({
                     currentExerciseStep?.exercise.ExerciseMuscleTarget ?? [],
                   ).back
                 }
+                female={!isMale}
               />
             </div>
             <Group gap={0}>

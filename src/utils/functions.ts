@@ -7,6 +7,8 @@ import groupBy from "lodash/groupBy";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { GOAL_LABEL, LEVEL_LABEL } from "./constants";
+import { notifications } from "@mantine/notifications";
+import { ReactNode } from "react";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -292,4 +294,24 @@ export const caloriesBurnedChartDataPreWork = (
   });
 
   return finalData;
+};
+
+type TShowNotification = {
+  title?: ReactNode;
+  message?: ReactNode;
+  status?: "success" | "error";
+};
+export const showNoti = ({
+  title,
+  message,
+  status = "success",
+}: TShowNotification) => {
+  const isSuccess = status === "success";
+  const baseTitle = isSuccess ? "Thành công" : "Không thành công";
+  const baseMessage = isSuccess ? "Thành công" : "Không thành công";
+  notifications.show({
+    title: title ?? baseTitle,
+    message: message ?? baseMessage,
+    color: isSuccess ? "green" : "red",
+  });
 };

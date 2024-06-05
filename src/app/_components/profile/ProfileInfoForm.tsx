@@ -6,21 +6,22 @@ import {
 } from "@/app/profile/_schemas";
 import { api } from "@/trpc/react";
 import type { UserReturnType } from "@/types";
-import { Button, Group, NumberInput, Text } from "@mantine/core";
+import { Button, Group, Loader, NumberInput, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 import { IconPencilMinus } from "@tabler/icons-react";
 import { zodResolver } from "mantine-form-zod-resolver";
 
 type Props = {
-  burh: NonNullable<UserReturnType>;
+  userInfo: NonNullable<UserReturnType>;
 };
 
-export const ProfileInfoForm = ({ burh }: Props) => {
+export const ProfileInfoForm = ({ userInfo }: Props) => {
   const [isEditing, { open: onEdit, close: offEdit }] = useDisclosure();
-  const { data: userInfo } = api.user.getUser.useQuery();
 
   const form = useForm<TProfileFormSchema>({
+    mode: "uncontrolled",
     initialValues: {
       age: userInfo?.age ?? 0,
       caloriesNeed: userInfo?.caloriesNeed ?? 1200,
@@ -30,8 +31,27 @@ export const ProfileInfoForm = ({ burh }: Props) => {
     validate: zodResolver(profileFormSchema),
   });
 
+  const { mutate: updatePersonalInfo, isPending } =
+    api.user.updatePersonalInfo.useMutation({
+      onSuccess: () => {
+        notifications.show({
+          title: "Success",
+          message: "Update profile successfully",
+          color: "green",
+        });
+        form.reset();
+      },
+      onError: () => {
+        notifications.show({
+          title: "Error",
+          message: "Failed to update profile",
+          color: "red",
+        });
+      },
+    });
+
   const handleSubmit = (values: TProfileFormSchema) => {
-    console.log({ values });
+    updatePersonalInfo(values);
   };
   return (
     <div className="rounded-xl bg-white p-8">
@@ -115,6 +135,7 @@ export const ProfileInfoForm = ({ burh }: Props) => {
             <Group className="col-span-12 justify-end" gap={8}>
               <Button
                 color="gray"
+                disabled={isPending}
                 onClick={() => {
                   offEdit();
                   form.reset();
@@ -122,8 +143,15 @@ export const ProfileInfoForm = ({ burh }: Props) => {
               >
                 Cancel
               </Button>
-              <Button color="var(--color-primary)" type="submit">
+              <Button
+                color="var(--color-primary)"
+                type="submit"
+                disabled={isPending}
+              >
                 Save
+                {isPending && (
+                  <Loader size={14} className="ml-1" color="white" />
+                )}
               </Button>
             </Group>
           )}

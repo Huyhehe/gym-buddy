@@ -1,12 +1,11 @@
-import { api } from "@/trpc/server";
+"use client";
+
 import { UserViewWorkoutCardContainer } from "../_components/workouts/UserViewWorkoutCardContainer";
 
-const UserViewWorkoutsPage = async () => {
-  const workouts = await api.workout.getWorkouts();
-
+const UserViewWorkoutsPage = () => {
   return (
     <div className="p-6">
-      <UserViewWorkoutCardContainer workouts={workouts} />
+      <UserViewWorkoutCardContainer />
     </div>
   );
 };
