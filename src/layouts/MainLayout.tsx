@@ -6,6 +6,7 @@ import { getServerAuthSession } from "@/server/auth";
 import type { PropsWithChildren } from "react";
 import FunctionalLayout from "./FunctionalLayout";
 import { GlobalContextProvider } from "@/app/workouts/workout-builder/_context/global-context";
+import { api } from "@/trpc/server";
 
 // const letTailwindKnow = [
 //   "bg-green-500",
@@ -24,8 +25,17 @@ export default async function MainLayout({
   children,
 }: PropsWithChildren<object>) {
   const session = await getServerAuthSession();
+  const userInfo = await api.user.getUser();
+
   return (
-    <GlobalContextProvider>
+    <GlobalContextProvider
+      userInfo={{
+        caloriesNeed: userInfo.caloriesNeed,
+        age: userInfo.age,
+        height: userInfo.height,
+        weight: userInfo.weight,
+      }}
+    >
       <div className="flex min-h-svh">
         <div className="relative min-h-svh bg-primary">
           <Sidebar session={session} />

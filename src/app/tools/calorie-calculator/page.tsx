@@ -11,6 +11,7 @@ import { useForm } from "@mantine/form";
 import { debounce } from "lodash";
 import { useCallback, useEffect } from "react";
 import { useCalorieStorage } from "../_hooks/useCalorieStorage";
+import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 
 const initialValues = {
   age: 18,
@@ -21,14 +22,17 @@ const initialValues = {
 };
 
 const CalorieCalculatorPage = () => {
-  const { setCaloriesNeed } = useCalorieStorage();
+  const { setUserInfo } = useGlobalContext();
   const form = useForm({
     initialValues,
   });
 
   const updateCaloriesNeed = useCallback(
     debounce((caloriesNeed: number) => {
-      setCaloriesNeed(caloriesNeed);
+      setUserInfo((prev) => ({
+        ...prev,
+        caloriesNeed,
+      }));
     }, 200),
     [],
   );

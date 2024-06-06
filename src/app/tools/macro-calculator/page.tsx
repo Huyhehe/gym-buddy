@@ -1,5 +1,6 @@
 "use client";
 
+import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 import { calculateMacros } from "@/utils";
 import {
   Button,
@@ -13,15 +14,14 @@ import {
 import { useForm } from "@mantine/form";
 import Link from "next/link";
 import { useMemo } from "react";
-import { useCalorieStorage } from "../_hooks/useCalorieStorage";
 
 const MacroCalculatorPage = () => {
-  const { getCaloriesNeed } = useCalorieStorage();
+  const { userInfo } = useGlobalContext();
 
   const form = useForm({
     initialValues: {
       unit: "60/25/15",
-      calories: getCaloriesNeed() ?? 2024,
+      calories: userInfo?.caloriesNeed ?? 2024,
       mealPerDay: 1,
     },
   });

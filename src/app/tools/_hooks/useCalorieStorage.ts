@@ -10,6 +10,7 @@ export const useCalorieStorage = () => {
     if (typeof window !== "undefined") {
       return Number(localStorage.getItem("caloriesNeed"));
     }
+    return null;
   };
 
   return {
