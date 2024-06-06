@@ -22,6 +22,7 @@ declare module "next-auth" {
     user: {
       id: string;
       isAdmin: boolean;
+      isBlocked?: boolean;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];

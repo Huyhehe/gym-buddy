@@ -375,8 +375,7 @@ export const adminRouter = createTRPCRouter({
       },
     });
 
-    return users;
-    return users.filter((user) => user.id !== ctx.session.user.id);
+    return users.filter((user) => user.id !== ctx.session.user.id).reverse();
   }),
   getPagingUsers: protectedProcedure
     .input(
@@ -398,5 +397,24 @@ export const adminRouter = createTRPCRouter({
         },
       });
       return users;
+    }),
+  toggleBlockUser: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        isBlocked: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId, isBlocked } = input;
+
+      await ctx.db.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          isBlocked,
+        },
+      });
     }),
 });

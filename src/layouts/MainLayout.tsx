@@ -25,15 +25,20 @@ export default async function MainLayout({
   children,
 }: PropsWithChildren<object>) {
   const session = await getServerAuthSession();
-  const userInfo = await api.user.getUser();
+
+  let userInfo;
+
+  if (session?.user) {
+    userInfo = await api.user.getUser();
+  }
 
   return (
     <GlobalContextProvider
       userInfo={{
-        caloriesNeed: userInfo.caloriesNeed,
-        age: userInfo.age,
-        height: userInfo.height,
-        weight: userInfo.weight,
+        caloriesNeed: userInfo?.caloriesNeed,
+        age: userInfo?.age,
+        height: userInfo?.height,
+        weight: userInfo?.weight,
       }}
     >
       <div className="flex min-h-svh">

@@ -72,7 +72,7 @@ export const MyWorkoutCard = ({ userWorkout, refetch }: Props) => {
     <>
       <Stack
         gap={0}
-        className="group relative col-span-12 overflow-hidden rounded-lg bg-white shadow-sm transition-all @4xl:col-span-6 @6xl:col-span-4"
+        className="group relative col-span-12 overflow-hidden rounded-lg bg-white shadow-sm transition-all @4xl:col-span-6 @6xl:col-span-4 @[1280px]:col-span-3"
       >
         <Group
           className="my-workout-card-header relative p-2"

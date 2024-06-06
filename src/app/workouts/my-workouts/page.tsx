@@ -1,33 +1,10 @@
-"use client";
-
-import { api } from "@/trpc/react";
+import { getServerAuthSession } from "@/server/auth";
 import { MyWorkoutCardContainer } from "./_components/MyWorkoutCardContainer";
-import { useGlobalContext } from "../workout-builder/_context/global-context";
-import { useEffect } from "react";
 
-const MyWorkoutPage = () => {
-  const { setIsBackdropOpen } = useGlobalContext();
-  const {
-    data: userWorkouts = [],
-    refetch,
-    isLoading,
-  } = api.workout.getUserWorkouts.useQuery();
-
-  useEffect(() => {
-    setIsBackdropOpen(isLoading);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading]);
-
-  const handleRefetchUserWorkout = () => {
-    void refetch();
-  };
-
+const MyWorkoutPage = async () => {
   return (
     <div className="p-6">
-      <MyWorkoutCardContainer
-        userWorkouts={userWorkouts}
-        refetch={handleRefetchUserWorkout}
-      />
+      <MyWorkoutCardContainer />
     </div>
   );
 };

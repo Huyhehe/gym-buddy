@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const Sidebar = ({ session }: Props) => {
-  const [opened, { toggle, open }] = useDisclosure();
+  const [opened, { toggle, open }] = useDisclosure(true);
   const [accordionValue, setAccordionValue] = useState<string[]>([]);
 
   const pathname = usePathname();

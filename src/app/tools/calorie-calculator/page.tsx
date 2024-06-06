@@ -1,5 +1,6 @@
 "use client";
 
+import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 import {
   calculateCaloriesNeededPerDay,
   workoutFrequencyOptions,
@@ -10,8 +11,6 @@ import { Group, Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { debounce } from "lodash";
 import { useCallback, useEffect } from "react";
-import { useCalorieStorage } from "../_hooks/useCalorieStorage";
-import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 
 const initialValues = {
   age: 18,
@@ -53,24 +52,24 @@ const CalorieCalculatorPage = () => {
     <div className="p-28">
       <div className="text-center">
         <h1 className="py-5 text-5xl font-bold text-primary">
-          Calorie Calculator
+          Máy tính Calorie
         </h1>
         <p>
-          The Calorie Calculator can be used to estimate the calories you need
-          to consume each day.
+          Máy tính calo có thể được sử dụng để ước tính lượng calo bạn cần tiêu
+          thụ mỗi ngày.
         </p>
         <p>
-          This calculator can also provide some simple guidelines if you want to
-          gain or lose weight.
+          Máy tính này cũng có thể cung cấp một số hướng dẫn đơn giản nếu bạn
+          muốn tăng hoặc giảm cân.
         </p>
         <p>
-          This calculator uses the Revised Harris-Benedict equation to calculate
-          your calorie needs.
+          Máy tính này sử dụng phương trình Harris-Benedict đã sửa đổi để tính
+          toán nhu cầu calo của bạn.
         </p>
       </div>
       <Group className="justify-center gap-4 py-10">
         <CircularSlider
-          label="Age"
+          label="Tuổi"
           progressSize={24}
           trackSize={24}
           min={1}
@@ -80,7 +79,7 @@ const CalorieCalculatorPage = () => {
           {...form.getInputProps("age")}
         />
         <CircularSlider
-          label="Weight(kg)"
+          label="Cân nặng(kg)"
           progressSize={24}
           trackSize={24}
           min={1}
@@ -90,7 +89,7 @@ const CalorieCalculatorPage = () => {
           {...form.getInputProps("weight")}
         />
         <CircularSlider
-          label="Height(cm)"
+          label="Chiều cao(cm)"
           progressSize={24}
           trackSize={24}
           min={1}
@@ -118,8 +117,8 @@ const CalorieCalculatorPage = () => {
       </Group>
 
       <div className="py-2 text-center text-xl">
-        You would have to consume{" "}
-        <span>
+        Bạn phải nạp vào mỗi ngày{" "}
+        <span className="font-bold">
           {calculateCaloriesNeededPerDay({
             age: form.values.age,
             height: form.values.height,
@@ -128,7 +127,8 @@ const CalorieCalculatorPage = () => {
             workoutTarget: Number(form.values.workoutTarget),
             gender: true,
           }).toFixed()}
-        </span>
+        </span>{" "}
+        Kcal
       </div>
     </div>
   );

@@ -1,26 +1,54 @@
 "use client";
 
-import { Button, Stepper } from "@mantine/core";
+import { Button, Stack, Stepper } from "@mantine/core";
 import { AgeSelector } from "./_components/AgeSelector";
 import { FitnessLevelButtonGroup } from "./_components/FitnessLevelButtonGroup";
 import { GenderButtonGroup } from "./_components/GenderButtonGroup";
 import { GoalButtonGroup } from "./_components/GoalButtonGroup";
-import { WorkoutBuilderFormProvider, useWorkoutBuilderForm } from "./_context";
+import {
+  WorkoutBuilderFormProvider,
+  useWorkoutBuilderForm,
+  useWorkoutBuilderFormContext,
+} from "./_context";
 
+import { api } from "@/trpc/react";
+import {
+  IconBarbell,
+  IconBolt,
+  IconCake,
+  IconGenderBigender,
+  IconTargetArrow,
+} from "@tabler/icons-react";
 import { zodResolver } from "mantine-form-zod-resolver";
+import { useEffect } from "react";
+import { GeneratedWorkoutForm } from "./_components/GeneratedWorkoutForm";
 import { MuscleTarget } from "./_components/MuscleTarget";
 import {
   workoutBuilderSchema,
   type TWorkoutBuilderFormValues,
 } from "./_schemas";
-import { api } from "@/trpc/react";
-import { useEffect } from "react";
-import { GeneratedWorkoutForm } from "./_components/GeneratedWorkoutForm";
 
 const CompleteStepPage = ({ generate }: { generate: () => void }) => {
+  const { errors, setFieldValue } = useWorkoutBuilderFormContext();
+  const notDoneYet = !!Object.keys(errors).length;
+
   useEffect(() => {
+    if (notDoneYet) return;
     generate();
   }, []);
+
+  if (notDoneYet)
+    return (
+      <Stack align="center">
+        Please go back to complete the survey
+        <Button
+          onClick={() => setFieldValue("currentStep", 0)}
+          color="var(--color-primary)"
+        >
+          Go back
+        </Button>
+      </Stack>
+    );
 
   return <div>Workout is being generated, please wait a second...</div>;
 };
@@ -77,19 +105,44 @@ const WorkoutBuilderPage = () => {
               }
               color="var(--color-primary)"
             >
-              <Stepper.Step label="Giới tính" allowStepSelect>
+              <Stepper.Step
+                label="Giới tính"
+                allowStepSelect
+                icon={<IconGenderBigender />}
+                completedIcon={<IconGenderBigender />}
+              >
                 <GenderButtonGroup />
               </Stepper.Step>
-              <Stepper.Step label="Tuổi tác" allowStepSelect>
+              <Stepper.Step
+                label="Tuổi tác"
+                allowStepSelect
+                icon={<IconCake />}
+                completedIcon={<IconCake />}
+              >
                 <AgeSelector />
               </Stepper.Step>
-              <Stepper.Step label="Mục tiêu" allowStepSelect>
+              <Stepper.Step
+                label="Mục tiêu"
+                allowStepSelect
+                icon={<IconTargetArrow />}
+                completedIcon={<IconTargetArrow />}
+              >
                 <GoalButtonGroup />
               </Stepper.Step>
-              <Stepper.Step label="Cấp độ" allowStepSelect>
+              <Stepper.Step
+                label="Cấp độ"
+                allowStepSelect
+                icon={<IconBolt />}
+                completedIcon={<IconBolt />}
+              >
                 <FitnessLevelButtonGroup />
               </Stepper.Step>
-              <Stepper.Step label="Nhóm cơ" allowStepSelect>
+              <Stepper.Step
+                label="Nhóm cơ"
+                allowStepSelect
+                icon={<IconBarbell />}
+                completedIcon={<IconBarbell />}
+              >
                 <MuscleTarget female={!workoutBuilderForm.values.gender} />
               </Stepper.Step>
 

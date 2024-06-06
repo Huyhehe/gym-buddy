@@ -158,20 +158,20 @@ export const BMR_STANDARD = {
 export const BMR_RATE = [1.2, 1.375, 1.55, 1.725, 1.9];
 
 export const workoutFrequencyOptions: SelectOption[] = [
-  { label: "Little to no exercise", value: "1.2" },
-  { label: "Light exercise (1-3 days per week)", value: "1.375" },
-  { label: "Moderate exercise (3-5 days per week)", value: "1.55" },
-  { label: "Heavy exercise (6-7 days per week)", value: "1.725" },
+  { label: "Ít hoặc hầu như không tập thể dục", value: "1.2" },
+  { label: "Tập ít (1-3 ngày trong tuần)", value: "1.375" },
+  { label: "Tập thường xuyên (3-5 ngày trong tuần)", value: "1.55" },
+  { label: "Tập mỗi ngày (6-7 ngày trong tuần)", value: "1.725" },
   {
-    label: "Very heavy exercise (twice per day, extra heavy workouts)",
+    label: "Tôi là vận động viên (2 lần 1 ngày, tập với cường độ cao)",
     value: "1.9",
   },
 ];
 
 export const workoutTargetOptions: SelectOption[] = [
-  { label: "Loose 1kg per week", value: "-500" },
-  { label: "Loose 0.5 per week", value: "-250" },
-  { label: "Stay the same weight", value: "0" },
-  { label: "Gain 0.5 per week", value: "250" },
-  { label: "Gain 1kg per week", value: "500" },
+  { label: "Giảm 1kg trong 1 tuần", value: "-500" },
+  { label: "Giảm 0.5 trong 1 tuần", value: "-250" },
+  { label: "Giữ nguyên cân nặng", value: "0" },
+  { label: "Tăng 0.5 trong 1 tuần", value: "250" },
+  { label: "Tăng 1kg trong 1 tuần", value: "500" },
 ];

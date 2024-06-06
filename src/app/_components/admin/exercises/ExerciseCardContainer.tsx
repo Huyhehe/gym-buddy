@@ -23,7 +23,7 @@ export const ExerciseCardContainer = ({ exercises }: Props) => {
         {exercises.map((exercise) => (
           <div
             key={exercise.id}
-            className="col-span-6 @5xl:col-span-4 @[1290px]:col-span-3"
+            className="col-span-6 @5xl:col-span-4 @[1280px]:col-span-3"
           >
             <ExerciseCard exercise={exercise} />
           </div>
