@@ -21,13 +21,16 @@ export const WorkoutCardContainer = ({ workouts }: Props) => {
         <IconPlus size={16} stroke={2} className="ml-1" />
       </Button>
 
-      <Grid>
+      <div className="grid grid-cols-12 gap-4 @container">
         {workouts.map((workout) => (
-          <Grid.Col key={workout.id} span={{ base: 12, md: 6, lg: 6, xl: 3 }}>
+          <div
+            key={workout.id}
+            className="col-span-6 @5xl:col-span-4 @[1290px]:col-span-3"
+          >
             <WorkoutCard workout={workout} />
-          </Grid.Col>
+          </div>
         ))}
-      </Grid>
+      </div>
     </div>
   );
 };

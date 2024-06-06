@@ -63,21 +63,30 @@ export const MediaDropZone = ({
   });
 
   const addFiles = async (newFiles: FileWithPath[]) => {
-    if (newFiles[0]) {
+    if (!!newFiles.length) {
       setLoading(true);
       try {
-        const signedURLRes = await getSignedURL(newFiles[0].type);
-        if (signedURLRes.error !== undefined) {
-          throw new Error(signedURLRes.error);
-        }
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+        for (let i = 0; i < newFiles.length; i++) {
+          const type = newFiles[i]?.type;
+          if (!type) continue;
 
-        const url = signedURLRes.signedURL;
-        await fetch(url, {
-          method: "PUT",
-          body: newFiles[0],
-        });
-        setPreviewFiles((current) => [...current, url?.split("?")?.[0] ?? ""]);
-        onReturnValue([...previewFiles, url?.split("?")?.[0] ?? ""]);
+          const signedURLRes = await getSignedURL(type);
+          if (signedURLRes.error !== undefined) {
+            throw new Error(signedURLRes.error);
+          }
+
+          const url = signedURLRes.signedURL;
+          await fetch(url, {
+            method: "PUT",
+            body: newFiles[i],
+          });
+          setPreviewFiles((current) => {
+            const newFilesUploaded = [...current, url?.split("?")?.[0] ?? ""];
+            onReturnValue(newFilesUploaded);
+            return newFilesUploaded;
+          });
+        }
       } catch (error) {
         console.error(error);
         return;
@@ -90,11 +99,12 @@ export const MediaDropZone = ({
   return (
     <div>
       <Dropzone
-        {...props}
         loading={loading}
         accept={accept}
         onDrop={addFiles}
         multiple={false}
+        radius="md"
+        {...props}
       >
         <div className="flex items-center justify-center gap-2 p-10">
           <IconPhoto size={48} stroke={1.7} className="text-slate-200" />

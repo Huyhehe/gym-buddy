@@ -44,7 +44,8 @@ export const exerciseRouter = createTRPCRouter({
               }
             : {}),
           equipmentId: {
-            contains: filterObject.equipmentId,
+            contains:
+              filterObject.equipmentId !== "0" ? filterObject.equipmentId : "",
             mode: "insensitive",
           },
         },

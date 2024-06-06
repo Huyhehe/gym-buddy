@@ -25,8 +25,8 @@ export const OptionFilterContainer = ({ equipments }: Props) => {
   };
 
   return (
-    <GridCol span={4}>
-      <Card radius="md">
+    <GridCol span={4} className="relative">
+      <Card radius="md" className="sticky top-0 max-w-full">
         <Card.Section className="bg-primary p-4 text-white">
           <GenderToggler />
         </Card.Section>
@@ -42,12 +42,13 @@ export const OptionFilterContainer = ({ equipments }: Props) => {
           />
         </Group>
 
-        <Divider my="xl" />
+        <Divider my={16} />
 
         <EquipmentSelectContainer
           equipments={equipments}
           defaultEquipment={equipment}
           onChange={handleOnEquipmentChange}
+          className="pt-0"
         />
       </Card>
     </GridCol>

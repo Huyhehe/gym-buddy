@@ -1,5 +1,7 @@
+import { FullScreenLoading } from "../_components/FullScreenLoading";
+
 const loading = () => {
-  return <div>loading...</div>;
+  return <FullScreenLoading />;
 };
 
 export default loading;

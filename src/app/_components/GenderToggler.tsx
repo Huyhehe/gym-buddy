@@ -10,7 +10,7 @@ export const GenderToggler = () => {
   const { isMale, toggleGender } = useGlobalContext();
   return (
     <Group align="center">
-      <span>Male</span>
+      <span>Nam</span>
       <Switch
         checked={!isMale}
         onChange={toggleGender}
@@ -36,7 +36,7 @@ export const GenderToggler = () => {
           />
         }
       />
-      <span>Female</span>
+      <span>Nữ</span>
     </Group>
   );
 };

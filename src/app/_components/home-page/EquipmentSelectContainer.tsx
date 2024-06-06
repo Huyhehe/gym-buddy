@@ -10,12 +10,14 @@ type Props = {
   defaultEquipment?: string;
   equipments: EquipmentReturnType[];
   onChange?: (value: string) => void;
+  className?: string;
 };
 
 export const EquipmentSelectContainer = ({
   defaultEquipment,
   equipments,
   onChange,
+  className,
 }: Props) => {
   return (
     <Radio.Group
@@ -23,7 +25,7 @@ export const EquipmentSelectContainer = ({
       onChange={(e) => {
         onChange?.(e);
       }}
-      className="py-5"
+      className={cn("py-5", className)}
     >
       <Grid className="gap-2">
         {equipments?.map((equipment) => (
@@ -32,11 +34,11 @@ export const EquipmentSelectContainer = ({
               color="var(--color-primary)"
               value={equipment?.id}
               label={
-                <Group align="center">
+                <Group align="center" wrap="nowrap">
                   <Icon
                     html={equipment?.icon}
                     className={cn("flex items-center text-primary", {
-                      "mx-2 h-4 w-4": equipment?.name === "Bodyweight",
+                      "mx-2 h-4 w-4": ["Bodyweight"].includes(equipment?.name),
                       "mx-1 h-6 w-6": [
                         "Kettlebells",
                         "Plate",

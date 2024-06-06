@@ -117,10 +117,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   const { replace } = useRouter();
   const { setIsBackdropOpen } = useGlobalContext();
 
-  const { data: equipments, isLoading: equipmentsCallLoading } =
-    api.client.getEquipments.useQuery(undefined, {
-      refetchOnWindowFocus: false,
-    });
+  const [equipments] = api.client.getEquipments.useSuspenseQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
 
   const [deleteConfirmOpened, { close, open }] = useDisclosure();
   const [mediaURLs, setMediaURLs] = useState<MediaExample>(
@@ -247,11 +246,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   };
 
   useEffect(() => {
-    setIsBackdropOpen(
-      createLoading || updateLoading || deleteLoading || equipmentsCallLoading,
-    );
+    setIsBackdropOpen(createLoading || updateLoading || deleteLoading);
     //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createLoading, updateLoading, deleteLoading, equipmentsCallLoading]);
+  }, [createLoading, updateLoading, deleteLoading]);
 
   return (
     <Box>
@@ -259,8 +256,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
         <Grid>
           <Grid.Col>
             <TextInput
+              radius="md"
               withAsterisk
-              label="Exercise name"
+              label="Tên bài tập"
               placeholder="Incline Dumbbell Bench Press"
               key={form.key("name")}
               {...form.getInputProps("name")}
@@ -269,8 +267,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col span={3}>
             <NumberInput
+              radius="md"
               withAsterisk
-              label="Sets"
+              label="Số hiệp tập"
               key={form.key("sets")}
               {...form.getInputProps("sets")}
               min={1}
@@ -281,8 +280,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col span={3}>
             <NumberInput
+              radius="md"
               withAsterisk
-              label="Reps"
+              label="Số lần tập"
               key={form.key("reps")}
               {...form.getInputProps("reps")}
               min={3}
@@ -293,8 +293,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col span={3}>
             <Select
+              radius="md"
               withAsterisk
-              label="Unit"
+              label="Đơn vị"
               data={repsUnitOptions}
               key={form.key("repsUnit")}
               {...form.getInputProps("repsUnit")}
@@ -303,8 +304,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col span={3}>
             <NumberInput
+              radius="md"
               withAsterisk
-              label="Calories Burned"
+              label="Số calo đốt cháy"
               key={form.key("caloriesBurned")}
               {...form.getInputProps("caloriesBurned")}
               min={100}
@@ -315,8 +317,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col span={3}>
             <Select
+              radius="md"
               withAsterisk
-              label="Difficulty"
+              label="Độ khó"
               data={levelOptions}
               key={form.key("difficulty")}
               {...form.getInputProps("difficulty")}
@@ -325,8 +328,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col span={3}>
             <Select
+              radius="md"
               withAsterisk
-              label="Goal"
+              label="Mục tiêu"
               data={goalOptions}
               key={form.key("goal")}
               {...form.getInputProps("goal")}
@@ -335,8 +339,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col span={3}>
             <Select
+              radius="md"
               withAsterisk
-              label="Mechanic"
+              label="Dạng bài tập"
               data={mechanicOptions}
               key={form.key("mechanic")}
               {...form.getInputProps("mechanic")}
@@ -346,7 +351,8 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
           <Grid.Col span={3}>
             {!!equipments && (
               <Select
-                label="Equipment"
+                radius="md"
+                label="Dụng cụ"
                 withAsterisk
                 data={equipments?.map((equipment) => ({
                   label: equipment.name,
@@ -361,7 +367,8 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col>
             <TextInput
-              label="Force"
+              radius="md"
+              label="Loại lực"
               placeholder="Push, Pull, Hold, etc."
               key={form.key("force")}
               {...form.getInputProps("force")}
@@ -373,9 +380,11 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
           <Text
             display="flex"
             size="sm"
-            className="items-center gap-1 font-medium"
+            className="gap-1 font-medium"
+            mt="xs"
+            mb={4}
           >
-            Steps <IconAsterisk size={8} color="red" />
+            Các bước tập luyện <IconAsterisk size={8} color="red" />
           </Text>
           <DragDropContext
             onDragEnd={({ destination, source }) =>
@@ -398,13 +407,14 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
                       {(draggableProvided) => (
                         <Group
                           ref={draggableProvided.innerRef}
-                          mt="xs"
+                          mb="xs"
                           {...draggableProvided.draggableProps}
                         >
                           <Center {...draggableProvided.dragHandleProps}>
                             <IconGripVertical size="1.2rem" />
                           </Center>
                           <Textarea
+                            radius="md"
                             className="grow"
                             placeholder="Push the bar up..."
                             key={form.key(`steps.${index}.value`)}
@@ -444,19 +454,29 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
         </div>
 
         <div>
-          <h3 className="flex">
-            Media examples <IconAsterisk size={8} color="red" />
-          </h3>
+          <Text
+            display="flex"
+            size="sm"
+            className="gap-1 font-medium"
+            mt="xs"
+            mb={4}
+          >
+            Video ví dụ <IconAsterisk size={8} color="red" />
+          </Text>
           <div className="grid grid-cols-2 gap-10">
             <MediaDropZone
+              key={"male"}
               initialFiles={form.values.mediaURLs.male}
-              maxFiles={4}
+              multiple
+              maxFiles={2}
               onReturnValue={onReturnMaleMediaURL}
               title="Drop male media here"
             />
             <MediaDropZone
+              key={"female"}
               initialFiles={form.values.mediaURLs.female}
-              maxFiles={4}
+              multiple
+              maxFiles={2}
               onReturnValue={onReturnFemaleMediaURL}
               title="Drop female media here"
             />
@@ -465,6 +485,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
         <Group justify="flex-end" mt="md">
           {/* <Button
+            radius="md"
             className="bg-slate-500"
             onClick={() => {
               form.reset();
@@ -475,56 +496,61 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
             Reset
           </Button> */}
           {!!exerciseFromData && (
-            <Button className="bg-red-700" onClick={open}>
+            <Button radius="md" className="bg-red-700" onClick={open}>
               Delete
             </Button>
           )}
-          <Button type="submit">
+          <Button radius="md" type="submit">
             {!!exerciseFromData ? "Save" : "Submit"}
           </Button>
         </Group>
       </form>
 
-      <div className="flex justify-center">
-        <ToggleFrontMale
-          initialDataForViewMode={(
-            form.values?.muscleTargets.front?.map((muscle) => ({
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              [muscle.name]: muscle.level,
-            })) ?? []
-          ).reduce((acc, obj) => {
-            return { ...acc, ...obj };
-          }, {})}
-          onReturnValue={(muscleTarget) =>
-            setMuscleTarget((prev) => ({
-              ...prev,
-              front: muscleTarget,
-            }))
-          }
-        />
-        <ToggleBackMale
-          initialDataForViewMode={(
-            form.values?.muscleTargets.back?.map((muscle) => ({
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              [muscle.name]: muscle.level,
-            })) ?? []
-          ).reduce((acc, obj) => {
-            return { ...acc, ...obj };
-          }, {})}
-          onReturnValue={(muscleTarget) =>
-            setMuscleTarget((prev) => ({
-              ...prev,
-              back: muscleTarget,
-            }))
-          }
-        />
-      </div>
+      <Group className="flex justify-center">
+        <Group className="flex w-1/2 flex-nowrap justify-center">
+          <ToggleFrontMale
+            initialDataForViewMode={(
+              form.values?.muscleTargets.front?.map((muscle) => ({
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                [muscle.name]: muscle.level,
+              })) ?? []
+            ).reduce((acc, obj) => {
+              return { ...acc, ...obj };
+            }, {})}
+            onReturnValue={(muscleTarget) =>
+              setMuscleTarget((prev) => ({
+                ...prev,
+                front: muscleTarget,
+              }))
+            }
+          />
+          <ToggleBackMale
+            initialDataForViewMode={(
+              form.values?.muscleTargets.back?.map((muscle) => ({
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                [muscle.name]: muscle.level,
+              })) ?? []
+            ).reduce((acc, obj) => {
+              return { ...acc, ...obj };
+            }, {})}
+            onReturnValue={(muscleTarget) =>
+              setMuscleTarget((prev) => ({
+                ...prev,
+                back: muscleTarget,
+              }))
+            }
+          />
+        </Group>
+      </Group>
 
       <Modal opened={deleteConfirmOpened} onClose={close}>
         <Text>Are you sure you want to delete this exercise?</Text>
         <Group justify="flex-end" mt="md">
-          <Button onClick={close}>Cancel</Button>
+          <Button radius="md" onClick={close}>
+            Cancel
+          </Button>
           <Button
+            radius="md"
             className="bg-red-700"
             onClick={() => {
               if (!exerciseFromData?.id) {

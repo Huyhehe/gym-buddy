@@ -2,7 +2,7 @@
 
 import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 import type { ExerciseReturnType } from "@/types";
-import { Grid, Group, Stack } from "@mantine/core";
+import { Grid, Group, Image, Stack } from "@mantine/core";
 import { useMemo } from "react";
 
 type Props = {
@@ -24,13 +24,21 @@ export const ExerciseDetails = ({ exercise }: Props) => {
         <Grid>
           {medias.map((example) => (
             <Grid.Col span={6} key={example?.id}>
-              <video
-                src={example?.mediaURL ?? ""}
-                className="w-full rounded-b-lg object-cover"
-                autoPlay
-                loop
-                muted
-              />
+              {example.mediaURL.includes("videos") ? (
+                <video
+                  src={example?.mediaURL ?? ""}
+                  className="w-full rounded-b-lg object-cover"
+                  autoPlay
+                  loop
+                  muted
+                />
+              ) : (
+                <Image
+                  alt={example.mediaURL}
+                  src={example.mediaURL ?? ""}
+                  className="rounded-b-lg"
+                />
+              )}
             </Grid.Col>
           ))}
         </Grid>

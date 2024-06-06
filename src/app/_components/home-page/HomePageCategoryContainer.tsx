@@ -13,7 +13,13 @@ export const HomePageCategoryContainer = () => {
   };
 
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder className="w-[30%]">
+    <Card
+      shadow="sm"
+      padding="lg"
+      radius="md"
+      withBorder
+      className="w-[40%] @6xl:w-[35%] @[1300px]:xl:w-[30%]"
+    >
       <Card.Section className="bg-primary p-4 text-white">
         <GenderToggler />
       </Card.Section>

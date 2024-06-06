@@ -1,9 +1,9 @@
 "use client";
 
 import type { ExerciseReturnType } from "@/types";
-import { ExerciseCard } from "./ExerciseCard";
-import { Button, Grid } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
+import { ExerciseCard } from "./ExerciseCard";
 
 type Props = {
   exercises: ExerciseReturnType[];
@@ -19,13 +19,16 @@ export const ExerciseCardContainer = ({ exercises }: Props) => {
       >
         Create Exercise <IconPlus size={16} stroke={2} className="ml-1" />
       </Button>
-      <Grid>
+      <div className="grid grid-cols-12 gap-4 @container">
         {exercises.map((exercise) => (
-          <Grid.Col key={exercise.id} span={{ base: 12, md: 6, lg: 6, xl: 3 }}>
+          <div
+            key={exercise.id}
+            className="col-span-6 @5xl:col-span-4 @[1290px]:col-span-3"
+          >
             <ExerciseCard exercise={exercise} />
-          </Grid.Col>
+          </div>
         ))}
-      </Grid>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,8 @@
 "use client";
 
+import { AnimatedLogo } from "@/app/_components/AnimatedLogo";
 import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 import { LoadingOverlay } from "@mantine/core";
-import { IconBrandArc } from "@tabler/icons-react";
 import { type PropsWithChildren } from "react";
 
 export default function FunctionalLayout({
@@ -21,7 +21,7 @@ export default function FunctionalLayout({
           blur: 10,
         }}
         loaderProps={{
-          children: <IconBrandArc size={64} className="text-primary" />,
+          children: <AnimatedLogo />,
         }}
       />
 

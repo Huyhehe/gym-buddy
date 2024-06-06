@@ -9,7 +9,7 @@ export default async function Home() {
   return (
     <main className="flex flex-col justify-center">
       <HomePageClientContextProvider equipments={equipments ?? []}>
-        <div className="flex p-4">
+        <div className="flex p-4 @container">
           <HomePageNavigateSkeletons />
           <HomePageCategoryContainer />
         </div>

@@ -166,6 +166,7 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
           />
 
           <MediaDropZone
+            key="workoutthumbnail"
             initialFiles={
               !!form.values.thumbnail ? [form.values.thumbnail] : []
             }

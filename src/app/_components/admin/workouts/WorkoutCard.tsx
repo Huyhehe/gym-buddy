@@ -50,12 +50,12 @@ export const WorkoutCard = ({ workout }: Props) => {
           src={workout.thumbnail}
           alt={workout.title}
           fit="cover"
-          h={200}
+          className="aspect-video max-w-full"
         />
       </Card.Section>
 
       <Group gap={16}>
-        <Text size="sm" c="dimmed" className="mb-2 line-clamp-4 w-full">
+        <Text size="sm" c="dimmed" className="my-2 line-clamp-4 w-full">
           {workout.description || "No description"}
         </Text>
       </Group>

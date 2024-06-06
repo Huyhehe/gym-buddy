@@ -7,7 +7,7 @@ import { HomePageFrontMale } from "./HomePageFrontMale";
 
 export const HomePageNavigateSkeletons = () => {
   return (
-    <Group className="w-[70%]" justify="center">
+    <Group className="grow" justify="center">
       <HomePageFrontMale />
       <HomePageBackMale />
     </Group>

@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingOverlay } from "@mantine/core";
-import { IconBrandArc } from "@tabler/icons-react";
+import { AnimatedLogo } from "./AnimatedLogo";
 
 export const FullScreenLoading = () => {
   return (
@@ -14,7 +14,7 @@ export const FullScreenLoading = () => {
         blur: 10,
       }}
       loaderProps={{
-        children: <IconBrandArc size={64} className="text-primary" />,
+        children: <AnimatedLogo />,
       }}
     />
   );

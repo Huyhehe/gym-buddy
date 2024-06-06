@@ -3,6 +3,7 @@ import { ExerciseDetails } from "../_components/exercise/ExerciseDetails";
 import { GridContainer } from "../_components/GridContainer";
 import { OptionFilterContainer } from "../_components/exercise/OptionFilterContainer";
 import { ExerciseDetailContainer } from "../_components/exercise/ExerciseDetailContainer";
+import { EmptyData } from "../_components/EmptyData";
 
 const ExercisePage = async ({
   params,
@@ -29,7 +30,7 @@ const ExercisePage = async ({
               <ExerciseDetails key={exercise.id} exercise={exercise} />
             ))
           ) : (
-            <div>No matching exercises found</div>
+            <EmptyData />
           )}
         </ExerciseDetailContainer>
         <OptionFilterContainer equipments={equipments} />
