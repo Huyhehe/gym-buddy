@@ -22,20 +22,14 @@ export const exerciseCreateFormSchema = z.object({
     male: z.array(z.string()),
     female: z.array(z.string()),
   }),
-  muscleTargets: z.object({
-    front: z.array(
+  muscleTargets: z
+    .array(
       z.object({
         name: z.string(),
         level: z.number(),
       }),
-    ),
-    back: z.array(
-      z.object({
-        name: z.string(),
-        level: z.number(),
-      }),
-    ),
-  }),
+    )
+    .min(1),
 });
 
 export type TExerciseFormValues = z.infer<typeof exerciseCreateFormSchema>;

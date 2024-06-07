@@ -1,7 +1,6 @@
 "use client";
 
-import { ToggleBackMale } from "@/app/_components/MuscleSkeleton/ToggleBackMale";
-import { ToggleFrontMale } from "@/app/_components/MuscleSkeleton/ToggleFrontMale";
+import { ToggleSkeleton } from "@/app/_components/MuscleSkeleton/ToggleSkeleton";
 import {
   workoutCreateFormSchema,
   type TWorkoutFormValues,
@@ -30,9 +29,9 @@ import {
 import { zodResolver } from "mantine-form-zod-resolver";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef } from "react";
+import { useGlobalContext } from "../_context/global-context";
 import type { TWorkoutBuilderFormValues } from "../_schemas";
 import { GeneratedExerciseCard } from "./GeneratedExerciseCard";
-import { useGlobalContext } from "../_context/global-context";
 
 type Props = {
   exercises: GeneratedWorkoutReturnType;
@@ -174,34 +173,19 @@ export const GeneratedWorkoutForm = ({
             )}
           </Group>
           <Stack align="center" gap={0}>
-            <Group wrap="nowrap" w={400}>
-              <ToggleFrontMale
-                viewMode
-                initialDataForViewMode={
-                  generateMuscleState(
-                    combineMuscleAffection(
-                      exercises
-                        .map((exercises) => exercises.ExerciseMuscleTarget)
-                        .flat(),
-                    ),
-                  ).front
-                }
-                female={!workoutBuilderFormValues.gender}
-              />
-              <ToggleBackMale
-                viewMode
-                initialDataForViewMode={
-                  generateMuscleState(
-                    combineMuscleAffection(
-                      exercises
-                        .map((exercises) => exercises.ExerciseMuscleTarget)
-                        .flat(),
-                    ),
-                  ).back
-                }
-                female={!workoutBuilderFormValues.gender}
-              />
-            </Group>
+            <ToggleSkeleton
+              viewMode
+              className="w-[400px]"
+              initialDataForViewMode={generateMuscleState(
+                combineMuscleAffection(
+                  exercises
+                    .map((exercises) => exercises.ExerciseMuscleTarget)
+                    .flat(),
+                ),
+              )}
+              female={!workoutBuilderFormValues.gender}
+            />
+
             <span className="text-gray-400">Độ mỏi của cơ</span>
             <div className="h-1 w-2/3 rounded-full bg-gradient-to-r from-white from-5% via-yellow-200 via-45% to-red-600" />
           </Stack>

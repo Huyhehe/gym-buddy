@@ -1,7 +1,5 @@
 "use client";
 
-import { ToggleBackMale } from "@/app/_components/MuscleSkeleton/ToggleBackMale";
-import { ToggleFrontMale } from "@/app/_components/MuscleSkeleton/ToggleFrontMale";
 import type { ExerciseReturnType } from "@/types";
 
 import { generateMuscleState } from "@/utils";
@@ -9,6 +7,7 @@ import { Button, Card, Group, Overlay, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { LevelBadge } from "../../LevelBadge";
+import { ToggleSkeleton } from "../../MuscleSkeleton/ToggleSkeleton";
 
 type Props = {
   exercise: ExerciseReturnType;
@@ -41,20 +40,14 @@ export const SelectableExerciseCard = ({
       }}
     >
       <Card.Section className="flex justify-center">
-        <div className="flex w-[200px] py-4" key={exercise.id}>
-          <ToggleFrontMale
-            viewMode
-            initialDataForViewMode={
-              generateMuscleState(exercise.ExerciseMuscleTarget).front
-            }
-          />
-          <ToggleBackMale
-            viewMode
-            initialDataForViewMode={
-              generateMuscleState(exercise.ExerciseMuscleTarget).back
-            }
-          />
-        </div>
+        <ToggleSkeleton
+          key={exercise.id}
+          viewMode
+          className="flex w-[200px] py-4"
+          initialDataForViewMode={generateMuscleState(
+            exercise.ExerciseMuscleTarget,
+          )}
+        />
       </Card.Section>
       <Group justify="space-between" mt="md" mb="xs">
         <Text fw={500}>{exercise.name}</Text>

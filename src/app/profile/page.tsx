@@ -5,13 +5,12 @@ import {
   generateMuscleTargetForChart,
 } from "@/utils";
 import { Group, Stack } from "@mantine/core";
-import { ToggleBackMale } from "../_components/MuscleSkeleton/ToggleBackMale";
-import { ToggleFrontMale } from "../_components/MuscleSkeleton/ToggleFrontMale";
+import { EmptyData } from "../_components/EmptyData";
+import { ToggleSkeleton } from "../_components/MuscleSkeleton/ToggleSkeleton";
 import { CaloriesBurnedChart } from "../_components/profile/CaloriesBurnedChart";
 import { MuscleFocusRadarChart } from "../_components/profile/MuscleFocusRadarChart";
 import { ProfileHeader } from "../_components/profile/ProfileHeader";
 import { ProfileInfoForm } from "../_components/profile/ProfileInfoForm";
-import { EmptyData } from "../_components/EmptyData";
 
 const ProfilePage = async () => {
   try {
@@ -32,34 +31,20 @@ const ProfilePage = async () => {
             <span className="mb-2 text-sm font-semibold text-gray-500">
               Các nhóm cơ bạn đã tập trong 30 ngày gần nhất
             </span>
-            <div className="grid grid-cols-2">
-              <div className="col-span-1 flex">
-                <ToggleFrontMale
-                  viewMode
-                  initialDataForViewMode={
-                    generateMuscleState(
-                      combineMuscleAffection(userInfo.muscleTargets),
-                    ).front
-                  }
-                />
-              </div>
-              <div className="col-span-1 flex">
-                <ToggleBackMale
-                  viewMode
-                  initialDataForViewMode={
-                    generateMuscleState(
-                      combineMuscleAffection(userInfo.muscleTargets),
-                    ).back
-                  }
-                />
-              </div>
-            </div>
+            <ToggleSkeleton
+              viewMode
+              className="flex w-full justify-center py-4"
+              initialDataForViewMode={generateMuscleState(
+                combineMuscleAffection(userInfo.muscleTargets),
+              )}
+              // female={userInfo.gender}
+            />
             <div className="grid grid-cols-2">
               <MuscleFocusRadarChart
                 data={generateMuscleTargetForChart({
                   muscleObject: generateMuscleState(
                     combineMuscleAffection(userInfo.muscleTargets, true),
-                  ).front,
+                  ),
                   isFront: true,
                 })}
               />
@@ -67,7 +52,7 @@ const ProfilePage = async () => {
                 data={generateMuscleTargetForChart({
                   muscleObject: generateMuscleState(
                     combineMuscleAffection(userInfo.muscleTargets, true),
-                  ).back,
+                  ),
                 })}
               />
             </div>

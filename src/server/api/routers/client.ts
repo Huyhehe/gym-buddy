@@ -16,7 +16,7 @@ export const clientRouter = createTRPCRouter({
           ExerciseMuscleTarget: {
             some: {
               name: {
-                in: muscleTarget.front.concat(muscleTarget.back),
+                in: muscleTarget,
               },
             },
           },
@@ -27,7 +27,7 @@ export const clientRouter = createTRPCRouter({
             goal: goal,
           },
         },
-        take: 3 * (muscleTarget.front.length + muscleTarget.back.length),
+        take: 6,
         include: {
           ExerciseExample: true,
           ExerciseMuscleTarget: true,

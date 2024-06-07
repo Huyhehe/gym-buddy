@@ -48,16 +48,6 @@ import {
   type TExerciseFormValues,
 } from "../../../admin/_schemas";
 import { MediaDropZone } from "../../MediaDropZone";
-import {
-  ToggleBackMale,
-  initialState as initialBackMuscleTarget,
-  type ToggleState as BackAffectLevel,
-} from "../../MuscleSkeleton/ToggleBackMale";
-import {
-  ToggleFrontMale,
-  initialState as initialFrontMuscleTarget,
-  type ToggleState as FrontAffectLevel,
-} from "../../MuscleSkeleton/ToggleFrontMale";
 import { ToggleSkeleton } from "../../MuscleSkeleton/ToggleSkeleton";
 
 const initialValues: TExerciseFormValues = {
@@ -81,24 +71,12 @@ const initialValues: TExerciseFormValues = {
     male: [],
     female: [],
   },
-  muscleTargets: {
-    front: [],
-    back: [],
-  },
+  muscleTargets: [],
 };
 
 type MediaExample = {
   male: string[];
   female: string[];
-};
-
-type MuscleTarget = {
-  front: FrontAffectLevel;
-  back: BackAffectLevel;
-};
-const initialMuscleTarget: MuscleTarget = {
-  front: initialFrontMuscleTarget,
-  back: initialBackMuscleTarget,
 };
 
 type Props = {
@@ -128,8 +106,6 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
       ? generateInitialExerciseFormValues(exerciseFromData).mediaURLs
       : initialValues.mediaURLs,
   );
-  const [muscleTarget, setMuscleTarget] =
-    useState<MuscleTarget>(initialMuscleTarget);
 
   const form = useForm<TExerciseFormValues>({
     mode: "uncontrolled",
@@ -144,7 +120,6 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
       onSuccess: () => {
         handleNotification(true, "Exercise created successfully");
         form.reset();
-        setMuscleTarget(initialMuscleTarget);
         setMediaURLs(initialValues.mediaURLs);
       },
       onError: (error) => {
@@ -175,33 +150,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
     });
 
   const handleSubmit = (values: TExerciseFormValues) => {
-    const frontMuscleTargets: TExerciseFormValues["muscleTargets"]["front"] =
-      [];
-    for (const [key, value] of Object.entries(muscleTarget.front)) {
-      if (!!value) {
-        frontMuscleTargets.push({
-          name: key,
-          level: value,
-        });
-      }
-    }
-    const backMuscleTargets: TExerciseFormValues["muscleTargets"]["back"] = [];
-    for (const [key, value] of Object.entries(muscleTarget.back)) {
-      if (!!value) {
-        backMuscleTargets.push({
-          name: key,
-          level: value,
-        });
-      }
-    }
-
     const inputValues: TExerciseFormValues = {
       ...values,
       mediaURLs,
-      muscleTargets: {
-        front: frontMuscleTargets,
-        back: backMuscleTargets,
-      },
     };
 
     !!exerciseFromData
@@ -508,43 +459,29 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
       </form>
 
       <Group className="flex justify-center">
-        <Group className="flex w-1/2 flex-nowrap justify-center">
-          <ToggleFrontMale
-            initialDataForViewMode={(
-              form.values?.muscleTargets.front?.map((muscle) => ({
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                [muscle.name]: muscle.level,
-              })) ?? []
-            ).reduce((acc, obj) => {
-              return { ...acc, ...obj };
-            }, {})}
-            onReturnValue={(muscleTarget) =>
-              setMuscleTarget((prev) => ({
-                ...prev,
-                front: muscleTarget,
-              }))
+        <ToggleSkeleton
+          className="w-1/2"
+          initialDataForViewMode={(
+            form.values?.muscleTargets?.map((muscle) => ({
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              [muscle.name]: muscle.level,
+            })) ?? []
+          ).reduce((acc, obj) => {
+            return { ...acc, ...obj };
+          }, {})}
+          onReturnValue={(value) => {
+            const muscleTargets = [];
+            for (const [key, val] of Object.entries(value)) {
+              if (!!val) {
+                muscleTargets.push({
+                  name: key,
+                  level: val,
+                });
+              }
             }
-          />
-          <ToggleBackMale
-            initialDataForViewMode={(
-              form.values?.muscleTargets.back?.map((muscle) => ({
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                [muscle.name]: muscle.level,
-              })) ?? []
-            ).reduce((acc, obj) => {
-              return { ...acc, ...obj };
-            }, {})}
-            onReturnValue={(muscleTarget) =>
-              setMuscleTarget((prev) => ({
-                ...prev,
-                back: muscleTarget,
-              }))
-            }
-          />
-        </Group>
-      </Group>
-      <Group className="flex justify-center">
-        <ToggleSkeleton className="w-1/2" />
+            form.setFieldValue("muscleTargets", muscleTargets);
+          }}
+        />
       </Group>
 
       <Modal opened={deleteConfirmOpened} onClose={close}>

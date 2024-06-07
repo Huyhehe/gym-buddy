@@ -151,7 +151,7 @@ export const FRONT_MUSCLE_TARGET = [
   "chest",
   "quads",
   "calves",
-] as const;
+];
 
 export const BACK_MUSCLE_TARGET = [
   "hamstrings",
@@ -164,7 +164,7 @@ export const BACK_MUSCLE_TARGET = [
   "calves",
   "triceps",
   "forearms",
-] as const;
+];
 
 export const MUSCLE_TARGET = [
   "abdominals",

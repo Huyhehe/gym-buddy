@@ -5,10 +5,7 @@ export const workoutBuilderSchema = z.object({
   age: z.number().min(13).max(100),
   goal: z.string(),
   currentLevel: z.number().int().min(1).max(4),
-  muscleTarget: z.object({
-    front: z.array(z.string()).min(1),
-    back: z.array(z.string()),
-  }),
+  muscleTarget: z.array(z.string()).min(1),
   currentStep: z.number().int().min(0).max(5),
 });
 

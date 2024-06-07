@@ -8,7 +8,12 @@ import { notifications } from "@mantine/notifications";
 import { clsx, type ClassValue } from "clsx";
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
-import { GOAL_LABEL, LEVEL_LABEL } from "./constants";
+import {
+  BACK_MUSCLE_TARGET,
+  FRONT_MUSCLE_TARGET,
+  GOAL_LABEL,
+  LEVEL_LABEL,
+} from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -80,7 +85,6 @@ export const combineMuscleAffection = (
   const muscleTargetsGroupObject = groupBy(muscleTargets, "name");
 
   for (const [, value] of Object.entries(muscleTargetsGroupObject)) {
-    console.log({ value });
     const muscleTarget = value.reduce((acc, obj) => {
       return {
         ...acc,
@@ -95,36 +99,20 @@ export const combineMuscleAffection = (
     finalMuscleTargets.push(muscleTarget);
   }
 
-  console.log({ muscleTargetsGroupObject, finalMuscleTargets, muscleTargets });
-
   return finalMuscleTargets;
 };
 
 export const generateMuscleState = (
   muscleTargets: ExerciseMuscleTargetReturnType[],
 ) => {
-  const muscleStateGroupObject = groupBy(muscleTargets, "side");
-  const front = (
-    muscleStateGroupObject.front?.map((muscle) => ({
+  return (
+    muscleTargets?.map((muscle) => ({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       [muscle.name]: muscle.affectLevel,
     })) ?? []
   ).reduce((acc, obj) => {
     return { ...acc, ...obj };
   }, {});
-  const back = (
-    muscleStateGroupObject.back?.map((muscle) => ({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      [muscle.name]: muscle.affectLevel,
-    })) ?? []
-  ).reduce((acc, obj) => {
-    return { ...acc, ...obj };
-  }, {});
-
-  return {
-    front,
-    back,
-  };
 };
 
 type GenerateMuscleTargetForChartArgs = {
@@ -172,10 +160,11 @@ export const generateMuscleTargetForChart = ({
       ...muscleObject,
     };
     for (const [key, value] of Object.entries(frontMuscleObject)) {
-      returnMuscleObject.push({
-        muscle: key,
-        value,
-      });
+      if (FRONT_MUSCLE_TARGET.includes(key))
+        returnMuscleObject.push({
+          muscle: key,
+          value,
+        });
     }
 
     return returnMuscleObject;
@@ -186,10 +175,11 @@ export const generateMuscleTargetForChart = ({
     ...muscleObject,
   };
   for (const [key, value] of Object.entries(backMuscleObject)) {
-    returnMuscleObject.push({
-      muscle: key,
-      value,
-    });
+    if (BACK_MUSCLE_TARGET.includes(key))
+      returnMuscleObject.push({
+        muscle: key,
+        value,
+      });
   }
 
   return returnMuscleObject;

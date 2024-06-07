@@ -109,7 +109,6 @@ model ExerciseExample {
 model ExerciseMuscleTarget {
     id          String   @id @default(cuid())
     name        String
-    side        String
     affectLevel Int      @default(0)
     exercise    Exercise @relation(fields: [exerciseId], references: [id])
     exerciseId  String

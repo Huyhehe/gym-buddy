@@ -25,6 +25,7 @@ export const adminRouter = createTRPCRouter({
         mediaURLs,
         muscleTargets,
       } = input;
+
       try {
         const exercise = await ctx.db.exercise.create({
           data: {
@@ -67,20 +68,14 @@ export const adminRouter = createTRPCRouter({
           data: mediaData,
         });
 
-        const frontMuscleTarget = muscleTargets.front.map((target) => ({
+        const newMuscleTargets = muscleTargets.map((target) => ({
           exerciseId: exercise.id,
           name: target.name,
           affectLevel: target.level,
-          side: "front",
         }));
-        const backMuscleTarget = muscleTargets.back.map((target) => ({
-          exerciseId: exercise.id,
-          name: target.name,
-          affectLevel: target.level,
-          side: "back",
-        }));
+
         await ctx.db.exerciseMuscleTarget.createMany({
-          data: frontMuscleTarget.concat(backMuscleTarget),
+          data: newMuscleTargets,
         });
       } catch (error) {
         throw new Error((error as Error)?.message);
@@ -103,6 +98,7 @@ export const adminRouter = createTRPCRouter({
         mediaURLs,
         muscleTargets,
       } = input;
+
       try {
         if (!id) throw new Error("Can't find any matched exercise!");
         await ctx.db.exercise.update({
@@ -157,17 +153,22 @@ export const adminRouter = createTRPCRouter({
           data: maleMedia.concat(femaleMedia),
         });
 
-        const frontMuscleTarget = muscleTargets.front.map((target) => ({
+        // const frontMuscleTarget = muscleTargets.front.map((target) => ({
+        //   exerciseId: id,
+        //   name: target.name,
+        //   affectLevel: target.level,
+        //   side: "front",
+        // }));
+        // const backMuscleTarget = muscleTargets.back.map((target) => ({
+        //   exerciseId: id,
+        //   name: target.name,
+        //   affectLevel: target.level,
+        //   side: "back",
+        // }));
+        const newMuscleTargets = muscleTargets.map((target) => ({
           exerciseId: id,
           name: target.name,
           affectLevel: target.level,
-          side: "front",
-        }));
-        const backMuscleTarget = muscleTargets.back.map((target) => ({
-          exerciseId: id,
-          name: target.name,
-          affectLevel: target.level,
-          side: "back",
         }));
         await ctx.db.exerciseMuscleTarget.deleteMany({
           where: {
@@ -175,7 +176,7 @@ export const adminRouter = createTRPCRouter({
           },
         });
         await ctx.db.exerciseMuscleTarget.createMany({
-          data: frontMuscleTarget.concat(backMuscleTarget),
+          data: newMuscleTargets,
         });
       } catch (error) {
         throw new Error((error as Error)?.message);

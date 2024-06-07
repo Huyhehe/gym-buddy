@@ -65,10 +65,7 @@ const WorkoutBuilderPage = () => {
       age: 18,
       goal: "lose-weight",
       currentLevel: 0,
-      muscleTarget: {
-        front: [],
-        back: [],
-      },
+      muscleTarget: [],
       currentStep: 0,
     },
     validate: zodResolver(workoutBuilderSchema),

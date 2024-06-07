@@ -1,6 +1,5 @@
 "use client";
-import { ToggleBackMale } from "@/app/_components/MuscleSkeleton/ToggleBackMale";
-import { ToggleFrontMale } from "@/app/_components/MuscleSkeleton/ToggleFrontMale";
+import { ToggleSkeleton } from "@/app/_components/MuscleSkeleton/ToggleSkeleton";
 import { CaloriesBurnedChart } from "@/app/_components/profile/CaloriesBurnedChart";
 import { MuscleFocusRadarChart } from "@/app/_components/profile/MuscleFocusRadarChart";
 import { api } from "@/trpc/react";
@@ -26,42 +25,28 @@ export const HistoryContainer = () => {
             </span>
             {!!WR ? (
               <>
-                <div className="grid grid-cols-2">
-                  <div className="col-span-1 flex">
-                    <ToggleFrontMale
-                      viewMode
-                      initialDataForViewMode={
-                        generateMuscleState(
-                          combineMuscleAffection(WR?.muscleTargets),
-                        ).front
-                      }
-                    />
-                  </div>
-                  <div className="col-span-1 flex">
-                    <ToggleBackMale
-                      viewMode
-                      initialDataForViewMode={
-                        generateMuscleState(
-                          combineMuscleAffection(WR?.muscleTargets),
-                        ).back
-                      }
-                    />
-                  </div>
-                </div>
+                <ToggleSkeleton
+                  viewMode
+                  className="flex w-full justify-center py-4"
+                  initialDataForViewMode={generateMuscleState(
+                    combineMuscleAffection(WR.muscleTargets),
+                  )}
+                  // female={userInfo.gender}
+                />
                 <div className="grid grid-cols-2">
                   <MuscleFocusRadarChart
                     data={generateMuscleTargetForChart({
                       muscleObject: generateMuscleState(
-                        combineMuscleAffection(WR?.muscleTargets, true),
-                      ).front,
+                        combineMuscleAffection(WR.muscleTargets, true),
+                      ),
                       isFront: true,
                     })}
                   />
                   <MuscleFocusRadarChart
                     data={generateMuscleTargetForChart({
                       muscleObject: generateMuscleState(
-                        combineMuscleAffection(WR?.muscleTargets, true),
-                      ).back,
+                        combineMuscleAffection(WR.muscleTargets, true),
+                      ),
                     })}
                   />
                 </div>

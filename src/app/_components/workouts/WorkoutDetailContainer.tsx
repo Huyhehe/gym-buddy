@@ -1,9 +1,10 @@
 "use client";
 
-import type { SingleWorkoutReturnType } from "@/types";
+import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 import Medal from "@/assets/images/medal.png";
-import { ProgressWithButton } from "../ProgressWithButton";
-import { useMemo, useState } from "react";
+import { api } from "@/trpc/react";
+import type { SingleWorkoutReturnType } from "@/types";
+import { cn, generateMuscleState } from "@/utils";
 import {
   Box,
   Button,
@@ -16,17 +17,15 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { cn, generateMuscleState } from "@/utils";
-import { ToggleFrontMale } from "../MuscleSkeleton/ToggleFrontMale";
-import { ToggleBackMale } from "../MuscleSkeleton/ToggleBackMale";
-import { MuscleAffectLevelContainer } from "../MuscleAffectLevelContainer";
 import { useDisclosure } from "@mantine/hooks";
-import Image from "next/image";
-import { api } from "@/trpc/react";
 import { notifications } from "@mantine/notifications";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 import { GenderToggler } from "../GenderToggler";
-import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
+import { MuscleAffectLevelContainer } from "../MuscleAffectLevelContainer";
+import { ToggleSkeleton } from "../MuscleSkeleton/ToggleSkeleton";
+import { ProgressWithButton } from "../ProgressWithButton";
 
 type WorkoutExerciseStep =
   | NonNullable<
@@ -161,29 +160,15 @@ export const WorkoutDetailContainer = ({
             <Card.Section className="bg-primary p-4 text-white">
               <GenderToggler />
             </Card.Section>
-            <div
-              className="flex w-full justify-center py-4"
+            <ToggleSkeleton
               key={currentExerciseStep?.exercise.id}
-            >
-              <ToggleFrontMale
-                viewMode
-                initialDataForViewMode={
-                  generateMuscleState(
-                    currentExerciseStep?.exercise.ExerciseMuscleTarget ?? [],
-                  ).front
-                }
-                female={!isMale}
-              />
-              <ToggleBackMale
-                viewMode
-                initialDataForViewMode={
-                  generateMuscleState(
-                    currentExerciseStep?.exercise.ExerciseMuscleTarget ?? [],
-                  ).back
-                }
-                female={!isMale}
-              />
-            </div>
+              viewMode
+              className="flex w-full justify-center py-4"
+              initialDataForViewMode={generateMuscleState(
+                currentExerciseStep?.exercise.ExerciseMuscleTarget ?? [],
+              )}
+              female={!isMale}
+            />
             <Group gap={0}>
               <Box className="max-w-full">
                 <MuscleAffectLevelContainer />

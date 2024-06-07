@@ -1,7 +1,5 @@
 "use client";
 
-import { ToggleBackMale } from "@/app/_components/MuscleSkeleton/ToggleBackMale";
-import { ToggleFrontMale } from "@/app/_components/MuscleSkeleton/ToggleFrontMale";
 import { Icon } from "@/assets/icons/Icon";
 import type { UserWorkoutReturnType } from "@/types";
 import { cn, combineMuscleAffection, generateMuscleState } from "@/utils";
@@ -17,6 +15,7 @@ import {
 import { uniqBy } from "lodash";
 import { useMemo } from "react";
 
+import { ToggleSkeleton } from "@/app/_components/MuscleSkeleton/ToggleSkeleton";
 import NetBg from "@/assets/images/net-bg.jpg";
 import { api } from "@/trpc/react";
 import { notifications } from "@mantine/notifications";
@@ -94,32 +93,17 @@ export const MyWorkoutCard = ({ userWorkout, refetch }: Props) => {
           align="center"
           gap={2}
         >
-          <Group wrap="nowrap" className="z-10 w-2/3 self-center p-2">
-            <ToggleFrontMale
-              viewMode
-              initialDataForViewMode={
-                generateMuscleState(
-                  combineMuscleAffection(
-                    exercises
-                      .map((exercises) => exercises.ExerciseMuscleTarget)
-                      .flat(),
-                  ),
-                ).front
-              }
-            />
-            <ToggleBackMale
-              viewMode
-              initialDataForViewMode={
-                generateMuscleState(
-                  combineMuscleAffection(
-                    exercises
-                      .map((exercises) => exercises.ExerciseMuscleTarget)
-                      .flat(),
-                  ),
-                ).back
-              }
-            />
-          </Group>
+          <ToggleSkeleton
+            viewMode
+            className="z-10 w-2/3 self-center p-2"
+            initialDataForViewMode={generateMuscleState(
+              combineMuscleAffection(
+                exercises
+                  .map((exercises) => exercises.ExerciseMuscleTarget)
+                  .flat(),
+              ),
+            )}
+          />
           <Stack className="z-10 w-1/2" gap={0} align="center">
             <span className="text-gray-400">Độ mỏi của cơ</span>
             <div className="h-1 w-full rounded-full bg-gradient-to-r from-white from-5% via-yellow-200 via-45% to-red-600" />

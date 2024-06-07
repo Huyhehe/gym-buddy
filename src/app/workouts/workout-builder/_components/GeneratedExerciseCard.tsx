@@ -1,5 +1,4 @@
-import { ToggleBackMale } from "@/app/_components/MuscleSkeleton/ToggleBackMale";
-import { ToggleFrontMale } from "@/app/_components/MuscleSkeleton/ToggleFrontMale";
+import { ToggleSkeleton } from "@/app/_components/MuscleSkeleton/ToggleSkeleton";
 import { Icon } from "@/assets/icons/Icon";
 import type { GeneratedWorkoutReturnType } from "@/types";
 import {
@@ -66,22 +65,14 @@ export const GeneratedExerciseCard = ({
           {exercise.Equipment?.name}
         </Group>
       </Stack>
-      <Group wrap="nowrap" className="ml-auto h-fit w-1/4 max-w-[200px]">
-        <ToggleFrontMale
-          viewMode
-          initialDataForViewMode={
-            generateMuscleState(exercise.ExerciseMuscleTarget ?? []).front
-          }
-          female={female}
-        />
-        <ToggleBackMale
-          viewMode
-          initialDataForViewMode={
-            generateMuscleState(exercise.ExerciseMuscleTarget ?? []).back
-          }
-          female={female}
-        />
-      </Group>
+      <ToggleSkeleton
+        viewMode
+        className="ml-auto h-fit w-1/4 max-w-[200px]"
+        initialDataForViewMode={generateMuscleState(
+          exercise.ExerciseMuscleTarget ?? [],
+        )}
+        female={female}
+      />
     </Group>
   );
 };

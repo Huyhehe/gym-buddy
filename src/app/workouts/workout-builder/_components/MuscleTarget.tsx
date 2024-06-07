@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  SingleToggleBackMale,
-  initialState as initSingleToggleBackMale,
-} from "@/app/_components/MuscleSkeleton/SingleToggleBackMale";
-import {
-  SingleToggleFrontMale,
-  initialState as initSingleToggleFrontMale,
-} from "@/app/_components/MuscleSkeleton/SingleToggleFrontMale";
-import { Button, Group, Select, Stack } from "@mantine/core";
+import { SingleToggleSkeleton } from "@/app/_components/MuscleSkeleton/SingleToggleSkeleton";
+import { Button, Select, Stack } from "@mantine/core";
 import { useWorkoutBuilderFormContext } from "../_context";
 
 type Props = {
@@ -25,55 +18,29 @@ export const MuscleTarget = ({ female = false }: Props) => {
       </h1>
       <Stack align="center">
         <Select className="self-start" />
-        <Group justify="center" className="w-2/5 flex-nowrap">
-          <SingleToggleFrontMale
-            initialDataForViewMode={{
-              ...initSingleToggleFrontMale,
-              ...(() => {
-                const muscleTargets: Record<string, boolean> = {};
-                for (const target of values.muscleTarget.front) {
-                  muscleTargets[target] = true;
-                }
-                return muscleTargets;
-              })(),
-            }}
-            onReturnValue={(values) => {
-              const muscleTargets = [];
-              for (const [key, value] of Object.entries(values)) {
-                if (value) {
-                  muscleTargets.push(key);
-                }
+        <SingleToggleSkeleton
+          className="w-2/5"
+          female={female}
+          initialDataForViewMode={{
+            ...(() => {
+              const muscleTargets: Record<string, boolean> = {};
+              for (const target of values.muscleTarget) {
+                muscleTargets[target] = true;
               }
-
-              setFieldValue("muscleTarget.front", muscleTargets);
-            }}
-            female={female}
-          />
-
-          <SingleToggleBackMale
-            initialDataForViewMode={{
-              ...initSingleToggleBackMale,
-              ...(() => {
-                const muscleTargets: Record<string, boolean> = {};
-                for (const target of values.muscleTarget.back) {
-                  muscleTargets[target] = true;
-                }
-                return muscleTargets;
-              })(),
-            }}
-            onReturnValue={(values) => {
-              const muscleTargets = [];
-              for (const [key, value] of Object.entries(values)) {
-                if (value) {
-                  muscleTargets.push(key);
-                }
+              return muscleTargets;
+            })(),
+          }}
+          onReturnValue={(values) => {
+            const muscleTargets = [];
+            for (const [key, value] of Object.entries(values)) {
+              if (value) {
+                muscleTargets.push(key);
               }
+            }
 
-              setFieldValue("muscleTarget.back", muscleTargets);
-            }}
-            female={female}
-          />
-        </Group>
+            setFieldValue("muscleTarget", muscleTargets);
+          }}
+        />
         <Button
           color="var(--color-primary)"
           className="box-content self-end px-8 py-4 text-xl"

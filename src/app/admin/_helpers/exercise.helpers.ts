@@ -24,20 +24,12 @@ export const generateInitialExerciseFormValues = (
       (example) => example.mediaURL,
     ),
   };
-  const muscleTargets: TExerciseFormValues["muscleTargets"] = {
-    front: ExerciseMuscleTarget?.filter(
-      (target) => target.side === "front",
-    ).map((target) => ({
-      name: target.name,
-      level: target.affectLevel,
-    })),
-    back: ExerciseMuscleTarget?.filter((target) => target.side === "back").map(
-      (target) => ({
-        name: target.name,
-        level: target.affectLevel,
-      }),
-    ),
-  };
+
+  const muscleTargets: TExerciseFormValues["muscleTargets"] =
+    ExerciseMuscleTarget.map((exMuscleTarget) => ({
+      name: exMuscleTarget.name,
+      level: exMuscleTarget.affectLevel,
+    }));
 
   return {
     ...rest,
