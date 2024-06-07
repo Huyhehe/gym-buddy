@@ -29,11 +29,11 @@ export const sidebarLinks: SidebarLinks[] = [
       },
     ],
   },
-  {
-    title: "Routines",
-    href: "/routines",
-    icon: RoutinesIcon,
-  },
+  // {
+  //   title: "Routines",
+  //   href: "/routines",
+  //   icon: RoutinesIcon,
+  // },
   {
     title: "Công cụ",
     href: "/tools",
@@ -88,6 +88,12 @@ export const GOAL_LABEL = {
   gainMuscle: "Tăng cơ bắp",
 };
 
+export const GTE_LABEL = {
+  week: "7 ngày gần đây",
+  month: "30 ngày gần đây",
+  year: "365 ngày gần đây",
+};
+
 export const repsUnitOptions: SelectOption[] = [
   { label: "Số lần", value: "rep" },
   { label: "Số giây", value: "second" },
@@ -120,6 +126,21 @@ export const targetOptions: SelectOption[] = [
   },
 ];
 
+export const gteOptions: SelectOption[] = [
+  {
+    label: GTE_LABEL.week,
+    value: "7",
+  },
+  {
+    label: GTE_LABEL.month,
+    value: "30",
+  },
+  {
+    label: GTE_LABEL.year,
+    value: "365",
+  },
+];
+
 export const FRONT_MUSCLE_TARGET = [
   "abdominals",
   "obliques",
@@ -146,8 +167,22 @@ export const BACK_MUSCLE_TARGET = [
 ] as const;
 
 export const MUSCLE_TARGET = [
-  ...FRONT_MUSCLE_TARGET,
-  ...BACK_MUSCLE_TARGET,
+  "abdominals",
+  "obliques",
+  "biceps",
+  "shoulders",
+  "chest",
+  "quads",
+  "hamstrings",
+  "lowerback",
+  "glutes",
+  "lats",
+  "traps-middle",
+  "traps",
+  "rear-shoulders",
+  "calves",
+  "triceps",
+  "forearms",
 ] as const;
 
 export const BMR_STANDARD = {

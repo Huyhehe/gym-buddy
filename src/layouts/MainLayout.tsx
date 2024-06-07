@@ -29,7 +29,11 @@ export default async function MainLayout({
   let userInfo;
 
   if (session?.user) {
-    userInfo = await api.user.getUser();
+    try {
+      userInfo = await api.user.getMe();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -41,7 +45,7 @@ export default async function MainLayout({
         weight: userInfo?.weight,
       }}
     >
-      <div className="flex min-h-svh">
+      <div className="relative flex min-h-svh">
         <div className="relative min-h-svh bg-primary">
           <Sidebar session={session} />
         </div>

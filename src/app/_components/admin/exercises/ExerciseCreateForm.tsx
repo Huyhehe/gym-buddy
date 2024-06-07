@@ -58,6 +58,7 @@ import {
   initialState as initialFrontMuscleTarget,
   type ToggleState as FrontAffectLevel,
 } from "../../MuscleSkeleton/ToggleFrontMale";
+import { ToggleSkeleton } from "../../MuscleSkeleton/ToggleSkeleton";
 
 const initialValues: TExerciseFormValues = {
   name: "",
@@ -541,6 +542,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
             }
           />
         </Group>
+      </Group>
+      <Group className="flex justify-center">
+        <ToggleSkeleton className="w-1/2" />
       </Group>
 
       <Modal opened={deleteConfirmOpened} onClose={close}>

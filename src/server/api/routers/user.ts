@@ -4,7 +4,7 @@ import { z } from "zod";
 import { profileFormSchema } from "@/app/profile/_schemas";
 
 export const userRouter = createTRPCRouter({
-  getUser: protectedProcedure.query(async ({ ctx }) => {
+  getMe: protectedProcedure.query(async ({ ctx }) => {
     const thirtyDaysAgo = subDays(new Date(), 30);
 
     const user = await ctx.db.user.findFirst({
@@ -43,6 +43,9 @@ export const userRouter = createTRPCRouter({
     if (!user) {
       throw new Error("User not found");
     }
+    if (user.isBlocked) {
+      throw new Error("Bạn đã bị khóa sử dụng tính năng này");
+    }
 
     const { WorkoutRecord, ...restUser } = user;
 
@@ -72,22 +75,39 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
-  getMyWorkoutRecords: protectedProcedure.query(async ({ ctx }) => {
-    const userId = ctx.session?.user?.id;
-    return ctx.db.workoutRecord.findMany({
-      where: {
-        userId,
-      },
-      include: {
-        userWorkout: {
-          include: {
-            workout: {
-              include: {
-                WorkoutExerciseStep: {
-                  select: {
-                    exercise: {
-                      select: {
-                        caloriesBurned: true,
+  getMyWorkoutRecords: protectedProcedure
+    .input(
+      z
+        .object({
+          gte: z.number().optional(),
+        })
+        .optional(),
+    )
+    .query(async ({ ctx, input }) => {
+      const userId = ctx.session?.user?.id;
+
+      const workoutRecords = await ctx.db.workoutRecord.findMany({
+        where: {
+          userId,
+          ...(input?.gte
+            ? {
+                createdAt: {
+                  gte: subDays(new Date(), input?.gte),
+                },
+              }
+            : undefined),
+        },
+        include: {
+          userWorkout: {
+            include: {
+              workout: {
+                include: {
+                  WorkoutExerciseStep: {
+                    select: {
+                      exercise: {
+                        include: {
+                          ExerciseMuscleTarget: true,
+                        },
                       },
                     },
                   },
@@ -96,9 +116,25 @@ export const userRouter = createTRPCRouter({
             },
           },
         },
-      },
-    });
-  }),
+      });
+
+      const trainedExercises = workoutRecords
+        .map((workoutRecord) => {
+          return workoutRecord.userWorkout.workout.WorkoutExerciseStep;
+        })
+        .flat();
+
+      const muscleTargets = trainedExercises
+        .map((trainedExercise) => trainedExercise.exercise.ExerciseMuscleTarget)
+        .flat();
+
+      const returnedWR = {
+        workoutRecords,
+        muscleTargets,
+      };
+
+      return returnedWR;
+    }),
   updatePersonalInfo: protectedProcedure
     .input(profileFormSchema)
     .mutation(async ({ ctx, input }) => {

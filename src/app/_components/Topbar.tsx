@@ -1,7 +1,12 @@
 "use client";
 
 import { Avatar, Button, Menu, Text, rem } from "@mantine/core";
-import { IconBrandArc, IconLogout, IconUser } from "@tabler/icons-react";
+import {
+  IconBrandArc,
+  IconHistory,
+  IconLogout,
+  IconUser,
+} from "@tabler/icons-react";
 import { type Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -17,7 +22,7 @@ export const Topbar = ({ session }: Props) => {
     useGlobalContext();
 
   return (
-    <div className="flex items-center bg-white px-5 py-1">
+    <div className="sticky right-0 top-0 z-30 flex items-center bg-white px-5 py-1 shadow-md">
       <div className="flex items-center">
         <IconBrandArc color="var(--color-primary)" className="w-8" />
 
@@ -52,6 +57,16 @@ export const Topbar = ({ session }: Props) => {
                 href="/profile"
               >
                 Hồ sơ cá nhân
+              </Menu.Item>
+              <Menu.Item
+                color="blue"
+                leftSection={
+                  <IconHistory style={{ width: rem(14), height: rem(14) }} />
+                }
+                component={Link}
+                href="/profile/history"
+              >
+                Lịch sử tập luyện
               </Menu.Item>
               <Menu.Item
                 color="red"

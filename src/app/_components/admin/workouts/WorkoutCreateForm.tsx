@@ -26,6 +26,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MediaDropZone } from "../../MediaDropZone";
 import { ExerciseSelectBoard } from "../exercises/ExerciseSelectBoard";
+import { useEffect } from "react";
+import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 
 const initialValues: TWorkoutFormValues = {
   title: "",
@@ -44,13 +46,15 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { replace } = useRouter();
 
+  const { setIsBackdropOpen } = useGlobalContext();
+
   const [deleteConfirmOpened, { close, open }] = useDisclosure();
 
   const { data: exercises } = api.exercise.getExercises.useQuery(undefined, {
     refetchOnWindowFocus: false,
   });
 
-  const { mutate: createWorkout, isPending: createPending } =
+  const { mutate: createWorkout, isPending: createLoading } =
     api.admin.createWorkout.useMutation({
       onError: (error) => {
         notifications.show({
@@ -123,14 +127,13 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
     !!workoutFromData ? updateWorkout(values) : createWorkout(values);
   };
 
+  useEffect(() => {
+    setIsBackdropOpen(createLoading || updateLoading || deleteLoading);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createLoading, updateLoading, deleteLoading]);
+
   return (
     <Box pos="relative" className="mt-4">
-      <LoadingOverlay
-        visible={createPending || updateLoading || deleteLoading}
-        zIndex={1000}
-        overlayProps={{ radius: "sm", blur: 2 }}
-        loaderProps={{ color: "blue", type: "bars" }}
-      />
       <WorkoutFormProvider form={form}>
         <form className="space-y-2" onSubmit={form.onSubmit(handleSubmit)}>
           <TextInput

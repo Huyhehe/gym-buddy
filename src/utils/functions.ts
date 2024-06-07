@@ -4,11 +4,11 @@ import type {
 } from "@/types";
 import groupBy from "lodash/groupBy";
 
+import { notifications } from "@mantine/notifications";
 import { clsx, type ClassValue } from "clsx";
+import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import { GOAL_LABEL, LEVEL_LABEL } from "./constants";
-import { notifications } from "@mantine/notifications";
-import { ReactNode } from "react";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -80,6 +80,7 @@ export const combineMuscleAffection = (
   const muscleTargetsGroupObject = groupBy(muscleTargets, "name");
 
   for (const [, value] of Object.entries(muscleTargetsGroupObject)) {
+    console.log({ value });
     const muscleTarget = value.reduce((acc, obj) => {
       return {
         ...acc,
@@ -93,6 +94,8 @@ export const combineMuscleAffection = (
 
     finalMuscleTargets.push(muscleTarget);
   }
+
+  console.log({ muscleTargetsGroupObject, finalMuscleTargets, muscleTargets });
 
   return finalMuscleTargets;
 };

@@ -45,13 +45,13 @@ export const SelectableExerciseCard = ({
           <ToggleFrontMale
             viewMode
             initialDataForViewMode={
-              generateMuscleState(exercise.ExerciseMuscleTarget ?? []).front
+              generateMuscleState(exercise.ExerciseMuscleTarget).front
             }
           />
           <ToggleBackMale
             viewMode
             initialDataForViewMode={
-              generateMuscleState(exercise.ExerciseMuscleTarget ?? []).back
+              generateMuscleState(exercise.ExerciseMuscleTarget).back
             }
           />
         </div>

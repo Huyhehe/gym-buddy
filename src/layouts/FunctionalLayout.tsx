@@ -13,6 +13,7 @@ export default function FunctionalLayout({
   return (
     <div>
       <LoadingOverlay
+        className="fixed top-0 h-svh"
         visible={isBackdropOpen}
         color="#fff"
         overlayProps={{

@@ -248,6 +248,7 @@ export const GeneratedWorkoutForm = ({
                             ref={draggableProvided.innerRef}
                             mt="xs"
                             {...draggableProvided.draggableProps}
+                            className="left-auto top-auto"
                           >
                             <GeneratedExerciseCard
                               exercise={item!}
