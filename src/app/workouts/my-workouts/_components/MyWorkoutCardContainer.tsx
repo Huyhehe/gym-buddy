@@ -1,13 +1,12 @@
 "use client";
 
-import { Stack } from "@mantine/core";
-import { MyWorkoutCard } from "./MyWorkoutCard";
 import { api } from "@/trpc/react";
+import { Stack } from "@mantine/core";
 import { IconCirclePlus } from "@tabler/icons-react";
-import { useGlobalContext } from "../../workout-builder/_context/global-context";
-import { useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useGlobalContext } from "../../workout-builder/_context/global-context";
+import { MyWorkoutCard } from "./MyWorkoutCard";
 
 export const MyWorkoutCardContainer = () => {
   const { setIsBackdropOpen } = useGlobalContext();

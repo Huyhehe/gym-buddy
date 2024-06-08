@@ -7,6 +7,9 @@ const HistoryPage = async () => {
     if (user.id) {
       return (
         <div className="p-6">
+          <h1 className="mb-6 text-3xl font-bold text-primary">
+            Thống kê lịch sử tập luyện
+          </h1>
           <HistoryContainer />
         </div>
       );

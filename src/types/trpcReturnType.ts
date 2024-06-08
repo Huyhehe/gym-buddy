@@ -45,3 +45,9 @@ export type UserWorkoutRecordReturnType =
 
 export type UserWorkoutRecordMuscleTargetReturnType =
   RouterOutput["user"]["getMyWorkoutRecords"]["muscleTargets"][number];
+
+// functions.ts
+export type TGetUserWorkoutFromRecord = {
+  userWorkout: UserWorkoutRecordReturnType["userWorkout"];
+  recordDateTimes: Date[];
+};

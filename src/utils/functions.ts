@@ -1,5 +1,6 @@
 import type {
   ExerciseMuscleTargetReturnType,
+  TGetUserWorkoutFromRecord,
   UserWorkoutRecordReturnType,
 } from "@/types";
 import groupBy from "lodash/groupBy";
@@ -307,4 +308,22 @@ export const showNoti = ({
     message: message ?? baseMessage,
     color: isSuccess ? "green" : "red",
   });
+};
+
+export const getUserWorkoutFromRecords = (
+  workoutRecords: UserWorkoutRecordReturnType[],
+): TGetUserWorkoutFromRecord[] => {
+  const workoutRecordGroupObject = groupBy(workoutRecords, "userWorkoutId");
+  const userWorkouts: TGetUserWorkoutFromRecord[] = [];
+  for (const [, value] of Object.entries(workoutRecordGroupObject)) {
+    if (!value?.[0]) continue;
+
+    const recordDateTimes = value.map((rdt) => rdt.createdAt);
+    userWorkouts.push({
+      userWorkout: value?.[0]?.userWorkout,
+      recordDateTimes,
+    });
+  }
+
+  return userWorkouts;
 };
