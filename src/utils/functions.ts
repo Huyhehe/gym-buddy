@@ -1,5 +1,6 @@
 import type {
   ExerciseMuscleTargetReturnType,
+  MuscleTarget,
   TGetUserWorkoutFromRecord,
   UserWorkoutRecordReturnType,
 } from "@/types";
@@ -326,4 +327,43 @@ export const getUserWorkoutFromRecords = (
   }
 
   return userWorkouts;
+};
+
+export const getMuscleName = (muscleTarget: MuscleTarget) => {
+  switch (muscleTarget) {
+    case "abdominals":
+      return "Bụng";
+    case "biceps":
+      return "Tay sau";
+    case "calves":
+      return "Bắp chuối";
+    case "chest":
+      return "Ngực";
+    case "forearms":
+      return "Cẳng tay";
+    case "glutes":
+      return "Mông";
+    case "hamstrings":
+      return "Đùi sau";
+    case "lats":
+      return "Xô";
+    case "lowerback":
+      return "Lưng dưới";
+    case "obliques":
+      return "Liên sườn";
+    case "quads":
+      return "Đùi trước";
+    case "rear-shoulders":
+      return "Vai sau";
+    case "shoulders":
+      return "Vai trước";
+    case "traps":
+      return "Cơ thang";
+    case "traps-middle":
+      return "Cơ thang giữa";
+    case "triceps":
+      return "Tay trước";
+    default:
+      return;
+  }
 };

@@ -152,6 +152,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   const handleSubmit = (values: TExerciseFormValues) => {
     const inputValues: TExerciseFormValues = {
       ...values,
+      name: values.name.trim(),
       mediaURLs,
     };
 

@@ -1,9 +1,8 @@
 "use client";
 
-import { MUSCLE_TARGET, cn, generateColorByAffectLevel } from "@/utils";
+import { MuscleTarget } from "@/types";
+import { cn, generateColorByAffectLevel } from "@/utils";
 import { useEffect, useState } from "react";
-
-type MuscleTarget = (typeof MUSCLE_TARGET)[number];
 
 export type ToggleState = {
   [key in MuscleTarget]: number;

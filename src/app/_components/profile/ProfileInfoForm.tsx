@@ -39,7 +39,7 @@ export const ProfileInfoForm = ({ userInfo }: Props) => {
           message: "Update profile successfully",
           color: "green",
         });
-        form.reset();
+        offEdit();
       },
       onError: () => {
         notifications.show({
@@ -47,6 +47,7 @@ export const ProfileInfoForm = ({ userInfo }: Props) => {
           message: "Failed to update profile",
           color: "red",
         });
+        form.reset();
       },
     });
 

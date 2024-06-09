@@ -1,3 +1,4 @@
+import { MUSCLE_TARGET } from "@/utils";
 import type { ReactNode } from "react";
 
 export type SidebarSubLinks = {
@@ -21,3 +22,5 @@ export type SelectOption = {
 export type LocalStorageType = {
   caloriesNeed?: number;
 };
+
+export type MuscleTarget = (typeof MUSCLE_TARGET)[number];

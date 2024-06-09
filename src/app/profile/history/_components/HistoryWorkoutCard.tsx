@@ -1,19 +1,24 @@
 import { ToggleSkeleton } from "@/app/_components/MuscleSkeleton/ToggleSkeleton";
 import NetBg from "@/assets/images/net-bg.jpg";
-import { TGetUserWorkoutFromRecord } from "@/types";
-import { cn, combineMuscleAffection, generateMuscleState } from "@/utils";
+import { MuscleTarget, TGetUserWorkoutFromRecord } from "@/types";
+import {
+  cn,
+  combineMuscleAffection,
+  generateMuscleState,
+  getMuscleName,
+} from "@/utils";
 import { Group, Modal, Stack, Text, Timeline, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
+  IconBodyScan,
   IconBrandArc,
   IconEye,
   IconFlame,
-  IconGitBranch,
-  IconGitCommit,
-  IconGitPullRequest,
-  IconMessageDots,
+  IconReport,
   IconSettingsCog,
+  IconStretching,
 } from "@tabler/icons-react";
+import { format } from "date-fns";
 import Link from "next/link";
 import { useMemo } from "react";
 
@@ -34,6 +39,13 @@ export const HistoryWorkoutCard = ({
       (exercise) => exercise.exercise,
     );
   }, [userWorkoutFromRecord.userWorkout.workout.WorkoutExerciseStep]);
+
+  const combinedMuscleTargets = useMemo(() => {
+    return combineMuscleAffection(
+      exercises.map((exercises) => exercises.ExerciseMuscleTarget).flat(),
+    );
+  }, [exercises]);
+
   return (
     <>
       <Stack
@@ -54,7 +66,7 @@ export const HistoryWorkoutCard = ({
             <IconEye
               size={32}
               color="white"
-              className="box-content cursor-pointer py-2 transition-all hover:z-10 hover:scale-125"
+              className="hover:scale-205 box-content cursor-pointer py-2 transition-all hover:z-10"
               onClick={openDetail}
             />
           </Tooltip>
@@ -68,13 +80,7 @@ export const HistoryWorkoutCard = ({
           <ToggleSkeleton
             viewMode
             className="z-10 w-2/3 self-center p-2"
-            initialDataForViewMode={generateMuscleState(
-              combineMuscleAffection(
-                exercises
-                  .map((exercises) => exercises.ExerciseMuscleTarget)
-                  .flat(),
-              ),
-            )}
+            initialDataForViewMode={generateMuscleState(combinedMuscleTargets)}
           />
           <Stack className="z-10 w-1/2" gap={0} align="center">
             <span className="text-gray-400">Độ mỏi của cơ</span>
@@ -132,7 +138,7 @@ export const HistoryWorkoutCard = ({
         onClose={closeDetail}
         title={userWorkoutFromRecord.userWorkout.workout.title}
         classNames={{
-          title: "font-bold text-xl",
+          title: "font-bold text-3xl",
         }}
         size="50%"
         radius="lg"
@@ -140,78 +146,133 @@ export const HistoryWorkoutCard = ({
         <Modal.Body className="flex">
           <ToggleSkeleton
             viewMode
-            className="z-10 w-1/3 self-center pr-8"
-            initialDataForViewMode={generateMuscleState(
-              combineMuscleAffection(
-                exercises
-                  .map((exercises) => exercises.ExerciseMuscleTarget)
-                  .flat(),
-              ),
-            )}
+            className="z-10 w-2/5 self-center pr-8"
+            initialDataForViewMode={generateMuscleState(combinedMuscleTargets)}
           />
           <Stack>
-            <Timeline active={3} bulletSize={24} lineWidth={2}>
+            <Timeline active={3} bulletSize={36} lineWidth={2}>
               <Timeline.Item
-                bullet={<IconGitBranch size={12} />}
-                title="New branch"
+                bullet={<IconReport size={20} />}
+                title="Số lần tập luyện"
+                fz="xl"
                 lineVariant="dashed"
               >
-                <Text c="dimmed" size="sm">
-                  You&apos;ve created new branch{" "}
-                  <Text variant="link" component="span" inherit>
-                    fix-notifications
-                  </Text>{" "}
-                  from master
+                <Text c="dimmed" size="lg">
+                  Bạn đã tập luyện tổng cộng{" "}
+                  {userWorkoutFromRecord.recordDateTimes.length} lần
                 </Text>
-                <Text size="xs" mt={4}>
-                  2 hours ago
+                <Text size="sm" mt={4}>
+                  {userWorkoutFromRecord.recordDateTimes
+                    .map((dateTime) => {
+                      const date = format(dateTime, "dd-MM-yyyy");
+                      return date;
+                    })
+                    .join(", ")}
                 </Text>
               </Timeline.Item>
 
               <Timeline.Item
                 lineVariant="dashed"
-                bullet={<IconGitCommit size={12} />}
-                title="Commits"
+                bullet={<IconStretching size={20} />}
+                title="Các bài tập"
+                fz="xl"
               >
-                <Text c="dimmed" size="sm">
-                  You&apos;ve pushed 23 commits to
-                  <Text variant="link" component="span" inherit>
-                    fix-notifications branch
+                <Group gap={0}>
+                  {exercises.slice(0, 2).map((exercise, index) => (
+                    <Text
+                      c="dimmed"
+                      size="lg"
+                      className="mr-1 last-of-type:mr-0"
+                      key={exercise.id}
+                    >
+                      {exercise.name}
+                      {index === 1 ? "" : ","}
+                    </Text>
+                  ))}
+                  {exercises.length > 2 && (
+                    <Tooltip
+                      position="right-start"
+                      label={
+                        <Stack gap={0}>
+                          {exercises.slice(2).map((exercise) => (
+                            <Text>{exercise.name}</Text>
+                          ))}
+                        </Stack>
+                      }
+                    >
+                      <Text component="span" fw="bold" c="dimmed" size="lg">
+                        , +{exercises.length - 2}
+                      </Text>
+                    </Tooltip>
+                  )}
+                </Group>
+                <Text size="sm" mt={4}>
+                  Số lượng: {exercises.length}
+                </Text>
+              </Timeline.Item>
+
+              <Timeline.Item
+                title="Nhóm cơ"
+                fz="xl"
+                bullet={<IconBodyScan size={20} />}
+                lineVariant="dashed"
+              >
+                <Group gap={0}>
+                  {combinedMuscleTargets
+                    .slice(0, 2)
+                    .map((combinedMuscleTarget, index) => (
+                      <Text
+                        c="dimmed"
+                        size="lg"
+                        className="mr-1 last-of-type:mr-0"
+                        key={combinedMuscleTarget.id}
+                      >
+                        {getMuscleName(
+                          combinedMuscleTarget.name as MuscleTarget,
+                        )}
+                        {index === 1 ? "" : ","}
+                      </Text>
+                    ))}
+                  {combinedMuscleTargets.length > 2 && (
+                    <Tooltip
+                      position="right-start"
+                      label={
+                        <Stack gap={0}>
+                          {combinedMuscleTargets
+                            .slice(2)
+                            .map((combinedMuscleTarget) => (
+                              <Text>
+                                {getMuscleName(
+                                  combinedMuscleTarget.name as MuscleTarget,
+                                )}
+                              </Text>
+                            ))}
+                        </Stack>
+                      }
+                    >
+                      <Text component="span" fw="bold" c="dimmed" size="lg">
+                        , +{combinedMuscleTargets.length - 2}
+                      </Text>
+                    </Tooltip>
+                  )}
+                </Group>
+              </Timeline.Item>
+
+              <Timeline.Item
+                title="Tổng lượng calo tiêu thụ"
+                fz="xl"
+                bullet={<IconFlame size={20} />}
+              >
+                <Group gap={0} align="start">
+                  <Text c="dimmed" size="lg">
+                    {exercises.reduce((acc, cur) => {
+                      return acc + cur.caloriesBurned;
+                    }, 0)}{" "}
                   </Text>
-                </Text>
-                <Text size="xs" mt={4}>
-                  52 minutes ago
-                </Text>
-              </Timeline.Item>
-
-              <Timeline.Item
-                title="Pull request"
-                bullet={<IconGitPullRequest size={12} />}
-                lineVariant="dashed"
-              >
-                <Text c="dimmed" size="sm">
-                  You&apos;ve submitted a pull request
-                  <Text variant="link" component="span" inherit>
-                    Fix incorrect notification message (#187)
-                  </Text>
-                </Text>
-                <Text size="xs" mt={4}>
-                  34 minutes ago
-                </Text>
-              </Timeline.Item>
-
-              <Timeline.Item
-                title="Code review"
-                bullet={<IconMessageDots size={12} />}
-              >
-                <Text c="dimmed" size="sm">
-                  <Text variant="link" component="span" inherit>
-                    Robert Gluesticker
-                  </Text>{" "}
-                  left a code review on your pull request
-                </Text>
-                <Text size="xs" mt={4}>
-                  12 minutes ago
+                  <IconFlame color="orange" />
+                </Group>
+                <Text size="sm" mt={4}>
+                  Cal/Kcal
                 </Text>
               </Timeline.Item>
             </Timeline>
