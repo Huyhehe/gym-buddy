@@ -195,7 +195,7 @@ export const HistoryWorkoutCard = ({
                       label={
                         <Stack gap={0}>
                           {exercises.slice(2).map((exercise) => (
-                            <Text>{exercise.name}</Text>
+                            <Text key={exercise.id}>{exercise.name}</Text>
                           ))}
                         </Stack>
                       }
@@ -241,7 +241,7 @@ export const HistoryWorkoutCard = ({
                           {combinedMuscleTargets
                             .slice(2)
                             .map((combinedMuscleTarget) => (
-                              <Text>
+                              <Text key={combinedMuscleTarget.id}>
                                 {getMuscleName(
                                   combinedMuscleTarget.name as MuscleTarget,
                                 )}
