@@ -36,7 +36,7 @@ const MacroCalculatorPage = () => {
     [form.values.unit, form.values.calories, form.values.mealPerDay],
   );
   return (
-    <div>
+    <div className="p-4 @container/tools-macro">
       <Stack className="mb-5 text-center" align="center">
         <h1 className="py-5 text-5xl font-bold text-primary">
           Macro Calculator

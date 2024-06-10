@@ -52,7 +52,7 @@ const CalorieCalculatorPage = () => {
   }, [form.values]);
 
   return (
-    <div className="@5xl/tools:p-28">
+    <div className="p-4 @container/tools-calories">
       <div className="text-center">
         <h1 className="py-5 text-5xl font-bold text-primary">
           Máy tính Calorie
@@ -102,7 +102,7 @@ const CalorieCalculatorPage = () => {
           {...form.getInputProps("height")}
         />
       </Group>
-      <Group className="gap-4">
+      <Group className="gap-4 @5xl/tools-calories:px-28">
         <Select
           data={[
             { label: "Nam", value: "1" },
@@ -111,7 +111,7 @@ const CalorieCalculatorPage = () => {
           allowDeselect={false}
           key={form.key("gender")}
           {...form.getInputProps("gender")}
-          className="grow @5xl/tools:grow-0"
+          className="grow @5xl/tools-calories:grow-0"
         />
         <Select
           data={workoutFrequencyOptions}
