@@ -27,6 +27,7 @@ import {
   workoutBuilderSchema,
   type TWorkoutBuilderFormValues,
 } from "./_schemas";
+import { FormPartWrapper } from "./_components/FormPartWrapper";
 
 const CompleteStepPage = ({ generate }: { generate: () => void }) => {
   const { errors, setFieldValue } = useWorkoutBuilderFormContext();
@@ -88,7 +89,7 @@ const WorkoutBuilderPage = () => {
 
   return (
     <WorkoutBuilderFormProvider form={workoutBuilderForm}>
-      <div className="p-6">
+      <div className="p-6 @container/generate-workout">
         {!data && (
           <form
             onSubmit={workoutBuilderForm.onSubmit(
@@ -101,6 +102,9 @@ const WorkoutBuilderPage = () => {
                 workoutBuilderForm.setFieldValue("currentStep", step)
               }
               color="var(--color-primary)"
+              classNames={{
+                stepBody: "hidden @3xl/generate-workout:block",
+              }}
             >
               <Stepper.Step
                 label="Giới tính"
@@ -108,7 +112,9 @@ const WorkoutBuilderPage = () => {
                 icon={<IconGenderBigender />}
                 completedIcon={<IconGenderBigender />}
               >
-                <GenderButtonGroup />
+                <FormPartWrapper title="giới tính của bạn là gì?">
+                  <GenderButtonGroup />
+                </FormPartWrapper>
               </Stepper.Step>
               <Stepper.Step
                 label="Tuổi tác"
@@ -116,7 +122,9 @@ const WorkoutBuilderPage = () => {
                 icon={<IconCake />}
                 completedIcon={<IconCake />}
               >
-                <AgeSelector />
+                <FormPartWrapper title="Tuổi tác">
+                  <AgeSelector />
+                </FormPartWrapper>
               </Stepper.Step>
               <Stepper.Step
                 label="Mục tiêu"
@@ -124,7 +132,9 @@ const WorkoutBuilderPage = () => {
                 icon={<IconTargetArrow />}
                 completedIcon={<IconTargetArrow />}
               >
-                <GoalButtonGroup />
+                <FormPartWrapper title="mục tiêu tập luyện của bạn là gì?">
+                  <GoalButtonGroup />
+                </FormPartWrapper>
               </Stepper.Step>
               <Stepper.Step
                 label="Cấp độ"
@@ -132,7 +142,9 @@ const WorkoutBuilderPage = () => {
                 icon={<IconBolt />}
                 completedIcon={<IconBolt />}
               >
-                <FitnessLevelButtonGroup />
+                <FormPartWrapper title="việc tập gym đối với bạn như thế nào?">
+                  <FitnessLevelButtonGroup />
+                </FormPartWrapper>
               </Stepper.Step>
               <Stepper.Step
                 label="Nhóm cơ"
@@ -140,7 +152,14 @@ const WorkoutBuilderPage = () => {
                 icon={<IconBarbell />}
                 completedIcon={<IconBarbell />}
               >
-                <MuscleTarget female={!workoutBuilderForm.values.gender} />
+                <FormPartWrapper
+                  title="bạn muốn tập nhóm cơ nào?"
+                  classNames={{
+                    main: "@4xl/generate-workout:px-0",
+                  }}
+                >
+                  <MuscleTarget female={!workoutBuilderForm.values.gender} />
+                </FormPartWrapper>
               </Stepper.Step>
 
               <Stepper.Completed>

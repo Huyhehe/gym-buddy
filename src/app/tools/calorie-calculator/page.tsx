@@ -26,6 +26,7 @@ const CalorieCalculatorPage = () => {
     initialValues,
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateCaloriesNeed = useCallback(
     debounce((caloriesNeed: number) => {
       setUserInfo((prev) => ({
@@ -46,6 +47,7 @@ const CalorieCalculatorPage = () => {
       gender: true,
     }).toFixed();
     updateCaloriesNeed(Number(caloriesNeed));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.values]);
 
   return (

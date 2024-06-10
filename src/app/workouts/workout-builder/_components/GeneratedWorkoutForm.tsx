@@ -124,11 +124,11 @@ export const GeneratedWorkoutForm = ({
   };
 
   return (
-    <div className="@container">
+    <div className="@container/generated-form">
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack
           align="center"
-          className="mx-auto w-full items-stretch @4xl:w-11/12 @5xl:w-2/3"
+          className="mx-auto w-full items-stretch @4xl/generated-form:w-11/12 @5xl/generated-form:w-2/3"
         >
           <Group
             className="rounded-md border bg-white px-20 py-6 shadow-md"

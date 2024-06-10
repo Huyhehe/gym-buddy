@@ -1,11 +1,11 @@
 import { api } from "@/trpc/server";
-import { ExerciseDetails } from "../_components/exercise/ExerciseDetails";
-import { GridContainer } from "../_components/GridContainer";
-import { OptionFilterContainer } from "../_components/exercise/OptionFilterContainer";
-import { ExerciseDetailContainer } from "../_components/exercise/ExerciseDetailContainer";
 import { EmptyData } from "../_components/EmptyData";
+import { ExerciseDetails } from "../_components/exercise/ExerciseDetails";
+import { OptionFilterContainer } from "../_components/exercise/OptionFilterContainer";
+import { ClientWrapper } from "./_components/ClientWrapper";
 
 const ExercisePage = async ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   params,
   searchParams,
 }: {
@@ -38,6 +38,9 @@ const ExercisePage = async ({
           className="col-span-4 hidden @5xl/exercise-page:block"
         />
       </div>
+      <ClientWrapper>
+        <OptionFilterContainer equipments={equipments} />
+      </ClientWrapper>
     </div>
   );
 };
