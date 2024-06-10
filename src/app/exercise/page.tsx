@@ -22,9 +22,9 @@ const ExercisePage = async ({
   const equipments = await api.client.getEquipments();
 
   return (
-    <div className="p-6">
-      <GridContainer>
-        <ExerciseDetailContainer span={8}>
+    <div className="p-6 @container/exercise-page">
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12 @5xl:col-span-8">
           {!!exercises.length ? (
             exercises.map((exercise) => (
               <ExerciseDetails key={exercise.id} exercise={exercise} />
@@ -32,9 +32,12 @@ const ExercisePage = async ({
           ) : (
             <EmptyData />
           )}
-        </ExerciseDetailContainer>
-        <OptionFilterContainer equipments={equipments} />
-      </GridContainer>
+        </div>
+        <OptionFilterContainer
+          equipments={equipments}
+          className="col-span-4 hidden @5xl:block"
+        />
+      </div>
     </div>
   );
 };

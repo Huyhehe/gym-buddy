@@ -21,13 +21,16 @@ export const ExerciseDetails = ({ exercise }: Props) => {
         <h1 className="bg-primary px-4 py-3 text-2xl font-bold text-white">
           {exercise?.name}
         </h1>
-        <Grid>
+        <div className="grid grid-cols-12 gap-4">
           {medias.map((example) => (
-            <Grid.Col span={6} key={example?.id}>
+            <div
+              key={example?.id}
+              className="col-span-12 @xl:col-span-6 [&_.media]:last:rounded-lg @xl:[&_.media]:last:rounded-t-none"
+            >
               {example.mediaURL.includes("videos") ? (
                 <video
                   src={example?.mediaURL ?? ""}
-                  className="w-full rounded-b-lg object-cover"
+                  className="media w-full rounded-b-lg object-cover"
                   autoPlay
                   loop
                   muted
@@ -36,12 +39,12 @@ export const ExerciseDetails = ({ exercise }: Props) => {
                 <Image
                   alt={example.mediaURL}
                   src={example.mediaURL ?? ""}
-                  className="rounded-b-lg"
+                  className="media rounded-b-lg"
                 />
               )}
-            </Grid.Col>
+            </div>
           ))}
-        </Grid>
+        </div>
       </Stack>
 
       <Stack gap={2} className="my-4 -ml-2">

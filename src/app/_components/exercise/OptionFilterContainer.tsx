@@ -8,12 +8,14 @@ import { EquipmentSelectContainer } from "../home-page/EquipmentSelectContainer"
 import { GenderToggler } from "../GenderToggler";
 import { ExerciseNavigateBackMale } from "./ExerciseNavigateBackMale";
 import { ExerciseNavigateFrontMale } from "./ExerciseNavigateFrontMale";
+import { cn } from "@/utils";
 
 type Props = {
   equipments: EquipmentReturnType[];
+  className?: string;
 };
 
-export const OptionFilterContainer = ({ equipments }: Props) => {
+export const OptionFilterContainer = ({ equipments, className }: Props) => {
   const params = useSearchParams();
   const router = useRouter();
 
@@ -25,7 +27,7 @@ export const OptionFilterContainer = ({ equipments }: Props) => {
   };
 
   return (
-    <GridCol span={4} className="relative">
+    <div className={cn("relative", className)}>
       <Card radius="md" className="sticky top-0 max-w-full">
         <Card.Section className="bg-primary p-4 text-white">
           <GenderToggler />
@@ -51,6 +53,6 @@ export const OptionFilterContainer = ({ equipments }: Props) => {
           className="pt-0"
         />
       </Card>
-    </GridCol>
+    </div>
   );
 };

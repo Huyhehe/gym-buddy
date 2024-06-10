@@ -32,6 +32,7 @@ export const Topbar = ({ session }: Props) => {
 
   useEffect(() => {
     closeDrawer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   return (
@@ -42,7 +43,7 @@ export const Topbar = ({ session }: Props) => {
           onClick={openDrawer}
           aria-label="Toggle navigation"
           color="var(--color-primary)"
-          className="@2xl/main:hidden"
+          className="md:hidden"
         />
         <Drawer
           opened={drawerOpened}
@@ -62,11 +63,13 @@ export const Topbar = ({ session }: Props) => {
             }}
           />
         </Drawer>
-        <IconBrandArc color="var(--color-primary)" className="w-8" />
+        <Link href="/" className="flex items-center">
+          <IconBrandArc color="var(--color-primary)" className="w-8" />
 
-        <Text className="text-lg font-bold uppercase text-primary">
-          Gym Buddy
-        </Text>
+          <Text className="text-lg font-bold uppercase text-primary">
+            Gym Buddy
+          </Text>
+        </Link>
       </div>
       {!!session ? (
         <div className="ml-auto">
