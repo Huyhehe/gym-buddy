@@ -13,6 +13,7 @@ import { debounce } from "lodash";
 import { useCallback, useEffect } from "react";
 
 const initialValues = {
+  gender: "1",
   age: 18,
   weight: 50,
   height: 150,
@@ -44,7 +45,7 @@ const CalorieCalculatorPage = () => {
       weight: form.values.weight,
       workoutFrequency: Number(form.values.workoutFrequency),
       workoutTarget: Number(form.values.workoutTarget),
-      gender: true,
+      gender: form.values.gender === "1",
     }).toFixed();
     updateCaloriesNeed(Number(caloriesNeed));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -103,6 +104,16 @@ const CalorieCalculatorPage = () => {
       </Group>
       <Group className="gap-4">
         <Select
+          data={[
+            { label: "Nam", value: "1" },
+            { label: "Nữ", value: "0" },
+          ]}
+          allowDeselect={false}
+          key={form.key("gender")}
+          {...form.getInputProps("gender")}
+          className="grow @5xl/tools:grow-0"
+        />
+        <Select
           data={workoutFrequencyOptions}
           allowDeselect={false}
           key={form.key("workoutFrequency")}
@@ -127,7 +138,7 @@ const CalorieCalculatorPage = () => {
             weight: form.values.weight,
             workoutFrequency: Number(form.values.workoutFrequency),
             workoutTarget: Number(form.values.workoutTarget),
-            gender: true,
+            gender: form.values.gender === "1",
           }).toFixed()}
         </span>{" "}
         Kcal
