@@ -1,15 +1,30 @@
 "use client";
 
-import { Group } from "@mantine/core";
-
+import { cn } from "@/utils";
 import { HomePageBackMale } from "./HomePageBackMale";
 import { HomePageFrontMale } from "./HomePageFrontMale";
 
-export const HomePageNavigateSkeletons = () => {
+type ClassNames = {
+  root: string;
+  front: string;
+  back: string;
+  skeleton: string;
+};
+
+type Props = {
+  className?: string;
+  classNames?: Partial<ClassNames>;
+};
+
+export const HomePageNavigateSkeletons = ({ className, classNames }: Props) => {
   return (
-    <Group className="grow" justify="center">
-      <HomePageFrontMale />
-      <HomePageBackMale />
-    </Group>
+    <div className={cn(className, classNames?.root)}>
+      <HomePageFrontMale
+        className={cn(classNames?.skeleton, classNames?.front)}
+      />
+      <HomePageBackMale
+        className={cn(classNames?.skeleton, classNames?.back)}
+      />
+    </div>
   );
 };

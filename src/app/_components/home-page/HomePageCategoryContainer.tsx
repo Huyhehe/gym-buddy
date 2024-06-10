@@ -1,12 +1,18 @@
 "use client";
 
-import { Card } from "@mantine/core";
+import { Card, CardSection, Divider } from "@mantine/core";
 import { EquipmentSelectContainer } from "./EquipmentSelectContainer";
 
 import { useHomePageClientContext } from "./HomePageClientContextProvider";
 import { GenderToggler } from "../GenderToggler";
+import { cn } from "@/utils";
+import { HomePageNavigateSkeletons } from "./HomePageNavigateSkeletons";
 
-export const HomePageCategoryContainer = () => {
+type Props = {
+  className?: string;
+};
+
+export const HomePageCategoryContainer = ({ className }: Props) => {
   const { equipments, setEquipment } = useHomePageClientContext();
   const handleEquipmentChange = (value: string) => {
     setEquipment(value);
@@ -18,7 +24,7 @@ export const HomePageCategoryContainer = () => {
       padding="lg"
       radius="md"
       withBorder
-      className="w-[40%] @6xl:w-[35%] @[1300px]:w-[30%]"
+      className={cn(className)}
     >
       <Card.Section className="bg-primary p-4 text-white">
         <GenderToggler />
@@ -27,6 +33,17 @@ export const HomePageCategoryContainer = () => {
       <EquipmentSelectContainer
         equipments={equipments}
         onChange={(value) => handleEquipmentChange(value)}
+      />
+
+      <CardSection>
+        <Divider my="xs" />
+      </CardSection>
+
+      <HomePageNavigateSkeletons
+        className="flex justify-center @4xl:hidden"
+        classNames={{
+          skeleton: "w-1/2",
+        }}
       />
     </Card>
   );

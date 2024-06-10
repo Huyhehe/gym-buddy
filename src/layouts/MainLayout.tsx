@@ -45,8 +45,8 @@ export default async function MainLayout({
         weight: userInfo?.weight,
       }}
     >
-      <div className="relative flex min-h-svh">
-        <div className="relative min-h-svh bg-primary">
+      <div className="relative flex min-h-svh @container/main">
+        <div className="relative hidden min-h-svh bg-primary @2xl/main:block">
           <Sidebar session={session} />
         </div>
         <div className="grow bg-[#e7ecef]">

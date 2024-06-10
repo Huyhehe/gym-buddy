@@ -14,11 +14,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 
+type ClassNames = {
+  root?: string;
+};
 interface Props {
   session?: Session | null;
+  showHeader?: boolean;
+  classNames?: Partial<ClassNames>;
 }
 
-export const Sidebar = ({ session }: Props) => {
+export const Sidebar = ({ session, showHeader = true, classNames }: Props) => {
   const [opened, { toggle, open }] = useDisclosure(true);
   const [accordionValue, setAccordionValue] = useState<string[]>([]);
 
@@ -43,31 +48,36 @@ export const Sidebar = ({ session }: Props) => {
   return (
     <div
       aria-expanded={opened}
-      className="group sticky top-0 flex w-[90px] flex-col items-stretch gap-5 bg-primary px-2 transition-all duration-300 ease-in-out aria-expanded:w-[280px]"
+      className={cn(
+        "group sticky top-0 flex w-[90px] flex-col items-stretch gap-5 bg-primary px-2 transition-all duration-300 ease-in-out aria-expanded:w-[280px]",
+        classNames?.root,
+      )}
     >
-      <div className="flex w-full items-center justify-center group-aria-expanded:justify-between group-aria-expanded:px-2.5">
-        <IconBrandArc
-          color="white"
-          className="w-0 group-aria-expanded:w-8 group-aria-expanded:transition-all group-aria-expanded:delay-100 group-aria-expanded:duration-300 group-aria-expanded:ease-in-out"
-        />
+      {showHeader && (
+        <div className="flex w-full items-center justify-center group-aria-expanded:justify-between group-aria-expanded:px-2.5">
+          <IconBrandArc
+            color="white"
+            className="w-0 group-aria-expanded:w-8 group-aria-expanded:transition-all group-aria-expanded:delay-100 group-aria-expanded:duration-300 group-aria-expanded:ease-in-out"
+          />
 
-        <Text className="text-[0px] font-bold uppercase text-white group-aria-expanded:text-lg group-aria-expanded:transition-all group-aria-expanded:delay-100 group-aria-expanded:duration-300 group-aria-expanded:ease-in-out">
-          Gym Buddy
-        </Text>
+          <Text className="text-[0px] font-bold uppercase text-white group-aria-expanded:text-lg group-aria-expanded:transition-all group-aria-expanded:delay-100 group-aria-expanded:duration-300 group-aria-expanded:ease-in-out">
+            Gym Buddy
+          </Text>
 
-        <Burger
-          opened={opened}
-          onClick={() => {
-            toggle();
-            if (opened) {
-              setAccordionValue([]);
-            }
-          }}
-          aria-label="Toggle navigation"
-          color="white"
-          className="my-3 group-aria-expanded:ml-auto"
-        />
-      </div>
+          <Burger
+            opened={opened}
+            onClick={() => {
+              toggle();
+              if (opened) {
+                setAccordionValue([]);
+              }
+            }}
+            aria-label="Toggle navigation"
+            color="white"
+            className="my-3 group-aria-expanded:ml-auto"
+          />
+        </div>
+      )}
 
       <div className="flex flex-col items-center gap-4">
         <Accordion

@@ -3,13 +3,18 @@
 import Link from "next/link";
 import { useHomePageClientContext } from "./HomePageClientContextProvider";
 import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
+import { cn } from "@/utils";
 
-export const HomePageFrontMale = () => {
+type Props = {
+  className?: string;
+};
+
+export const HomePageFrontMale = ({ className }: Props) => {
   const { equipment } = useHomePageClientContext();
   const { isMale } = useGlobalContext();
 
   return (
-    <div className="w-2/5">
+    <div className={cn(className)}>
       <svg
         viewBox="0 0 673 1200"
         fill="none"
