@@ -2,7 +2,7 @@
 
 import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 import type { ExerciseReturnType } from "@/types";
-import { Grid, Group, Image, Stack } from "@mantine/core";
+import { Group, Image, Stack } from "@mantine/core";
 import { useMemo } from "react";
 
 type Props = {

@@ -4,28 +4,30 @@ import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global
 import Medal from "@/assets/images/medal.png";
 import { api } from "@/trpc/react";
 import type { SingleWorkoutReturnType } from "@/types";
-import { cn, generateMuscleState } from "@/utils";
+import { cn, generateMuscleState, generateRepUnitText } from "@/utils";
 import {
   Box,
   Button,
   Card,
   Divider,
-  Grid,
+  Image,
   Group,
   Loader,
   Modal,
   Stack,
   Text,
+  Drawer,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import Image from "next/image";
+
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { GenderToggler } from "../GenderToggler";
 import { MuscleAffectLevelContainer } from "../MuscleAffectLevelContainer";
 import { ToggleSkeleton } from "../MuscleSkeleton/ToggleSkeleton";
 import { ProgressWithButton } from "../ProgressWithButton";
+import { IconClipboardList, IconSettings } from "@tabler/icons-react";
 
 type WorkoutExerciseStep =
   | NonNullable<
@@ -49,6 +51,9 @@ export const WorkoutDetailContainer = ({
     finishModalOpened,
     { open: openFinishModal, close: closeFinishModal },
   ] = useDisclosure(false);
+
+  const [drawerOpened, { open: openDrawer, close: closeDrawer }] =
+    useDisclosure();
 
   const { isMale } = useGlobalContext();
 
@@ -84,16 +89,28 @@ export const WorkoutDetailContainer = ({
   }, [progress, step, workout.WorkoutExerciseStep]);
 
   return (
-    <div>
+    <div className="p-6">
       <Group wrap="nowrap" align="start">
         <Stack className="shrink grow" gap={16}>
           <Stack gap={2} className="rounded-lg bg-white p-4">
-            <p className="m-0 text-center font-bold">
-              {currentExerciseStep?.exercise.sets}x
-              {currentExerciseStep?.exercise.reps} Reps
-            </p>
+            <div className="grid grid-cols-5">
+              <span className="col-span-2 text-sm">
+                Showing {Math.round(progress / step)} of{" "}
+                {workout.WorkoutExerciseStep.length}
+              </span>
+              <p className="col-span-1 m-0 text-center font-bold">
+                {currentExerciseStep?.exercise.sets}x
+                {currentExerciseStep?.exercise.reps}{" "}
+                {generateRepUnitText(
+                  currentExerciseStep?.exercise.repsUnit ?? "",
+                )}
+              </p>
+              <span className="col-span-2 text-end font-medium text-primary">
+                {currentExerciseStep?.exercise.name}
+              </span>
+            </div>
             <ProgressWithButton
-              classes={{
+              classNames={{
                 progress: "w-full",
               }}
               step={step}
@@ -103,7 +120,7 @@ export const WorkoutDetailContainer = ({
                 setProgress(value);
               }}
             />
-            <Group className="flex-nowrap justify-between px-16">
+            <Group className="hidden flex-nowrap justify-between px-16 @4xl/workout-detail:flex">
               {workout.WorkoutExerciseStep.map((exerciseStep, index) => (
                 <button
                   key={index}
@@ -121,22 +138,33 @@ export const WorkoutDetailContainer = ({
           </Stack>
 
           <Stack gap={2} className="rounded-lg bg-white">
-            <Grid>
+            <div className="grid grid-cols-12 gap-4">
               {currentExerciseStep?.exercise?.ExerciseExample?.map(
                 (example) =>
                   example.gender === isMale && (
-                    <Grid.Col span={6} key={example?.id}>
-                      <video
-                        src={example?.mediaURL ?? ""}
-                        className="w-full rounded-lg object-cover"
-                        autoPlay
-                        loop
-                        muted
-                      />
-                    </Grid.Col>
+                    <div
+                      key={example?.id}
+                      className="col-span-12 @xl/workout-detail:col-span-6"
+                    >
+                      {example.mediaURL.includes("videos") ? (
+                        <video
+                          src={example?.mediaURL ?? ""}
+                          className="w-full rounded-lg object-cover"
+                          autoPlay
+                          loop
+                          muted
+                        />
+                      ) : (
+                        <Image
+                          alt={example.mediaURL}
+                          src={example.mediaURL ?? ""}
+                          className="rounded-lg"
+                        />
+                      )}
+                    </div>
                   ),
               )}
-            </Grid>
+            </div>
 
             <Stack gap={2} className="my-4 -ml-2">
               {currentExerciseStep?.exercise?.ExerciseStep.map(
@@ -153,9 +181,20 @@ export const WorkoutDetailContainer = ({
               )}
             </Stack>
           </Stack>
+
+          {isTraining && (
+            <Button
+              className="rounded-lg @5xl/workout-detail:hidden"
+              disabled={progress !== 100}
+              onClick={openFinishModal}
+              color="var(--color-primary)"
+            >
+              Finish
+            </Button>
+          )}
         </Stack>
 
-        <Stack className="w-[24rem] shrink-0">
+        <Stack className="hidden w-[24rem] shrink-0 @5xl/workout-detail:block">
           <Card className="w-full rounded-lg bg-white">
             <Card.Section className="bg-primary p-4 text-white">
               <GenderToggler />
@@ -271,6 +310,89 @@ export const WorkoutDetailContainer = ({
           )}
         </Stack>
       </Group>
+
+      {/* Drawer */}
+      <div
+        className="fixed right-0 top-52 rounded-l-lg bg-primary p-2 shadow-md transition-all duration-300 ease-out hover:pr-4 @5xl/workout-detail:hidden"
+        onClick={openDrawer}
+      >
+        <IconSettings size={26} color="white" className="animate-spin" />
+      </div>
+      <Drawer
+        opened={drawerOpened}
+        onClose={closeDrawer}
+        position="right"
+        classNames={{
+          header: "bg-gray-200",
+          body: "bg-gray-200 h-max min-h-full",
+        }}
+      >
+        <Card className="w-full rounded-lg bg-white">
+          <Card.Section className="bg-primary p-4 text-white">
+            <GenderToggler />
+          </Card.Section>
+          <ToggleSkeleton
+            key={currentExerciseStep?.exercise.id}
+            viewMode
+            className="flex w-full justify-center py-4"
+            initialDataForViewMode={generateMuscleState(
+              currentExerciseStep?.exercise.ExerciseMuscleTarget ?? [],
+            )}
+            female={!isMale}
+          />
+          <Group gap={0}>
+            <Box className="max-w-full">
+              <MuscleAffectLevelContainer />
+            </Box>
+            <Divider className="w-full" />
+            <Box display="flex" className="w-full gap-8 py-4">
+              <Text size="sm" className="w-24">
+                Difficulty
+              </Text>
+              <Text size="sm" c="dimmed" className="capitalize">
+                {currentExerciseStep?.exercise.difficulty}
+              </Text>
+            </Box>
+            <Divider className="w-full" />
+            <Box display="flex" className="w-full gap-8 py-4">
+              <Text size="sm" className="w-24">
+                Duration
+              </Text>
+              <Text size="sm" c="dimmed" className="capitalize">
+                {currentExerciseStep?.exercise.sets}x
+                {currentExerciseStep?.exercise.reps}
+              </Text>
+            </Box>
+            <Divider className="w-full" />
+            <Box display="flex" className="w-full gap-8 py-4">
+              <Text size="sm" className="w-24">
+                Force
+              </Text>
+              <Text size="sm" c="dimmed" className="capitalize">
+                {currentExerciseStep?.exercise.force ?? "-"}
+              </Text>
+            </Box>
+            <Divider className="w-full" />
+            <Box display="flex" className="w-full gap-8 py-4">
+              <Text size="sm" className="w-24">
+                Mechanic
+              </Text>
+              <Text size="sm" c="dimmed" className="capitalize">
+                {currentExerciseStep?.exercise.mechanic ?? "-"}
+              </Text>
+            </Box>
+            <Divider className="w-full" />
+            <Box display="flex" className="w-full gap-8 py-4">
+              <Text size="sm" className="w-24">
+                Calories
+              </Text>
+              <Text size="sm" c="dimmed" className="capitalize">
+                {currentExerciseStep?.exercise.caloriesBurned}
+              </Text>
+            </Box>
+          </Group>
+        </Card>
+      </Drawer>
     </div>
   );
 };

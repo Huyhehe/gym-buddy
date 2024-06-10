@@ -6,7 +6,7 @@ import { cn } from "@/utils";
 import { isNil } from "lodash";
 import { useState } from "react";
 
-type Classes = {
+type ClassNames = {
   root: string;
   progress: string;
   leftIcon: string;
@@ -19,7 +19,7 @@ type Props = {
   outerProgress?: number;
   setOuterProgress?: (value: number) => void;
   className?: string;
-  classes?: Partial<Classes>;
+  classNames?: Partial<ClassNames>;
 };
 
 type SetProgressParams = {
@@ -31,7 +31,7 @@ export const ProgressWithButton = ({
   outerProgress,
   setOuterProgress,
   className,
-  classes,
+  classNames,
 }: Props) => {
   const [progress, setProgress] = useState(0);
 
@@ -65,20 +65,24 @@ export const ProgressWithButton = ({
 
   return (
     <div
-      className={cn("flex w-full items-center gap-2", className, classes?.root)}
+      className={cn(
+        "flex w-full items-center gap-2",
+        className,
+        classNames?.root,
+      )}
     >
       <ActionIcon
         className={cn(
           "box-content bg-primary px-2 py-1",
-          classes?.icon,
-          classes?.leftIcon,
+          classNames?.icon,
+          classNames?.leftIcon,
         )}
         onClick={() => handleSetProgress()}
       >
         <IconChevronLeft />
       </ActionIcon>
       <Progress
-        className={cn("w-[1200px]", classes?.progress)}
+        className={cn("w-[1200px]", classNames?.progress)}
         classNames={{
           section: "bg-primary rounded-full",
         }}
@@ -87,8 +91,8 @@ export const ProgressWithButton = ({
       <ActionIcon
         className={cn(
           "box-content bg-primary px-2 py-1",
-          classes?.icon,
-          classes?.rightIcon,
+          classNames?.icon,
+          classNames?.rightIcon,
         )}
         onClick={() => handleSetProgress({ increment: true })}
       >
