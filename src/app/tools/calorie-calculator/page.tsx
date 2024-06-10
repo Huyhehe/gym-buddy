@@ -49,7 +49,7 @@ const CalorieCalculatorPage = () => {
   }, [form.values]);
 
   return (
-    <div className="p-28">
+    <div className="@5xl/tools:p-28">
       <div className="text-center">
         <h1 className="py-5 text-5xl font-bold text-primary">
           Máy tính Calorie
