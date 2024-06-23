@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const workoutCreateFormSchema = z.object({
   id: z.string().optional(),
-  title: z.string().min(2, { message: "Name should have at least 2 letters" }),
+  title: z.string().min(2, { message: "Tên bài tập phải có ít nhất 2 kí tự" }),
   description: z.string(),
   level: z.string().min(1),
   target: z.string().min(5),

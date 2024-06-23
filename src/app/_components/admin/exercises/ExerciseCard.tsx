@@ -2,17 +2,13 @@
 
 import type { ExerciseReturnType } from "@/types";
 
-import { generateLevelText, generateMuscleState } from "@/utils";
 import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  Group,
-  Modal,
-  Text,
-  Tooltip,
-} from "@mantine/core";
+  generateLevelText,
+  generateMuscleState,
+  generateRepUnitText,
+  getMechanicLabel,
+} from "@/utils";
+import { Box, Button, Card, Divider, Group, Modal, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { LevelBadge } from "../../LevelBadge";
 import { MuscleAffectLevelContainer } from "../../MuscleAffectLevelContainer";
@@ -51,17 +47,16 @@ export const ExerciseCard = ({ exercise }: Props) => {
           mb="xs"
           className="flex-nowrap"
         >
-          <Tooltip label={exercise.name}>
-            <Text fw={500} className="line-clamp-1 shrink">
-              {exercise.name}
-            </Text>
-          </Tooltip>
+          <Text fw={500} className="line-clamp-1 shrink">
+            {exercise.name}
+          </Text>
+
           <LevelBadge level={exercise.difficulty} />
         </Group>
 
         <Group gap={16}>
           <Text size="sm" c="dimmed" className="capitalize">
-            {exercise.mechanic}
+            {getMechanicLabel(exercise.mechanic)}
           </Text>
           <Text size="sm" c="dimmed" className="capitalize">
             {generateLevelText(exercise.difficulty)}
@@ -82,7 +77,7 @@ export const ExerciseCard = ({ exercise }: Props) => {
             e.stopPropagation();
           }}
         >
-          Edit Exercise
+          Chỉnh sửa
         </Button>
       </Card>
       <Modal
@@ -110,25 +105,26 @@ export const ExerciseCard = ({ exercise }: Props) => {
           <Divider className="w-full" />
           <Box display="flex" className="w-full gap-8 py-4">
             <Text size="sm" className="w-24">
-              Difficulty
+              Độ khó
             </Text>
             <Text size="sm" c="dimmed" className="capitalize">
-              {exercise.difficulty}
+              {generateLevelText(exercise.difficulty)}
             </Text>
           </Box>
           <Divider className="w-full" />
           <Box display="flex" className="w-full gap-8 py-4">
             <Text size="sm" className="w-24">
-              Duration
+              Thời lượng
             </Text>
             <Text size="sm" c="dimmed" className="capitalize">
-              {exercise.sets}x{exercise.reps}
+              {exercise.sets}x{exercise.reps}{" "}
+              {generateRepUnitText(exercise.repsUnit)}
             </Text>
           </Box>
           <Divider className="w-full" />
           <Box display="flex" className="w-full gap-8 py-4">
             <Text size="sm" className="w-24">
-              Force
+              Lực
             </Text>
             <Text size="sm" c="dimmed" className="capitalize">
               {exercise.force}
@@ -137,10 +133,10 @@ export const ExerciseCard = ({ exercise }: Props) => {
           <Divider className="w-full" />
           <Box display="flex" className="w-full gap-8 py-4">
             <Text size="sm" className="w-24">
-              Mechanic
+              Dạng
             </Text>
             <Text size="sm" c="dimmed" className="capitalize">
-              {exercise.mechanic}
+              {getMechanicLabel(exercise.mechanic)}
             </Text>
           </Box>
         </Group>

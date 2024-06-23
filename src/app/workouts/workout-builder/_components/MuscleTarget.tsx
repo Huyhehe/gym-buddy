@@ -13,7 +13,7 @@ export const MuscleTarget = ({ female = false }: Props) => {
 
   return (
     <Stack align="center">
-      <Select className="self-start" />
+      {/* <Select className="self-start" /> */}
       <SingleToggleSkeleton
         className="w-full @4xl/generate-workout:w-2/5"
         female={female}

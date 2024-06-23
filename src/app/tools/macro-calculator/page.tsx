@@ -38,25 +38,17 @@ const MacroCalculatorPage = () => {
   return (
     <div className="p-4 @container/tools-macro">
       <Stack className="mb-5 text-center" align="center">
-        <h1 className="py-5 text-5xl font-bold text-primary">
-          Macro Calculator
-        </h1>
+        <h1 className="py-5 text-5xl font-bold text-primary">Máy tính Macro</h1>
         <p className="max-w-[700px]">
-          Macronutrients (macros) are typically defined as the three substrates
-          that are used by the body for the production of energy. Those energy
-          substrates are carbohydrates, fats, and proteins. Together, the
-          macronutrients create the caloric total for a food.
+          Chất dinh dưỡng đa lượng (macro) thường được định nghĩa là ba chất nền
+          được cơ thể sử dụng để sản xuất năng lượng. Các chất nền năng lượng đó
+          là carbohydrate, chất béo và protein. Cùng nhau, các chất dinh dưỡng
+          đa lượng tạo ra tổng lượng calo cho một loại thực phẩm.
         </p>
-        <div>
-          Interested in learning more about macronutrients?{" "}
-          <Link href={""} className="font-semibold text-primary">
-            Click here for detailed information!
-          </Link>
-        </div>
       </Stack>
       <Group justify="center" className="items-stretch">
         <Stack className="grow rounded-lg border bg-white p-8" align="center">
-          <Text className="text-xl">Units</Text>
+          <Text className="text-xl font-bold">Chế độ ăn</Text>
           <Radio.Group
             key={form.values.unit}
             {...form.getInputProps("unit")}
@@ -64,22 +56,22 @@ const MacroCalculatorPage = () => {
           >
             <Radio
               value="60/25/15"
-              label="60/25/15/(High carb)"
+              label="60/25/15/(Nhiều tinh bột/Carb)"
               className="[&_label]:data-[checked=true]:text-primary"
             />
             <Radio
               value="50/30/20"
-              label="50/30/20/(Moderate)"
+              label="50/30/20/(Cân đối)"
               className="[&_label]:data-[checked=true]:text-primary"
             />
             <Radio
               value="40/30/30"
-              label="40/30/30/(Zone Diet)"
+              label="40/30/30/(Giảm cân nhẹ)"
               className="[&_label]:data-[checked=true]:text-primary"
             />
             <Radio
               value="25/45/30"
-              label="25/45/30/(Low carb)"
+              label="25/45/30/(Ít tinh bột)"
               className="[&_label]:data-[checked=true]:text-primary"
             />
           </Radio.Group>
@@ -98,10 +90,10 @@ const MacroCalculatorPage = () => {
             href="/tools/calorie-calculator"
             color="var(--color-primary)"
           >
-            Find my daily needs
+            Tìm lượng năng lượng cần nạp vào hằng ngày của tôi
           </Button>
           <NumberInput
-            label="Meals per day"
+            label="Số bữa ăn trong ngày"
             key={form.key("mealPerDay")}
             {...form.getInputProps("mealPerDay")}
             min={1}
@@ -139,13 +131,13 @@ const MacroCalculatorPage = () => {
                     {value.percent}%
                   </Text>
                   <Text ta="center" size="xs">
-                    Grams/day
+                    Gam/ngày
                   </Text>
                   <Text ta="center" fw={700}>
                     {value.perDay}
                   </Text>
                   <Text ta="center" size="xs">
-                    Grams/meal
+                    Gam/bữa
                   </Text>
                   <Text ta="center" fw={700}>
                     {value.perMeal}

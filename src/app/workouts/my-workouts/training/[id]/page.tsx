@@ -4,7 +4,7 @@ import { api } from "@/trpc/server";
 const WorkoutTrainingPage = async ({ params }: { params: { id: string } }) => {
   const userWorkout = await api.workout.getUserWorkoutByID(params.id);
   return (
-    <div className="p-6">
+    <div className="p-6 @container/workout-detail">
       {!!userWorkout && (
         <WorkoutDetailContainer
           workout={userWorkout.workout}

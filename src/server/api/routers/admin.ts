@@ -94,6 +94,7 @@ export const adminRouter = createTRPCRouter({
         equipmentId,
         force,
         caloriesBurned,
+        goal,
         steps,
         mediaURLs,
         muscleTargets,
@@ -113,6 +114,7 @@ export const adminRouter = createTRPCRouter({
             mechanic,
             equipmentId,
             force,
+            goal,
             caloriesBurned,
           },
         });

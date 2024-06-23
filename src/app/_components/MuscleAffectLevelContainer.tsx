@@ -3,9 +3,9 @@ import { cn, generateColorByAffectLevel } from "@/utils";
 import { Box } from "@mantine/core";
 
 const levels = [
-  { level: 3, text: "Primary" },
-  { level: 2, text: "Secondary" },
-  { level: 1, text: "Tertiary" },
+  { level: 3, text: "Chính" },
+  { level: 2, text: "Phụ" },
+  { level: 1, text: "Hỗ trợ" },
 ];
 
 export const MuscleAffectLevelContainer = () => {

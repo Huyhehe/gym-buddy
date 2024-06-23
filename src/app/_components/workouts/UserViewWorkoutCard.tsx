@@ -20,9 +20,8 @@ import {
 } from "@mantine/core";
 
 import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
-import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 type Props = CardProps & {
   workout: WorkoutReturnType;
@@ -133,7 +132,7 @@ export const UserViewWorkoutCard = ({
           src={workout.thumbnail}
           alt={workout.title}
           fit="cover"
-          className="w-full"
+          className="aspect-video max-w-full"
         />
       </Card.Section>
 

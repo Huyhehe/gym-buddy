@@ -15,6 +15,7 @@ import {
   FRONT_MUSCLE_TARGET,
   GOAL_LABEL,
   LEVEL_LABEL,
+  mechanicOptions,
 } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
@@ -69,10 +70,12 @@ export const generateColorDifficultyLevel = (
 ) => {
   switch (affectLevel) {
     case 1:
-      return bg ? "bg-green-500" : "text-green-500";
+      return bg ? "bg-blue-600" : "text-blue-600";
     case 2:
-      return bg ? "bg-orange-400" : "text-orange-400";
+      return bg ? "bg-green-500" : "text-green-500";
     case 3:
+      return bg ? "bg-orange-400" : "text-orange-400";
+    case 4:
       return bg ? "bg-red-600" : "text-red-600";
     default:
       return bg ? "bg-neutral-200" : "text-neutral-200";
@@ -257,6 +260,9 @@ export const getGoalLabel = (goal: string) => {
     default:
       return "Tất cả";
   }
+};
+export const getMechanicLabel = (mechanic: string) => {
+  return mechanicOptions.find((value) => value.value === mechanic)?.label;
 };
 
 export const caloriesBurnedChartDataPreWork = (

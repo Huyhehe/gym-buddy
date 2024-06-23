@@ -9,11 +9,13 @@ import { GlobalContextProvider } from "@/app/workouts/workout-builder/_context/g
 import { api } from "@/trpc/server";
 
 // const letTailwindKnow = [
+//   "bg-blue-600",
 //   "bg-green-500",
 //   "bg-yellow-200",
 //   "bg-orange-400",
 //   "bg-red-600",
 //   "bg-neutral-200",
+//   "text-blue-600",
 //   "text-green-500",
 //   "text-yellow-200",
 //   "text-orange-400",

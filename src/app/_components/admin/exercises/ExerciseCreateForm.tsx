@@ -119,8 +119,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
     api.admin.createExercise.useMutation({
       onSuccess: () => {
         handleNotification(true, "Exercise created successfully");
-        form.reset();
-        setMediaURLs(initialValues.mediaURLs);
+        replace("/admin/exercises");
       },
       onError: (error) => {
         handleNotification(false, error.message);
@@ -130,8 +129,8 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   const { mutate: updateExerciseMutation, isPending: updateLoading } =
     api.admin.updateExercise.useMutation({
       onSuccess: () => {
-        replace("/admin/exercises");
         handleNotification(true, "Exercise updated successfully");
+        replace("/admin/exercises");
       },
       onError: (error) => {
         handleNotification(false, error.message);
@@ -212,7 +211,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
               radius="md"
               withAsterisk
               label="Tên bài tập"
-              placeholder="Incline Dumbbell Bench Press"
+              placeholder="Đẩy ngực với tạ đòn"
               key={form.key("name")}
               {...form.getInputProps("name")}
             />
@@ -246,6 +245,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col span={3}>
             <Select
+              allowDeselect={false}
               radius="md"
               withAsterisk
               label="Đơn vị"
@@ -262,7 +262,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
               label="Số calo đốt cháy"
               key={form.key("caloriesBurned")}
               {...form.getInputProps("caloriesBurned")}
-              min={100}
+              min={20}
               max={1000}
               decimalScale={0}
             />
@@ -270,6 +270,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col span={3}>
             <Select
+              allowDeselect={false}
               radius="md"
               withAsterisk
               label="Độ khó"
@@ -281,6 +282,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col span={3}>
             <Select
+              allowDeselect={false}
               radius="md"
               withAsterisk
               label="Mục tiêu"
@@ -292,6 +294,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
 
           <Grid.Col span={3}>
             <Select
+              allowDeselect={false}
               radius="md"
               withAsterisk
               label="Dạng bài tập"
@@ -304,6 +307,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
           <Grid.Col span={3}>
             {!!equipments && (
               <Select
+                allowDeselect={false}
                 radius="md"
                 label="Dụng cụ"
                 withAsterisk
@@ -322,7 +326,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
             <TextInput
               radius="md"
               label="Loại lực"
-              placeholder="Push, Pull, Hold, etc."
+              placeholder="Đẩy, Kéo, Giữ, vv."
               key={form.key("force")}
               {...form.getInputProps("force")}
             />
@@ -369,7 +373,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
                           <Textarea
                             radius="md"
                             className="grow"
-                            placeholder="Push the bar up..."
+                            placeholder="Đẩy thanh đòn lên..."
                             key={form.key(`steps.${index}.value`)}
                             {...form.getInputProps(`steps.${index}.value`)}
                           />
@@ -423,7 +427,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
               multiple
               maxFiles={2}
               onReturnValue={onReturnMaleMediaURL}
-              title="Drop male media here"
+              title="Kéo thả tệp phương tiện dành cho nam tại đây"
             />
             <MediaDropZone
               key={"female"}
@@ -431,7 +435,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
               multiple
               maxFiles={2}
               onReturnValue={onReturnFemaleMediaURL}
-              title="Drop female media here"
+              title="Kéo thả tệp phương tiện dành cho nữ tại đây"
             />
           </div>
         </div>
@@ -450,11 +454,11 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
           </Button> */}
           {!!exerciseFromData && (
             <Button radius="md" className="bg-red-700" onClick={open}>
-              Delete
+              Xóa
             </Button>
           )}
           <Button radius="md" type="submit">
-            {!!exerciseFromData ? "Save" : "Submit"}
+            {!!exerciseFromData ? "Cập nhật" : "Tạo mới"}
           </Button>
         </Group>
       </form>
@@ -486,10 +490,10 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
       </Group>
 
       <Modal opened={deleteConfirmOpened} onClose={close}>
-        <Text>Are you sure you want to delete this exercise?</Text>
+        <Text>Bạn có chắc muốn xóa bài tập này không?</Text>
         <Group justify="flex-end" mt="md">
           <Button radius="md" onClick={close}>
-            Cancel
+            Hủy
           </Button>
           <Button
             radius="md"
@@ -503,7 +507,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
               close();
             }}
           >
-            Delete
+            Xóa
           </Button>
         </Group>
       </Modal>

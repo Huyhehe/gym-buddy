@@ -17,7 +17,7 @@ export const ExerciseCardContainer = ({ exercises }: Props) => {
         href="/admin/exercises/create"
         className="bg-primary"
       >
-        Create Exercise <IconPlus size={16} stroke={2} className="ml-1" />
+        Tạo bài tập mới <IconPlus size={16} stroke={2} className="ml-1" />
       </Button>
       <div className="grid grid-cols-12 gap-4 @container">
         {exercises.map((exercise) => (

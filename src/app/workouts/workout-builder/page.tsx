@@ -65,7 +65,7 @@ const WorkoutBuilderPage = () => {
       gender: true,
       age: 18,
       goal: "lose-weight",
-      currentLevel: 0,
+      currentLevel: 1,
       muscleTarget: [],
       currentStep: 0,
     },

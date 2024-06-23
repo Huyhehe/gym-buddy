@@ -1,5 +1,3 @@
-"use client";
-
 import { UserViewWorkoutCardContainer } from "../_components/workouts/UserViewWorkoutCardContainer";
 
 const UserViewWorkoutsPage = () => {

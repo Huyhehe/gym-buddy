@@ -14,11 +14,12 @@ export const workoutRouter = createTRPCRouter({
         .object({
           search: z.string().optional(),
           isAdminQuery: z.boolean().optional(),
+          levelOptions: z.array(z.number()).optional(),
         })
         .optional(),
     )
     .query(async ({ ctx, input = {} }) => {
-      const { search = "", isAdminQuery = false } = input;
+      const { search = "", isAdminQuery = false, levelOptions = [] } = input;
       const workouts = await ctx.db.workout.findMany({
         where: {
           title: {
@@ -26,6 +27,9 @@ export const workoutRouter = createTRPCRouter({
             mode: "insensitive",
           },
           isAdminCreated: true,
+          level: {
+            in: !!levelOptions.length ? levelOptions : undefined,
+          },
         },
         include: {
           WorkoutExerciseStep: {
@@ -44,19 +48,13 @@ export const workoutRouter = createTRPCRouter({
         return workouts;
       }
 
-      const user = await ctx.db.user.findFirst({
-        where: {
-          id: ctx.session?.user?.id,
-        },
-      });
-
-      if (!user) {
+      if (!ctx.session?.user.id) {
         return workouts;
       }
 
       const userWorkouts = await ctx.db.userWorkout.findMany({
         where: {
-          userId: user.id,
+          userId: ctx.session?.user.id,
         },
       });
 

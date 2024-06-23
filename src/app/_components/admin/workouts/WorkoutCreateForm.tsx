@@ -11,6 +11,7 @@ import { levelOptions, targetOptions } from "@/utils";
 import {
   Box,
   Button,
+  Grid,
   Group,
   LoadingOverlay,
   Modal,
@@ -136,34 +137,44 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
     <Box pos="relative" className="mt-4">
       <WorkoutFormProvider form={form}>
         <form className="space-y-2" onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput
-            withAsterisk
-            label="Tên chương trình tập"
-            placeholder="The 1st Dumbbell Workout"
-            key={form.key("title")}
-            {...form.getInputProps("title")}
-          />
+          <Grid>
+            <Grid.Col>
+              <TextInput
+                withAsterisk
+                label="Tên chương trình tập"
+                placeholder="Bài tập số 1 dành cho người mới, vv."
+                key={form.key("title")}
+                {...form.getInputProps("title")}
+              />
+            </Grid.Col>
 
-          <Select
-            withAsterisk
-            label="Độ khó"
-            data={levelOptions}
-            key={form.key("level")}
-            {...form.getInputProps("level")}
-          />
+            <Grid.Col span={6}>
+              <Select
+                allowDeselect={false}
+                withAsterisk
+                label="Độ khó"
+                data={levelOptions}
+                key={form.key("level")}
+                {...form.getInputProps("level")}
+              />
+            </Grid.Col>
 
-          <Select
-            withAsterisk
-            label="Mục tiêu"
-            data={targetOptions}
-            key={form.key("target")}
-            {...form.getInputProps("target")}
-          />
+            <Grid.Col span={6}>
+              <Select
+                allowDeselect={false}
+                withAsterisk
+                label="Mục tiêu"
+                data={targetOptions}
+                key={form.key("target")}
+                {...form.getInputProps("target")}
+              />
+            </Grid.Col>
+          </Grid>
 
           <Textarea
             className="grow"
             label="Mô tả"
-            placeholder="This workout is designed to..."
+            placeholder="Chương trình tập này tạo ra để..."
             key={form.key("description")}
             {...form.getInputProps("description")}
           />
@@ -194,16 +205,16 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
           <Group justify="flex-end" mt="md">
             {!!workoutFromData && (
               <Button className="bg-red-700" onClick={open}>
-                Delete
+                Xóa
               </Button>
             )}
-            <Button type="submit">{!!false ? "Save" : "Submit"}</Button>
+            <Button type="submit">{!!false ? "Cập nhật" : "Tạo mới"}</Button>
           </Group>
         </form>
       </WorkoutFormProvider>
 
       <Modal opened={deleteConfirmOpened} onClose={close}>
-        <Text>Are you sure you want to delete this exercise?</Text>
+        <Text>Bạn có chắc muốn xóa bài tập này chứ?</Text>
         <Group justify="flex-end" mt="md">
           <Button onClick={close}>Cancel</Button>
           <Button
@@ -217,7 +228,7 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
               close();
             }}
           >
-            Delete
+            Xóa
           </Button>
         </Group>
       </Modal>

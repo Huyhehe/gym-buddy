@@ -4,7 +4,13 @@ import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global
 import Medal from "@/assets/images/medal.png";
 import { api } from "@/trpc/react";
 import type { SingleWorkoutReturnType } from "@/types";
-import { cn, generateMuscleState, generateRepUnitText } from "@/utils";
+import {
+  cn,
+  generateLevelText,
+  generateMuscleState,
+  generateRepUnitText,
+  getMechanicLabel,
+} from "@/utils";
 import {
   Box,
   Button,
@@ -94,18 +100,18 @@ export const WorkoutDetailContainer = ({
         <Stack className="shrink grow" gap={16}>
           <Stack gap={2} className="rounded-lg bg-white p-4">
             <div className="grid grid-cols-5">
-              <span className="col-span-2 text-sm">
+              <span className="col-span-2 text-sm @4xl/workout-detail:hidden">
                 Showing {Math.round(progress / step)} of{" "}
                 {workout.WorkoutExerciseStep.length}
               </span>
-              <p className="col-span-1 m-0 text-center font-bold">
+              <p className="col-span-1 m-0 text-center font-bold @4xl/workout-detail:col-span-5">
                 {currentExerciseStep?.exercise.sets}x
                 {currentExerciseStep?.exercise.reps}{" "}
                 {generateRepUnitText(
                   currentExerciseStep?.exercise.repsUnit ?? "",
                 )}
               </p>
-              <span className="col-span-2 text-end font-medium text-primary">
+              <span className="col-span-2 text-end font-medium text-primary @4xl/workout-detail:hidden">
                 {currentExerciseStep?.exercise.name}
               </span>
             </div>
@@ -169,7 +175,7 @@ export const WorkoutDetailContainer = ({
             <Stack gap={2} className="my-4 -ml-2">
               {currentExerciseStep?.exercise?.ExerciseStep.map(
                 (step, index) => (
-                  <Group gap={8} key={step.id}>
+                  <Group gap={8} key={step.id} wrap="nowrap">
                     <div className="rounded-full bg-white p-2">
                       <div className="flex aspect-square w-12 items-center justify-center rounded-full bg-primary leading-3 text-white">
                         {index + 1}
@@ -189,7 +195,7 @@ export const WorkoutDetailContainer = ({
               onClick={openFinishModal}
               color="var(--color-primary)"
             >
-              Finish
+              Hoàn thành
             </Button>
           )}
         </Stack>
@@ -215,16 +221,18 @@ export const WorkoutDetailContainer = ({
               <Divider className="w-full" />
               <Box display="flex" className="w-full gap-8 py-4">
                 <Text size="sm" className="w-24">
-                  Difficulty
+                  Độ khó
                 </Text>
                 <Text size="sm" c="dimmed" className="capitalize">
-                  {currentExerciseStep?.exercise.difficulty}
+                  {generateLevelText(
+                    currentExerciseStep?.exercise.difficulty ?? 0,
+                  )}
                 </Text>
               </Box>
               <Divider className="w-full" />
               <Box display="flex" className="w-full gap-8 py-4">
                 <Text size="sm" className="w-24">
-                  Duration
+                  Thời lượng
                 </Text>
                 <Text size="sm" c="dimmed" className="capitalize">
                   {currentExerciseStep?.exercise.sets}x
@@ -234,7 +242,7 @@ export const WorkoutDetailContainer = ({
               <Divider className="w-full" />
               <Box display="flex" className="w-full gap-8 py-4">
                 <Text size="sm" className="w-24">
-                  Force
+                  Lực
                 </Text>
                 <Text size="sm" c="dimmed" className="capitalize">
                   {currentExerciseStep?.exercise.force ?? "-"}
@@ -243,16 +251,18 @@ export const WorkoutDetailContainer = ({
               <Divider className="w-full" />
               <Box display="flex" className="w-full gap-8 py-4">
                 <Text size="sm" className="w-24">
-                  Mechanic
+                  Dạng
                 </Text>
                 <Text size="sm" c="dimmed" className="capitalize">
-                  {currentExerciseStep?.exercise.mechanic ?? "-"}
+                  {getMechanicLabel(
+                    currentExerciseStep?.exercise.mechanic ?? "",
+                  ) ?? "-"}
                 </Text>
               </Box>
               <Divider className="w-full" />
               <Box display="flex" className="w-full gap-8 py-4">
                 <Text size="sm" className="w-24">
-                  Calories
+                  Năng lượng (Cal/Kcal)
                 </Text>
                 <Text size="sm" c="dimmed" className="capitalize">
                   {currentExerciseStep?.exercise.caloriesBurned}
@@ -266,8 +276,10 @@ export const WorkoutDetailContainer = ({
                 disabled={progress !== 100}
                 onClick={openFinishModal}
                 color="var(--color-primary)"
+                fullWidth
+                mt="sm"
               >
-                Finish
+                Hoàn thành
               </Button>
               <Modal
                 opened={finishModalOpened}
@@ -279,18 +291,18 @@ export const WorkoutDetailContainer = ({
                 <Modal.Body display="flex" className="flex-col items-center">
                   <Image src={Medal.src} alt="asb" width={200} height={200} />
                   <h1 className="text-center text-xl font-semibold">
-                    <strong className="text-2xl">Congratulations!!!</strong>
-                    <br /> You have completed the workout!
+                    <strong className="text-2xl">Chúc mừng bạn!!!</strong>
+                    <br /> Bạn đã hoàn thành chương trình tập này!
                   </h1>
                   <span className="text-md mt-4 text-gray-500">
-                    Wanna save your result?
+                    Bạn có muốn lưu kết quả này không?
                   </span>
                   <Group className="mt-1">
                     <Button
                       disabled={saveWorkoutRecordLoading}
                       onClick={closeFinishModal}
                     >
-                      Later
+                      Để sau
                     </Button>
                     <Button
                       disabled={saveWorkoutRecordLoading}
@@ -298,7 +310,7 @@ export const WorkoutDetailContainer = ({
                         void saveWorkoutRecord(userWorkoutId ?? "")
                       }
                     >
-                      Save now!{" "}
+                      Lưu ngay!{" "}
                       {saveWorkoutRecordLoading && (
                         <Loader color="white" size={14} className="ml-2" />
                       )}
