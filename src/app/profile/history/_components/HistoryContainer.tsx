@@ -9,13 +9,16 @@ import {
   generateMuscleTargetForChart,
   getUserWorkoutFromRecords,
 } from "@/utils";
-import { Loader, Stack } from "@mantine/core";
+import { Loader, Select, Stack } from "@mantine/core";
 import { groupBy } from "lodash";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { HistoryWorkoutCard } from "./HistoryWorkoutCard";
 
 export const HistoryContainer = () => {
-  const { data: WR } = api.user.getMyWorkoutRecords.useQuery();
+  const [gteNum, setGteNum] = useState(7);
+  const { data: WR } = api.user.getMyWorkoutRecords.useQuery({
+    gte: gteNum,
+  });
   // const userWorkouts = useMemo(() => {
   //   const workoutRecordGroupObject = groupBy
   //   return WR?.workoutRecords.map((workoutRecord) => {})
@@ -24,9 +27,34 @@ export const HistoryContainer = () => {
     console.log(getUserWorkoutFromRecords(WR?.workoutRecords));
   return (
     <Stack>
+      <Select
+        data={[
+          {
+            label: "7 ngày gần nhất",
+            value: "7",
+          },
+          {
+            label: "30 ngày gần nhất",
+            value: "30",
+          },
+          {
+            label: "1 năm gần nhất",
+            value: "365",
+          },
+        ]}
+        defaultValue={"7"}
+        onChange={(e) => {
+          setGteNum(Number(e));
+        }}
+        className="w-fit"
+        radius="md"
+      />
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-8 grid grid-cols-1 gap-4">
-          <CaloriesBurnedChart workoutRecords={WR?.workoutRecords} />
+          <CaloriesBurnedChart
+            workoutRecords={WR?.workoutRecords}
+            gte={gteNum}
+          />
           <div className="grid grid-cols-2 gap-4 @container">
             {WR?.workoutRecords ? (
               getUserWorkoutFromRecords(WR?.workoutRecords).map(
@@ -48,7 +76,7 @@ export const HistoryContainer = () => {
         <div className="col-span-4">
           <Stack gap={0} className="h-fit  rounded-xl bg-white p-4">
             <span className="mb-2 text-sm font-semibold text-gray-500">
-              Các nhóm cơ bạn đã tập trong 30 ngày gần nhất
+              Các nhóm cơ bạn đã tập trong {gteNum} ngày gần nhất
             </span>
             {!!WR ? (
               <>

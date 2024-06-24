@@ -7,11 +7,12 @@ import { LoadingOverlay } from "@mantine/core";
 
 type Props = {
   workoutRecords?: UserWorkoutRecordReturnType[];
+  gte?: number;
 };
 
-export const CaloriesBurnedChart = ({ workoutRecords }: Props) => {
+export const CaloriesBurnedChart = ({ workoutRecords, gte = 7 }: Props) => {
   const { data: WR, isLoading } = api.user.getMyWorkoutRecords.useQuery(
-    undefined,
+    { gte },
     {
       enabled: !workoutRecords,
     },
