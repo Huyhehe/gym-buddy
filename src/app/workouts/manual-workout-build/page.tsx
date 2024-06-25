@@ -2,24 +2,24 @@
 
 import { ExerciseSelectBoard } from "@/app/_components/admin/exercises/ExerciseSelectBoard";
 import { api } from "@/trpc/react";
+import { ExerciseReturnType } from "@/types";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { Button, Group, ScrollArea, TextInput } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { debounce } from "lodash";
+import { zodResolver } from "mantine-form-zod-resolver";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { GeneratedExerciseCard } from "../workout-builder/_components/GeneratedExerciseCard";
+import { useGlobalContext } from "../workout-builder/_context/global-context";
 import {
   ManualWorkoutBuildFormProvider,
   useManualWorkoutBuildForm,
 } from "./_context/form-context";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { debounce } from "lodash";
-import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { GeneratedExerciseCard } from "../workout-builder/_components/GeneratedExerciseCard";
-import { ExerciseReturnType } from "@/types";
 import {
   TManualWorkoutBuildFormValues,
   manualWorkoutBuildFormSchema,
 } from "./_schema";
-import { zodResolver } from "mantine-form-zod-resolver";
-import { notifications } from "@mantine/notifications";
-import { useGlobalContext } from "../workout-builder/_context/global-context";
-import { useRouter } from "next/navigation";
 
 const ManualWorkoutBuildPage = () => {
   const { loginModalOpen, setIsBackdropOpen } = useGlobalContext();
@@ -27,9 +27,12 @@ const ManualWorkoutBuildPage = () => {
 
   const [filteredExercises, setFilteredExercises] =
     useState<ExerciseReturnType[]>();
-  const { data: exercises } = api.exercise.getExercises.useQuery(undefined, {
-    refetchOnWindowFocus: false,
-  });
+  const { data: exercises, isLoading } = api.exercise.getExercises.useQuery(
+    undefined,
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const { mutate: saveGeneratedWorkout } =
     api.workout.saveGeneratedWorkout.useMutation({
@@ -122,7 +125,7 @@ const ManualWorkoutBuildPage = () => {
             {...form.getInputProps("title")}
             radius="md"
           />
-          <ScrollArea h={700}>
+          <ScrollArea h={700} className="rounded-lg shadow-md">
             {form.values.exercises.length === 0 && (
               <p className="p-4 text-center text-3xl font-semibold text-gray-400">
                 Hãy chọn ít nhất một bài tập
@@ -185,6 +188,10 @@ const ManualWorkoutBuildPage = () => {
             }}
             radius="md"
           />
+          {isLoading && <span>Đang tải dữ liệu...</span>}
+          {!isLoading && !filteredExercises?.length && (
+            <span>Không có dữ liệu trùng khớp</span>
+          )}
           {!!filteredExercises && (
             <ExerciseSelectBoard
               exercises={filteredExercises}
