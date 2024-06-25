@@ -12,6 +12,7 @@ export const exerciseRouter = createTRPCRouter({
             .object({
               muscleTarget: z.string().optional(),
               equipmentId: z.string().optional(),
+              level: z.string().optional(),
             })
             .optional(),
         })
@@ -23,6 +24,7 @@ export const exerciseRouter = createTRPCRouter({
         filterObject = {
           muscleTarget: undefined,
           equipmentId: undefined,
+          level: 4,
         },
       } = input;
       const exercises = await ctx.db.exercise.findMany({
@@ -47,6 +49,9 @@ export const exerciseRouter = createTRPCRouter({
             contains:
               filterObject.equipmentId !== "0" ? filterObject.equipmentId : "",
             mode: "insensitive",
+          },
+          difficulty: {
+            lte: Number(filterObject.level),
           },
         },
         include: {

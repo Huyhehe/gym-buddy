@@ -5,6 +5,7 @@ import {
   workoutCreateFormSchema,
   type TWorkoutFormValues,
 } from "@/app/admin/_schemas";
+import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 import { api } from "@/trpc/react";
 import type { AdminSingleWorkoutReturnType } from "@/types";
 import { levelOptions, targetOptions } from "@/utils";
@@ -13,7 +14,6 @@ import {
   Button,
   Grid,
   Group,
-  LoadingOverlay,
   Modal,
   Select,
   Text,
@@ -25,10 +25,9 @@ import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { MediaDropZone } from "../../MediaDropZone";
 import { ExerciseSelectBoard } from "../exercises/ExerciseSelectBoard";
-import { useEffect } from "react";
-import { useGlobalContext } from "@/app/workouts/workout-builder/_context/global-context";
 
 const initialValues: TWorkoutFormValues = {
   title: "",
@@ -50,10 +49,6 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
   const { setIsBackdropOpen } = useGlobalContext();
 
   const [deleteConfirmOpened, { close, open }] = useDisclosure();
-
-  const { data: exercises } = api.exercise.getExercises.useQuery(undefined, {
-    refetchOnWindowFocus: false,
-  });
 
   const { mutate: createWorkout, isPending: createLoading } =
     api.admin.createWorkout.useMutation({
@@ -123,6 +118,17 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
     initialValues: workoutFromData ?? initialValues,
     validate: zodResolver(workoutCreateFormSchema),
   });
+
+  const { data: exercises } = api.exercise.getExercises.useQuery(
+    {
+      filterObject: {
+        level: form.values.level,
+      },
+    },
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const handleSubmit = (values: TWorkoutFormValues) => {
     !!workoutFromData ? updateWorkout(values) : createWorkout(values);
@@ -197,6 +203,7 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
           {!!exercises && (
             <ExerciseSelectBoard
               exercises={exercises}
+              selectedExercises={form.values.exercises}
               key={form.key("exercises")}
               {...form.getInputProps("exercises")}
             />
@@ -208,7 +215,9 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
                 Xóa
               </Button>
             )}
-            <Button type="submit">{!!false ? "Cập nhật" : "Tạo mới"}</Button>
+            <Button type="submit">
+              {!!workoutFromData ? "Cập nhật" : "Tạo mới"}
+            </Button>
           </Group>
         </form>
       </WorkoutFormProvider>

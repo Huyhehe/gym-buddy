@@ -1,22 +1,26 @@
-import { useWorkoutFormContext } from "@/app/admin/_context";
 import type { ExerciseReturnType } from "@/types";
 import { Grid } from "@mantine/core";
 import { SelectableExerciseCard } from "./SelectableExerciseCard";
 
 type Props = {
   exercises: ExerciseReturnType[];
+  selectedExercises: string[];
   onChange: (exercises: string[]) => void;
 };
 
-export const ExerciseSelectBoard = ({ exercises, onChange }: Props) => {
-  const { values } = useWorkoutFormContext();
+export const ExerciseSelectBoard = ({
+  exercises,
+  selectedExercises,
+  onChange,
+}: Props) => {
+  // const { values } = useWorkoutFormContext();
 
   const handleSelect = (exercise: ExerciseReturnType, selected: boolean) => {
     if (selected) {
-      const newSelectedExercises = [...values.exercises, exercise.id];
+      const newSelectedExercises = [...selectedExercises, exercise.id];
       onChange(newSelectedExercises);
     } else {
-      onChange(values.exercises.filter((id) => id !== exercise.id));
+      onChange(selectedExercises.filter((id) => id !== exercise.id));
     }
   };
 
@@ -26,7 +30,7 @@ export const ExerciseSelectBoard = ({ exercises, onChange }: Props) => {
         {exercises.map((exercise) => (
           <Grid.Col key={exercise.id} span={{ base: 12, md: 6, lg: 6, xl: 3 }}>
             <SelectableExerciseCard
-              initialSelected={values.exercises.some(
+              initialSelected={selectedExercises.some(
                 (selectedExercise) => selectedExercise === exercise.id,
               )}
               exercise={exercise}

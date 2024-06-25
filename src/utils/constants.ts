@@ -24,8 +24,12 @@ export const sidebarLinks: SidebarLinks[] = [
         href: "/my-workouts",
       },
       {
-        title: "Tự xây dựng chương trình tập",
+        title: "Xây dựng chương trình tập tự động",
         href: "/workout-builder",
+      },
+      {
+        title: "Xây dựng chương trình tập thủ công",
+        href: "/manual-workout-build",
       },
     ],
   },

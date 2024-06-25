@@ -23,8 +23,7 @@ export const HistoryContainer = () => {
   //   const workoutRecordGroupObject = groupBy
   //   return WR?.workoutRecords.map((workoutRecord) => {})
   // })
-  WR?.workoutRecords &&
-    console.log(getUserWorkoutFromRecords(WR?.workoutRecords));
+
   return (
     <Stack>
       <Select

@@ -10,7 +10,6 @@ export const clientRouter = createTRPCRouter({
     .input(workoutBuilderSchema)
     .mutation(async ({ ctx, input }) => {
       const { gender, age, goal, currentLevel, muscleTarget } = input;
-      console.log(muscleTarget);
 
       const exercises = await ctx.db.exercise.findMany({
         where: {

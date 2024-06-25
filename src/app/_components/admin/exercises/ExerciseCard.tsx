@@ -139,6 +139,15 @@ export const ExerciseCard = ({ exercise }: Props) => {
               {getMechanicLabel(exercise.mechanic)}
             </Text>
           </Box>
+          <Divider className="w-full" />
+          <Box display="flex" className="w-full gap-8 py-4">
+            <Text size="sm" className="w-24">
+              Calo tiêu hao
+            </Text>
+            <Text size="sm" c="dimmed" className="capitalize">
+              {exercise.caloriesBurned}
+            </Text>
+          </Box>
         </Group>
       </Modal>
     </>
