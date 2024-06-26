@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { isNil } from "lodash";
 
 export const exerciseRouter = createTRPCRouter({
   getExercises: publicProcedure
@@ -24,7 +25,7 @@ export const exerciseRouter = createTRPCRouter({
         filterObject = {
           muscleTarget: undefined,
           equipmentId: undefined,
-          level: 4,
+          level: "4",
         },
       } = input;
       const exercises = await ctx.db.exercise.findMany({
@@ -50,9 +51,11 @@ export const exerciseRouter = createTRPCRouter({
               filterObject.equipmentId !== "0" ? filterObject.equipmentId : "",
             mode: "insensitive",
           },
-          difficulty: {
-            lte: Number(filterObject.level),
-          },
+          ...(!isNil(filterObject.level) && {
+            difficulty: {
+              lte: Number(filterObject.level),
+            },
+          }),
         },
         include: {
           ExerciseExample: true,

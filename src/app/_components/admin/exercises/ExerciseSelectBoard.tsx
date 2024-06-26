@@ -25,20 +25,21 @@ export const ExerciseSelectBoard = ({
   };
 
   return (
-    <div>
-      <Grid>
-        {exercises.map((exercise) => (
-          <Grid.Col key={exercise.id} span={{ base: 12, md: 6, lg: 6, xl: 3 }}>
-            <SelectableExerciseCard
-              initialSelected={selectedExercises.some(
-                (selectedExercise) => selectedExercise === exercise.id,
-              )}
-              exercise={exercise}
-              onSelect={handleSelect}
-            />
-          </Grid.Col>
-        ))}
-      </Grid>
+    <div className="grid grid-cols-12 gap-4 @container/select-board">
+      {exercises.map((exercise) => (
+        <div
+          key={exercise.id}
+          className="@4xl/select-board:col-span-4 @6xl/select-board:col-span-3"
+        >
+          <SelectableExerciseCard
+            initialSelected={selectedExercises.some(
+              (selectedExercise) => selectedExercise === exercise.id,
+            )}
+            exercise={exercise}
+            onSelect={handleSelect}
+          />
+        </div>
+      ))}
     </div>
   );
 };

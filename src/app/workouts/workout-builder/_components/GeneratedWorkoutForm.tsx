@@ -62,13 +62,14 @@ export const GeneratedWorkoutForm = ({
   exercises,
   workoutBuilderFormValues,
 }: Props) => {
-  const { loginModalOpen } = useGlobalContext();
+  const { loginModalOpen, setIsBackdropOpen } = useGlobalContext();
   const [isEditingName, { open, close }] = useDisclosure();
   const router = useRouter();
 
   const { mutate: saveGeneratedWorkout } =
     api.workout.saveGeneratedWorkout.useMutation({
       onError: (error) => {
+        setIsBackdropOpen(false);
         notifications.show({
           title: "Lỗi",
           message: (
@@ -94,6 +95,7 @@ export const GeneratedWorkoutForm = ({
           message: "Đã lưu chương trình tập thành công!",
           color: "green",
         });
+        setIsBackdropOpen(false);
         router.push("/workouts/my-workouts");
       },
     });
@@ -121,6 +123,7 @@ export const GeneratedWorkoutForm = ({
   );
 
   const handleSubmit = (values: TWorkoutFormValues) => {
+    setIsBackdropOpen(true);
     saveGeneratedWorkout(values);
   };
 
@@ -129,7 +132,7 @@ export const GeneratedWorkoutForm = ({
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack
           align="center"
-          className="mx-auto w-full items-stretch @4xl/generated-form:w-11/12 @5xl/generated-form:w-2/3"
+          className="mx-auto w-full items-stretch @4xl/generated-form:w-11/12 @5xl/generated-form:w-4/5"
         >
           <Group
             className="rounded-md border bg-white px-20 py-6 shadow-md"
