@@ -6,11 +6,19 @@ import {
 } from "@/app/profile/_schemas";
 import { api } from "@/trpc/react";
 import type { UserReturnType } from "@/types";
-import { Button, Group, Loader, NumberInput, Text } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Loader,
+  NumberInput,
+  Select,
+  Text,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { IconPencilMinus } from "@tabler/icons-react";
+import { isNil } from "lodash";
 import { zodResolver } from "mantine-form-zod-resolver";
 
 type Props = {
@@ -27,6 +35,9 @@ export const ProfileInfoForm = ({ userInfo }: Props) => {
       caloriesNeed: userInfo?.caloriesNeed ?? 1200,
       height: userInfo?.height ?? 0,
       weight: userInfo?.weight ?? 0,
+      ...(!isNil(userInfo.gender) && {
+        gender: userInfo.gender ? "true" : "false",
+      }),
     },
     validate: zodResolver(profileFormSchema),
   });
@@ -35,16 +46,16 @@ export const ProfileInfoForm = ({ userInfo }: Props) => {
     api.user.updatePersonalInfo.useMutation({
       onSuccess: () => {
         notifications.show({
-          title: "Success",
-          message: "Update profile successfully",
+          title: "Thành công",
+          message: "Cập nhật thông tin thành công",
           color: "green",
         });
         offEdit();
       },
       onError: () => {
         notifications.show({
-          title: "Error",
-          message: "Failed to update profile",
+          title: "Lỗi",
+          message: "Không thể cập nhật thông tin, vui lòng thử lại",
           color: "red",
         });
         form.reset();
@@ -130,6 +141,28 @@ export const ProfileInfoForm = ({ userInfo }: Props) => {
             rightSectionPointerEvents="none"
             key={form.key("height")}
             {...form.getInputProps("height")}
+          />
+
+          <Select
+            className="col-span-3"
+            disabled={!isEditing}
+            label={
+              <Text size="md" fw="bold">
+                Giới tính
+              </Text>
+            }
+            data={[
+              {
+                label: "Nam",
+                value: "true",
+              },
+              {
+                label: "Nữ",
+                value: "false",
+              },
+            ]}
+            key={form.key("gender")}
+            {...form.getInputProps("gender")}
           />
 
           {isEditing && (

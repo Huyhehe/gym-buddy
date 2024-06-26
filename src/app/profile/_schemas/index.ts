@@ -5,6 +5,7 @@ export const profileFormSchema = z.object({
   caloriesNeed: z.number().int().min(1200).max(6000),
   height: z.number().int().min(100).max(250),
   weight: z.number().int().min(30).max(300),
+  gender: z.string().optional().nullable(),
 });
 
 export type TProfileFormSchema = z.infer<typeof profileFormSchema>;

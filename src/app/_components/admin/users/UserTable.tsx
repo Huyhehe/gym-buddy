@@ -65,6 +65,8 @@ export const UserTable = () => {
           <Avatar src={user.image} size={32} radius="xl" />
         </Table.Td>
         <Table.Td>{user.name}</Table.Td>
+        <Table.Td>{user.age ?? "-"}</Table.Td>
+        <Table.Td>{user.gender ?? "-"}</Table.Td>
         <Table.Td>{user.email}</Table.Td>
         <Table.Td>{user.isAdmin ? "Quản trị viên" : "Người dùng"}</Table.Td>
         <Table.Td>
@@ -102,68 +104,72 @@ export const UserTable = () => {
     );
   });
   return (
-    <div className="relative min-h-[400px] rounded-lg bg-white p-4">
-      <LoadingOverlay visible={isLoading} zIndex={10} />
-      <Table>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Ảnh đại diện</Table.Th>
-            <Table.Th>Tên</Table.Th>
-            <Table.Th>Địa chỉ Email</Table.Th>
-            <Table.Th>Vai trò</Table.Th>
-            <Table.Th>Trạng thái</Table.Th>
-            <Table.Th>Hành động</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-      <Modal
-        opened={blockUserConfirm}
-        onClose={() => !isPendingToggleBlockUser && closeBlockUserConfirm()}
-        size="lg"
-      >
-        <Stack gap={0} align="center">
-          <Avatar
-            src={userAction?.user?.image ?? ""}
-            size="xl"
-            alt="User profile"
-            className="rounded-full"
-          />
-          <Text fw="bold" fz="xl" ta="center">
-            {userAction?.user?.name}
+    <>
+      <div className="relative min-h-[400px] rounded-lg bg-white p-4">
+        <LoadingOverlay visible={isLoading} zIndex={10} />
+        <Table>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Ảnh đại diện</Table.Th>
+              <Table.Th>Tên</Table.Th>
+              <Table.Th>Tuổi</Table.Th>
+              <Table.Th>Giới tính</Table.Th>
+              <Table.Th>Địa chỉ Email</Table.Th>
+              <Table.Th>Vai trò</Table.Th>
+              <Table.Th>Trạng thái</Table.Th>
+              <Table.Th>Hành động</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{rows}</Table.Tbody>
+        </Table>
+        <Modal
+          opened={blockUserConfirm}
+          onClose={() => !isPendingToggleBlockUser && closeBlockUserConfirm()}
+          size="lg"
+        >
+          <Stack gap={0} align="center">
+            <Avatar
+              src={userAction?.user?.image ?? ""}
+              size="xl"
+              alt="User profile"
+              className="rounded-full"
+            />
+            <Text fw="bold" fz="xl" ta="center">
+              {userAction?.user?.name}
+            </Text>
+          </Stack>
+          <Text className="text-xl" ta="center">
+            Chọn <strong>Tiếp tục</strong> nếu bạn muốn{" "}
+            {userAction?.isBlocked ? "khoá" : "mở khóa"} người dùng này
           </Text>
-        </Stack>
-        <Text className="text-xl" ta="center">
-          Chọn <strong>Tiếp tục</strong> nếu bạn muốn{" "}
-          {userAction?.isBlocked ? "khoá" : "mở khóa"} người dùng này
-        </Text>
-        <Group justify="flex-end" mt="md">
-          <Button
-            disabled={isPendingToggleBlockUser}
-            radius="md"
-            onClick={closeBlockUserConfirm}
-          >
-            Hủy bỏ
-          </Button>
-          <Button
-            disabled={isPendingToggleBlockUser}
-            radius="md"
-            className="bg-red-700"
-            onClick={() => {
-              const userId = userAction?.user?.id;
-              const isBlocked = userAction?.isBlocked;
-              if (!userId || isNil(isBlocked)) return;
+          <Group justify="flex-end" mt="md">
+            <Button
+              disabled={isPendingToggleBlockUser}
+              radius="md"
+              onClick={closeBlockUserConfirm}
+            >
+              Hủy bỏ
+            </Button>
+            <Button
+              disabled={isPendingToggleBlockUser}
+              radius="md"
+              className="bg-red-700"
+              onClick={() => {
+                const userId = userAction?.user?.id;
+                const isBlocked = userAction?.isBlocked;
+                if (!userId || isNil(isBlocked)) return;
 
-              toggleBlockUser({
-                userId,
-                isBlocked,
-              });
-            }}
-          >
-            Tiếp tục {isPendingToggleBlockUser && <Loader size={14} />}
-          </Button>
-        </Group>
-      </Modal>
-    </div>
+                toggleBlockUser({
+                  userId,
+                  isBlocked,
+                });
+              }}
+            >
+              Tiếp tục {isPendingToggleBlockUser && <Loader size={14} />}
+            </Button>
+          </Group>
+        </Modal>
+      </div>
+    </>
   );
 };

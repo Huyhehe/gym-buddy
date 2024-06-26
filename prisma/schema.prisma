@@ -57,6 +57,7 @@ model User {
     height        Float?
     weight        Float?
     age           Int?
+    gender        Boolean?
     WorkoutRecord WorkoutRecord[]
 }
 

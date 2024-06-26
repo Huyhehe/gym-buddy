@@ -35,7 +35,7 @@ export const MyWorkoutCardContainer = () => {
       })}
 
       <Stack
-        className="col-span-12 min-h-[400px] cursor-pointer items-center justify-center rounded-lg bg-white shadow-md transition-all duration-300 ease-in-out hover:scale-90 hover:bg-gray-200 @4xl:col-span-6 @6xl:col-span-4 @[1300px]:col-span-3"
+        className="col-span-12 min-h-[400px] cursor-pointer items-center justify-center rounded-lg bg-white shadow-md transition-all duration-300 ease-in-out hover:scale-90 hover:bg-gray-200 @4xl:col-span-6 @6xl:col-span-4"
         onClick={() => void router.push("/workouts/workout-builder")}
       >
         <IconCirclePlus className="text-primary" size={150} />

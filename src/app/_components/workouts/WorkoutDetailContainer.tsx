@@ -68,16 +68,16 @@ export const WorkoutDetailContainer = ({
     api.user.saveWorkoutRecord.useMutation({
       onSuccess: () => {
         notifications.show({
-          title: "Workout saved",
-          message: "Workout has been saved successfully",
+          title: "Thành công",
+          message: "Kết quả tập luyện của bạn đã được lưu!",
           color: "green",
         });
         void router.push("/workouts/my-workouts");
       },
       onError: (error) => {
         notifications.show({
-          title: "Can't save workout",
-          message: error.message,
+          title: "Lỗi",
+          message: "Không thể lưu kết quả tập này, vui lòng thử lại!",
           color: "red",
         });
       },
@@ -193,6 +193,7 @@ export const WorkoutDetailContainer = ({
               className="rounded-lg @5xl/workout-detail:hidden"
               disabled={progress !== 100}
               onClick={openFinishModal}
+              radius="md"
               color="var(--color-primary)"
             >
               Hoàn thành

@@ -4,7 +4,7 @@ import {
   generateMuscleState,
   generateMuscleTargetForChart,
 } from "@/utils";
-import { Group, Stack } from "@mantine/core";
+import { Button, Group, Stack } from "@mantine/core";
 import { EmptyData } from "../_components/EmptyData";
 import { ToggleSkeleton } from "../_components/MuscleSkeleton/ToggleSkeleton";
 import { CaloriesBurnedChart } from "../_components/profile/CaloriesBurnedChart";
@@ -17,15 +17,15 @@ const ProfilePage = async () => {
     const userInfo = await api.user.getMe();
     return (
       <div className="p-6">
-        <div className="flex gap-4">
-          <div className="grow space-y-4">
+        <div className="flex flex-wrap gap-4">
+          <div className="flex-1 space-y-4">
             <ProfileHeader
               avatar={userInfo.image ?? ""}
               name={userInfo.name ?? ""}
               email={userInfo.email ?? ""}
             />
             <ProfileInfoForm userInfo={userInfo} />
-            <CaloriesBurnedChart />
+            <CaloriesBurnedChart gte={30} />
           </div>
           <Stack gap={0} className="h-fit w-1/3 rounded-xl bg-white p-4">
             <span className="mb-2 text-sm font-semibold text-gray-500">
@@ -56,6 +56,14 @@ const ProfilePage = async () => {
                 })}
               />
             </div>
+            <Button
+              color="var(--color-primary)"
+              radius="md"
+              component="a"
+              href="/profile/history"
+            >
+              Xem lịch sử
+            </Button>
           </Stack>
         </div>
       </div>

@@ -138,7 +138,7 @@ export const userRouter = createTRPCRouter({
   updatePersonalInfo: protectedProcedure
     .input(profileFormSchema)
     .mutation(async ({ ctx, input }) => {
-      const { age, caloriesNeed, height, weight } = input;
+      const { age, caloriesNeed, height, weight, gender } = input;
       const currentUserId = ctx.session.user.id;
 
       await ctx.db.user.update({
@@ -150,6 +150,9 @@ export const userRouter = createTRPCRouter({
           caloriesNeed,
           height,
           weight,
+          ...(!!gender && {
+            gender: gender === "true",
+          }),
         },
       });
     }),

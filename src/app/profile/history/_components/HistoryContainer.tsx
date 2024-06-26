@@ -61,7 +61,7 @@ export const HistoryContainer = () => {
                   <HistoryWorkoutCard
                     key={userWorkoutFromRecord.userWorkout.id}
                     userWorkoutFromRecord={userWorkoutFromRecord}
-                    className="col-span-2 @4xl:col-span-1 @6xl:col-span-1 @[1300px]:col-span-1"
+                    className="col-span-2 @3xl:col-span-1"
                   />
                 ),
               )

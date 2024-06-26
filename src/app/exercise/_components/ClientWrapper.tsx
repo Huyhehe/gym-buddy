@@ -11,7 +11,7 @@ export const ClientWrapper = ({ children }: PropsWithChildren<object>) => {
   return (
     <div>
       <div
-        className="fixed right-0 top-52 rounded-l-full bg-primary p-2 shadow-md transition-all duration-300 ease-out hover:pr-4 @5xl/workout-detail:hidden"
+        className="fixed right-0 top-52 rounded-l-full bg-primary p-2 shadow-md transition-all duration-300 ease-out hover:pr-4 @5xl/exercise-page:hidden"
         onClick={openDrawer}
       >
         <IconSettings size={26} color="white" className="animate-spin" />
