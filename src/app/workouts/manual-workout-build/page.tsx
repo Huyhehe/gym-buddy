@@ -17,9 +17,10 @@ import {
   useManualWorkoutBuildForm,
 } from "./_context/form-context";
 import {
-  TManualWorkoutBuildFormValues,
+  type TManualWorkoutBuildFormValues,
   manualWorkoutBuildFormSchema,
 } from "./_schema";
+import { stringDeepIncludesCheck } from "@/utils";
 
 const ManualWorkoutBuildPage = () => {
   const { loginModalOpen, setIsBackdropOpen } = useGlobalContext();
@@ -93,7 +94,7 @@ const ManualWorkoutBuildPage = () => {
       (searchStr: string | undefined, exercises: ExerciseReturnType[]) => {
         setFilteredExercises(
           exercises?.filter((ex) =>
-            ex.name.toLowerCase().includes(searchStr?.toLowerCase() ?? ""),
+            stringDeepIncludesCheck(ex.name, searchStr ?? ""),
           ),
         );
       },

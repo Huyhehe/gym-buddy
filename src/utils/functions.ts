@@ -1,5 +1,6 @@
 import type {
   ExerciseMuscleTargetReturnType,
+  GetUserStatsReturnType,
   MuscleTarget,
   TGetUserWorkoutFromRecord,
   UserWorkoutRecordReturnType,
@@ -17,6 +18,7 @@ import {
   LEVEL_LABEL,
   mechanicOptions,
 } from "./constants";
+import { isNil } from "lodash";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -372,4 +374,49 @@ export const getMuscleName = (muscleTarget: MuscleTarget) => {
     default:
       return;
   }
+};
+
+export const getGenderLabel = (gender?: boolean | null) => {
+  if (isNil(gender)) return null;
+  return gender ? "Nam" : "Nữ";
+};
+
+export const removeAccent = (str: string) => {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+};
+
+export const stringDeepCompare = (left: string, right: string) => {
+  return removeAccent(left).toLowerCase() === removeAccent(right).toLowerCase();
+};
+
+export const stringDeepIncludesCheck = (parent: string, child: string) => {
+  return removeAccent(parent)
+    .toLowerCase()
+    .includes(removeAccent(child).toLowerCase());
+};
+
+export const workoutCreationHistoryDataPreWork = (
+  initialData: GetUserStatsReturnType,
+) => {
+  const userWorkouts = initialData.userWorkouts.map((d) => {
+    const date = new Date(d.createdAt).toLocaleDateString("vi-VN", {
+      month: "short",
+      day: "numeric",
+    });
+    return {
+      date,
+      ...d,
+    };
+  });
+
+  const groupedData = groupBy(userWorkouts, "date");
+  const finalData = Object.entries(groupedData).map(([key, value]) => {
+    return {
+      date: key,
+      system: value.filter((v) => v.workout.isAdminCreated).length,
+      self: value.filter((v) => !v.workout.isAdminCreated).length,
+    };
+  });
+
+  return finalData;
 };

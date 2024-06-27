@@ -420,4 +420,42 @@ export const adminRouter = createTRPCRouter({
         },
       });
     }),
+  getUserStats: protectedProcedure
+    .input(
+      z.object({
+        userID: z.string(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const { userID } = input;
+      const workoutRecords = await ctx.db.workoutRecord.findMany({
+        where: {
+          userId: userID,
+        },
+      });
+      const lastWorkoutRecord = workoutRecords?.[workoutRecords.length - 1];
+
+      const userWorkouts = await ctx.db.userWorkout.findMany({
+        where: {
+          userId: userID,
+        },
+        include: {
+          workout: true,
+        },
+      });
+
+      const workoutsFromSystem = userWorkouts.filter(
+        (uwk) => uwk.workout.isAdminCreated,
+      );
+      const selfCreatedWorkouts = userWorkouts.filter(
+        (uwk) => !uwk.workout.isAdminCreated,
+      );
+
+      return {
+        lastWorkoutRecord,
+        workoutsFromSystem,
+        selfCreatedWorkouts,
+        userWorkouts,
+      };
+    }),
 });
