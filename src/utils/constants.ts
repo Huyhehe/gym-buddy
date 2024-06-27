@@ -209,8 +209,8 @@ export const workoutFrequencyOptions: SelectOption[] = [
 
 export const workoutTargetOptions: SelectOption[] = [
   { label: "Giảm 1kg trong 1 tuần", value: "-500" },
-  { label: "Giảm 0.5 trong 1 tuần", value: "-250" },
+  { label: "Giảm 0.5kg trong 1 tuần", value: "-250" },
   { label: "Giữ nguyên cân nặng", value: "0" },
-  { label: "Tăng 0.5 trong 1 tuần", value: "250" },
+  { label: "Tăng 0.5kg trong 1 tuần", value: "250" },
   { label: "Tăng 1kg trong 1 tuần", value: "500" },
 ];

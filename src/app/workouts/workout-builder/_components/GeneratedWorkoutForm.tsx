@@ -91,7 +91,7 @@ export const GeneratedWorkoutForm = ({
       },
       onSuccess: () => {
         notifications.show({
-          title: "Success",
+          title: "Thành công",
           message: "Đã lưu chương trình tập thành công!",
           color: "green",
         });

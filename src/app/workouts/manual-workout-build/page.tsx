@@ -60,7 +60,7 @@ const ManualWorkoutBuildPage = () => {
       },
       onSuccess: () => {
         notifications.show({
-          title: "Success",
+          title: "Thành công",
           message: "Đã lưu chương trình tập thành công!",
           color: "green",
         });
@@ -126,10 +126,10 @@ const ManualWorkoutBuildPage = () => {
             {...form.getInputProps("title")}
             radius="md"
           />
-          <ScrollArea h={700} className="rounded-lg shadow-md">
+          <ScrollArea h={600} className="rounded-lg shadow-md">
             {form.values.exercises.length === 0 && (
               <p className="p-4 text-center text-3xl font-semibold text-gray-400">
-                Hãy chọn ít nhất một bài tập
+                Hãy chọn ít nhất một bài tập bên dưới
               </p>
             )}
             <DragDropContext

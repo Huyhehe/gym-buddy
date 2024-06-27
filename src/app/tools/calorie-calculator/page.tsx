@@ -77,6 +77,7 @@ const CalorieCalculatorPage = () => {
           trackSize={24}
           min={1}
           max={100}
+          progressColorFrom="var(--color-primary)"
           dataIndex={initialValues.age - 1}
           key={form.key("age")}
           {...form.getInputProps("age")}
@@ -87,6 +88,7 @@ const CalorieCalculatorPage = () => {
           trackSize={24}
           min={1}
           max={300}
+          progressColorFrom="var(--color-primary)"
           dataIndex={initialValues.weight - 1}
           key={form.key("weight")}
           {...form.getInputProps("weight")}
@@ -97,6 +99,7 @@ const CalorieCalculatorPage = () => {
           trackSize={24}
           min={1}
           max={220}
+          progressColorFrom="var(--color-primary)"
           dataIndex={initialValues.height - 1}
           key={form.key("height")}
           {...form.getInputProps("height")}

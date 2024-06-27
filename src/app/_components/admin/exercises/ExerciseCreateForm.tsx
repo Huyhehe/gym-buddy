@@ -85,7 +85,7 @@ type Props = {
 
 const handleNotification = (isSuccess = false, message: ReactNode) => {
   notifications.show({
-    title: isSuccess ? "Success" : "Error",
+    title: isSuccess ? "Thành công" : "Lỗi",
     message,
     color: isSuccess ? "green" : "red",
   });
@@ -452,6 +452,14 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
           >
             Reset
           </Button> */}
+          <Button
+            component="a"
+            href="/admin/exercises"
+            radius="md"
+            color="gray"
+          >
+            Thoát
+          </Button>
           {!!exerciseFromData && (
             <Button radius="md" className="bg-red-700" onClick={open}>
               Xóa

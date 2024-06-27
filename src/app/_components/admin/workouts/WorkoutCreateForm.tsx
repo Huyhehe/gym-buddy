@@ -44,7 +44,7 @@ type Props = {
 
 export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { replace } = useRouter();
+  const { replace, push } = useRouter();
 
   const { setIsBackdropOpen } = useGlobalContext();
 
@@ -54,14 +54,14 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
     api.admin.createWorkout.useMutation({
       onError: (error) => {
         notifications.show({
-          title: "Error",
+          title: "Lỗi",
           message: error.message,
           color: "red",
         });
       },
       onSuccess: () => {
         notifications.show({
-          title: "Success",
+          title: "Thành công",
           message: (
             <>
               Workout created
@@ -82,33 +82,36 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
     api.admin.updateWorkout.useMutation({
       onError: (error) => {
         notifications.show({
-          title: "Error",
+          title: "Lỗi",
           message: error.message,
           color: "red",
         });
       },
       onSuccess: () => {
         notifications.show({
-          title: "Success",
-          message: (
-            <>
-              Workout updated
-              <Link
-                href="/admin/workouts"
-                className="ml-1 text-sky-500 underline"
-              >
-                Check it here!
-              </Link>
-            </>
-          ),
+          title: "Thành công",
+          message: "Cập nhật chương trình tập thành công",
           color: "green",
         });
+        push("/admin/workouts");
       },
     });
 
   const { mutate: deleteWorkoutMutation, isPending: deleteLoading } =
     api.admin.deleteWorkout.useMutation({
+      onError: (error) => {
+        notifications.show({
+          title: "Lỗi",
+          message: "Xóa chương trình tập không thành công",
+          color: "red",
+        });
+      },
       onSuccess: () => {
+        notifications.show({
+          title: "Thành công",
+          message: "Xóa chương trình tập thành công",
+          color: "green",
+        });
         replace("/admin/workouts");
       },
     });
@@ -190,6 +193,7 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
             initialFiles={
               !!form.values.thumbnail ? [form.values.thumbnail] : []
             }
+            disabled={!!form.values.thumbnail}
             maxFiles={1}
             onReturnValue={(thumbnail) => {
               if (!thumbnail?.length) {
@@ -210,12 +214,20 @@ export const WorkoutCreateForm = ({ workoutFromData }: Props) => {
           )}
 
           <Group justify="flex-end" mt="md">
+            <Button
+              component="a"
+              href="/admin/workouts"
+              radius="md"
+              color="gray"
+            >
+              Thoát
+            </Button>
             {!!workoutFromData && (
-              <Button className="bg-red-700" onClick={open}>
+              <Button className="bg-red-700" onClick={open} radius="md">
                 Xóa
               </Button>
             )}
-            <Button type="submit">
+            <Button type="submit" color="var(--color-primary)" radius="md">
               {!!workoutFromData ? "Cập nhật" : "Tạo mới"}
             </Button>
           </Group>

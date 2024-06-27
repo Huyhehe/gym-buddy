@@ -24,7 +24,7 @@ export const MyWorkoutCardContainer = () => {
 
   return (
     <div className="grid grid-cols-12 gap-4 @container">
-      {userWorkouts.map((userWorkout) => {
+      {userWorkouts.reverse().map((userWorkout) => {
         return (
           <MyWorkoutCard
             key={userWorkout.id}

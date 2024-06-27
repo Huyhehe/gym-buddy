@@ -41,17 +41,19 @@ const CompleteStepPage = ({ generate }: { generate: () => void }) => {
   if (notDoneYet)
     return (
       <Stack align="center">
-        Please go back to complete the survey
+        Làm ơn điền đầy đủ thông tin
         <Button
           onClick={() => setFieldValue("currentStep", 0)}
           color="var(--color-primary)"
         >
-          Go back
+          Quay lại
         </Button>
       </Stack>
     );
 
-  return <div>Workout is being generated, please wait a second...</div>;
+  return (
+    <div className="text-2xl font-bold">Bạn vui lòng đợi một chút nhé...</div>
+  );
 };
 
 const WorkoutBuilderPage = () => {

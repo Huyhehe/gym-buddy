@@ -66,14 +66,15 @@ export const UserTable = () => {
 
   const [userAction, setUserAction] = useState<TUserAction>();
 
-  const { data: userStats } = api.admin.getUserStats.useQuery(
-    {
-      userID: userAction?.user?.id ?? "",
-    },
-    {
-      enabled: !!userAction?.user?.id,
-    },
-  );
+  const { data: userStats, isLoading: userStatsLoading } =
+    api.admin.getUserStats.useQuery(
+      {
+        userID: userAction?.user?.id ?? "",
+      },
+      {
+        enabled: !!userAction?.user?.id,
+      },
+    );
 
   const { mutate: toggleBlockUser, isPending: isPendingToggleBlockUser } =
     api.admin.toggleBlockUser.useMutation({
@@ -108,7 +109,9 @@ export const UserTable = () => {
           </Highlight>
         </Table.Td>
         <Table.Td>{user.age ?? "-"}</Table.Td>
-        <Table.Td>{user.gender ?? "-"}</Table.Td>
+        <Table.Td>
+          {isNil(user.gender) ? "-" : user.gender ? "Nam" : "Nữ"}
+        </Table.Td>
         <Table.Td>
           <Highlight highlight={searchStr} fz={14}>
             {user.email ?? "-"}
@@ -344,7 +347,7 @@ export const UserTable = () => {
               )}
               <div className="relative h-[300px] rounded-xl bg-white p-4">
                 <LoadingOverlay
-                  visible={isLoading}
+                  visible={userStatsLoading}
                   color="gray"
                   opacity={0.8}
                   zIndex={10}

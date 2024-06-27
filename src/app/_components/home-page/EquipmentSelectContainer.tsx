@@ -3,7 +3,7 @@
 import { Icon } from "@/assets/icons/Icon";
 
 import type { EquipmentReturnType } from "@/types";
-import { cn } from "@/utils";
+import { cn, getEquipmentName } from "@/utils";
 import { Grid, Group, Radio } from "@mantine/core";
 
 type Props = {
@@ -47,7 +47,7 @@ export const EquipmentSelectContainer = ({
                       "[&_svg]:h-8 [&_svg]:w-8": equipment?.name === "Cardio",
                     })}
                   />
-                  {equipment?.name}
+                  {getEquipmentName(equipment?.name ?? "")}
                 </Group>
               }
               classNames={{

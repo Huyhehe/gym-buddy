@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import { getSignedURL } from "../admin/actions";
 import { IconPhoto } from "@tabler/icons-react";
+import { isNil } from "lodash";
 
 type Props = Omit<DropzoneProps, "onDrop"> & {
   initialFiles?: string[];
@@ -105,6 +106,10 @@ export const MediaDropZone = ({
         multiple={false}
         radius="md"
         {...props}
+        {...(!isNil(previewFiles.length) &&
+          !isNil(props.maxFiles) && {
+            disabled: previewFiles.length >= props.maxFiles,
+          })}
       >
         <div className="flex items-center justify-center gap-2 p-10">
           <IconPhoto size={48} stroke={1.7} className="text-slate-200" />

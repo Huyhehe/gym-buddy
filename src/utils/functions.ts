@@ -337,45 +337,6 @@ export const getUserWorkoutFromRecords = (
   return userWorkouts;
 };
 
-export const getMuscleName = (muscleTarget: MuscleTarget) => {
-  switch (muscleTarget) {
-    case "abdominals":
-      return "Bụng";
-    case "biceps":
-      return "Tay sau";
-    case "calves":
-      return "Bắp chuối";
-    case "chest":
-      return "Ngực";
-    case "forearms":
-      return "Cẳng tay";
-    case "glutes":
-      return "Mông";
-    case "hamstrings":
-      return "Đùi sau";
-    case "lats":
-      return "Xô";
-    case "lowerback":
-      return "Lưng dưới";
-    case "obliques":
-      return "Liên sườn";
-    case "quads":
-      return "Đùi trước";
-    case "rear-shoulders":
-      return "Vai sau";
-    case "shoulders":
-      return "Vai trước";
-    case "traps":
-      return "Cơ thang";
-    case "traps-middle":
-      return "Cơ thang giữa";
-    case "triceps":
-      return "Tay trước";
-    default:
-      return;
-  }
-};
-
 export const getGenderLabel = (gender?: boolean | null) => {
   if (isNil(gender)) return null;
   return gender ? "Nam" : "Nữ";
@@ -419,4 +380,84 @@ export const workoutCreationHistoryDataPreWork = (
   });
 
   return finalData;
+};
+
+export const getEquipmentName = (name: string) => {
+  switch (name) {
+    case "Featured":
+      return "Nổi bật";
+    case "Barbell":
+      return "Tạ đòn";
+    case "Dumbbells":
+      return "Tạ tay";
+    case "Bodyweight":
+      return "Trọng lượng cơ thể";
+    case "Machine":
+      return "Máy tập";
+    case "Medicine Ball":
+      return "Bóng y tế";
+    case "Kettlebells":
+      return "Tạ ấm";
+    case "Stretches":
+      return "Bài tập giãn cơ";
+    case "Cables":
+      return "Dây cáp";
+    case "Band":
+      return "Dây kháng lực";
+    case "Plate":
+      return "Đĩa tạ";
+    case "TRX":
+      return "Dây TRX";
+    case "Yoga":
+      return "Yoga";
+    case "Bosu Ball":
+      return "Bóng Bosu";
+    case "Vitruvian":
+      return "Vitruvian";
+    case "Cardio":
+      return "Cardio";
+    case "Smith Machine":
+      return "Máy Smith";
+    default:
+      return "Unknown";
+  }
+};
+
+export const getMuscleName = (name: string): string => {
+  switch (name) {
+    case "abdominals":
+      return "Cơ bụng";
+    case "obliques":
+      return "Cơ liên sườn";
+    case "biceps":
+      return "Cơ tay trước";
+    case "shoulders":
+      return "Cơ vai";
+    case "chest":
+      return "Cơ ngực";
+    case "quads":
+      return "Cơ đùi trước";
+    case "hamstrings":
+      return "Cơ đùi sau";
+    case "lowerback":
+      return "Cơ lưng dưới";
+    case "glutes":
+      return "Cơ mông";
+    case "lats":
+      return "Cơ lưng rộng";
+    case "traps-middle":
+      return "Cơ cầu vai giữa";
+    case "traps":
+      return "Cơ cầu vai";
+    case "rear-shoulders":
+      return "Cơ vai sau";
+    case "calves":
+      return "Cơ bắp chân";
+    case "triceps":
+      return "Cơ tay sau";
+    case "forearms":
+      return "Cơ cẳng tay";
+    default:
+      return "Unknown";
+  }
 };
