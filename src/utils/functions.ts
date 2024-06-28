@@ -385,11 +385,11 @@ export const workoutCreationHistoryDataPreWork = (
 export const getEquipmentName = (name: string) => {
   switch (name) {
     case "Featured":
-      return "Nổi bật";
+      return "Tất cả";
     case "Barbell":
       return "Tạ đòn";
     case "Dumbbells":
-      return "Tạ tay";
+      return "Tạ đơn";
     case "Bodyweight":
       return "Trọng lượng cơ thể";
     case "Machine":

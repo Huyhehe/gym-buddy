@@ -66,8 +66,10 @@ export const SelectableExerciseCard = ({
             )}
           />
         </Card.Section>
-        <Group justify="space-between" mt="md" mb="xs">
-          <Text fw={500}>{exercise.name}</Text>
+        <Group justify="space-between" mt="md" mb="xs" wrap="nowrap">
+          <Text fw={500} className="line-clamp-1">
+            {exercise.name}
+          </Text>
           <LevelBadge level={exercise.difficulty} />
         </Group>
 

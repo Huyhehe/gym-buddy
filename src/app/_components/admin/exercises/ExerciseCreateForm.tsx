@@ -1,6 +1,7 @@
 "use client";
 import {
   cn,
+  getEquipmentName,
   targetOptions as goalOptions,
   levelOptions,
   mechanicOptions,
@@ -118,7 +119,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   const { mutate: createExerciseMutation, isPending: createLoading } =
     api.admin.createExercise.useMutation({
       onSuccess: () => {
-        handleNotification(true, "Exercise created successfully");
+        handleNotification(true, "Tạo bài tập thành công");
         replace("/admin/exercises");
       },
       onError: (error) => {
@@ -129,7 +130,7 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
   const { mutate: updateExerciseMutation, isPending: updateLoading } =
     api.admin.updateExercise.useMutation({
       onSuccess: () => {
-        handleNotification(true, "Exercise updated successfully");
+        handleNotification(true, "Cập nhật bài tập thành công");
         replace("/admin/exercises");
       },
       onError: (error) => {
@@ -311,8 +312,9 @@ export const ExerciseCreateForm = ({ exerciseFromData }: Props) => {
                 radius="md"
                 label="Dụng cụ"
                 withAsterisk
+                searchable
                 data={equipments?.map((equipment) => ({
-                  label: equipment.name,
+                  label: getEquipmentName(equipment.name),
                   value: equipment.id,
                 }))}
                 renderOption={equipmentOptions}
